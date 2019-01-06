@@ -1,0 +1,12 @@
+{
+    "name": "show-health-and-shield",
+    "version": "2.0.0",
+    "factorio_version": "0.16",
+    "title": "Show health and shield",
+    "author": "ZwerOxotnik",
+    "contact": "zweroxotnik@gmail.com, https://steamcommunity.com/id/ZwerOxotnik",
+    "source": "https://gitlab.com/ZwerOxotnik/show-health-and-shield",
+    "homepage": "https://mods.factorio.com/mod/show-health-and-shield",
+    "description": "Shows a health/shield player and a shield vehicle in the game. Now with display options",
+    "dependencies": []
+}
