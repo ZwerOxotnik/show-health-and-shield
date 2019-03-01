@@ -23,13 +23,15 @@ Read this in another language | [English](/README.md) | [Русский](/docs/r
 
 Shows a health/shield player and a shield vehicle in the game.
 
-Show after leaving a transport shows temporary the shield.
+Shows after leaving a vehicle temporarily its shield.
 
-When you cursor hover over the transport shows the shield
+When you cursor hover over a transport will show its shield.
+
+Several types of display.
 
 ## Mod settings
 
-### <a name="map"></a> For maps:
+### <a name="map"></a> For map:
 
 | Desription | Parameters | (Default) |
 | ---------- | ---------- |  -------- |
@@ -58,7 +60,7 @@ For more information, see [Installing Mods on the Factorio wiki](https://wiki.fa
 If you have downloaded the source archive (GitLab):
 
 * copy the mod directory into your factorio mods directory
-* rename the mod directory to show-health-and-shield_*versionnumber*, where *versionnumber* is the version of the mod that you've downloaded (e.g., 2.0.0)
+* rename the mod directory to show-health-and-shield_*versionnumber*, where *versionnumber* is the version of the mod that you've downloaded (e.g., 2.1.0)
 
 ## Special thanks
 
@@ -66,29 +68,7 @@ If you have downloaded the source archive (GitLab):
 
 ## License
 
-```
-MIT License
-
-Copyright (c) 2018-2019 ZwerOxotnik <zweroxotnik@gmail.com>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+See [/LICENSE](/LICENSE) file and [/3rd-party.txt](/3rd-Party.txt) file for full license text.
 
 [homepage]: http://mods.factorio.com/mod/show-health-and-shield
 [Factorio]: https://factorio.com/

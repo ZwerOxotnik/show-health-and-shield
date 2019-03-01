@@ -22,7 +22,8 @@ symbol.show_shield = function(character)
       max_shield = max_shield + item.max_shield
     --end
   end
-  if shield == 0 then return end 
+  if shield == 0 then return end
+
   shield = shield / max_shield
   if shield < 0.02 then
     return

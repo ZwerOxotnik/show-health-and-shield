@@ -23,6 +23,7 @@ percentage.show_shield = function(character)
     --end
   end
   if shield == 0 then return end
+
   shield = shield / max_shield
   local text = math.ceil(shield * 100) .. "%"
   if shield < 0.02 then

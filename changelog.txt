@@ -1,19 +1,28 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.1.0
+Date: 2019-03-01
+  Changes:
+    - Changed description
+    - Updated localization
+    - Added module "Event listener"
+  Notes:
+    - Updated for Factorio 0.17
+---------------------------------------------------------------------------------------------------
 Version: 2.0.0
 Date: 2019-01-06
   Changes:
     - Changed: description
   Major Features:
-    - Changed: v1.3.20, v1.3.19, v1.3.18, v1.3.17 combined!
-    - Added: settings
-    - Added: display mode of health player
-    - Added: display mode of shield player
-    - Added: display mode of shield vehicle
+    - v1.3.20, v1.3.19, v1.3.18, v1.3.17 combined!
+    - Added settings
+    - Added display mode of health player
+    - Added display mode of shield player
+    - Added display mode of shield vehicle
   Features:
-    - Added: new display options "help me!", "nothing"
+    - New display options "help me!", "nothing"
   Notes:
-    - Added: changelog.txt
-    - Added: md files
-    - Added: shell scripts
+    - Added changelog.txt
+    - Added md files
+    - Added shell scripts
     - Uploaded to GitLab
     - Full changelog only on GitLab or see "*.md" files

@@ -6,7 +6,7 @@ bar.show_hp = function(character)
   if health < 0.98 then
     local surface = character.surface
     local position = character.position
-    local text = string.rep("·", math.ceil(health * 10 + 0.1))
+    local text = string.rep("●", math.ceil(health * 10 + 0.1))
     local color = {r = 1 - health, g = health, b = 0, a = 0.5}
     surface.create_entity{name="hp-shield", color = color, text = text, position = {position.x - 2, position.y - 2.1}}
   end
@@ -24,6 +24,7 @@ bar.show_shield = function(character)
     --end
   end
   if shield == 0 then return end
+
   shield = shield / max_shield
   if shield < 0.02 then
     return
@@ -32,7 +33,7 @@ bar.show_shield = function(character)
     local position = character.position
     local color = {r = 0, g = shield, b = shield, a = 0.5}
     local abs = math.abs
-    local text = string.rep("·", math.ceil(shield * 10 + 0.1))
+    local text = string.rep("●", math.ceil(shield * 10 + 0.1))
     local shield = abs(shield - 1) -- for purple color
     local color = {r = abs(shield - 1), g = 0, b = 1 - shield, a = 0.5}
     surface.create_entity{name = "hp-shield", color = color, text = text, position = {position.x - 2, position.y - 2.6}}
@@ -60,7 +61,7 @@ bar.show_shield_for_vehicles = function(vehicle)
     local position = entity.position
     local color = {r = 0, g = shield, b = shield, a = 0.5}
     local abs = math.abs
-    local text = string.rep("·", math.ceil(shield * 10 + 0.1))
+    local text = string.rep("●", math.ceil(shield * 10 + 0.1))
     local shield = abs(shield - 1) -- for purple color
     local color = {r = abs(shield - 1), g = 0, b = 1 - shield, a = 0.5}
     global.vehicles_shield[tostring(entity.unit_number)].text = surface.create_entity{name = "hp-shield", color = color, text = text, position = {position.x - 2, position.y - 2.6}}

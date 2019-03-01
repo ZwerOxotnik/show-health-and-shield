@@ -1,10 +1,4 @@
-local show_hp_and_shield = require("show_hp_and_shield/control")
+event_listener = require("event_listener/control")
+local modules = require("modules")
 
-script.on_init(show_hp_and_shield.init)
-script.on_configuration_changed(show_hp_and_shield.on_configuration_changed)
-script.on_nth_tick(ticks_for_vehicle / 3, show_hp_and_shield.check_vehicles)
-script.on_event(defines.events.on_tick, show_hp_and_shield.check)
-script.on_event(defines.events.on_player_driving_changed_state, show_hp_and_shield.on_player_driving_changed_state)
-script.on_event(defines.events.on_player_mined_entity, show_hp_and_shield.on_player_mined_entity)
-script.on_event(defines.events.on_selected_entity_changed, show_hp_and_shield.on_selected_entity_changed)
-script.on_event(defines.events.on_runtime_mod_setting_changed, show_hp_and_shield.on_runtime_mod_setting_changed)
+event_listener.add_events(modules)

@@ -5,7 +5,7 @@
 
 ## Быстрые ссылки
 
-[Список изменений](CHANGELOG.md) | [Руководство контрибьютора](CONTRIBUTING.md) | [Gif'и и изображения](/gifs-and-image.md)
+[Список изменений](CHANGELOG.md) | [Руководство контрибьютора](CONTRIBUTING.md) | [Gif'ки и изображения](/gifs-and-image.md)
 |---|---|---|
 
 ## Содержание
@@ -16,20 +16,22 @@
     * [Для карты](#map)
 * [Запросить функцию](#feature)
 * [Установка](#installing)
-* [Особая благодарность](special-thanks)
+* [Особая благодарность](#special-thanks)
 * [Лицензия](#license)
 
 ## <a name="overview"></a> Введение
 
 Показывает здоровье/щит игрока и щит транспорта в игре.
 
-Показывает после выхода из транспорта показывает временно щит
+Показывает после выхода из транспорта показывает временно щит.
 
-При наведении курсора на транспорт показывает щит
+При наведении курсора на транспорт показывает щит.
+
+Несколько видов отображения.
 
 ## <a name="mod-settings"></a> Настройки мода
 
-### <a name="map"></a> For maps:
+### <a name="map"></a> Для карты:
 
 | Desription | Parameters | (Default) |
 | ---------- | ---------- |  -------- |
@@ -46,7 +48,7 @@
 
 Вы можете *запросить* новую функцию [submitting an issue](https://gitlab.com/ZwerOxotnik/show-health-and-shield/issues) на нашем GitLab репозитории или сообщите на [mods.factorio.com](https://mods.factorio.com/mod/show-health-and-shield/discussion).
 
-## Установка
+## <a name="installing"></a> Установка
 
 Если вы скачали zip архив:
 
@@ -57,36 +59,15 @@
 Если вы скачали исходный архив (GitLab):
 
 * скопируйте данный мод в директорию модов Factorio
-* переименуйте данный мод в show-health-and-shield_*версия*, где *версия* это версия мода, которую вы скачали (например, 2.0.0)
+* переименуйте данный мод в scan-rocket-with-radars_*версия*, где *версия* это версия мода, которую вы скачали (например, 2.1.0)
 
 ## <a name="special-thanks"></a> Особая благодарность
 
 * **OwnlyMe** - спасибо за поддержку
 
-## Лицензия
+## <a name="license"></a> Лицензия
 
-Основная лицензия продукта - MIT
-```
-Copyright (c) 2018-2019 ZwerOxotnik <zweroxotnik@gmail.com>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+Смотрите [/LICENSE](/LICENSE) файл и [/3rd-Party.txt](/3rd-Party.txt) файл для полного просмотра лицензии.
 
 [homepage]: http://mods.factorio.com/mod/show-health-and-shield
 [Factorio]: https://factorio.com/
