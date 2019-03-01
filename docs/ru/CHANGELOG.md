@@ -121,7 +121,7 @@
 
 * Первый релиз для 0.16
 
-[v2.1.0]: https://mods.factorio.com/mod/show-health-and-shield/downloads
+[v2.1.0]: https://mods.factorio.com/download/show-health-and-shield/5c78e511507d61000dcd440d
 [v2.0.0]: https://mods.factorio.com/download/show-health-and-shield/5c320695199eec000d30270d
 [v1.3.20]: https://mods.factorio.com/download/show-health-and-shield/5ad8821f6e5059000a8ae9e8
 [v1.3.19]: https://mods.factorio.com/download/show-health-and-shield/5ad882136e5059000a8ae958
