@@ -3,7 +3,7 @@ Show health and shield
 Copyright (c) 2018-2019 ZwerOxotnik <zweroxotnik@gmail.com>
 License: The MIT License (MIT)
 Author: ZwerOxotnik
-Version: 2.2.0 (2019.03.02)
+Version: 2.3.0 (2019.03.02)
 Description: shows a health/shield player and a shield vehicle in the game.
              Shows after leaving a vehicle temporarily its shield.
              When you cursor hover over a transport will show its shield.
@@ -15,11 +15,8 @@ Homepage: https://forums.factorio.com/viewtopic.php?f=190&t=64619
 
 local TICKS_FOR_VEHICLE = require("show_hp_and_shield.config").TICKS_FOR_VEHICLE * 3
 local module = {}
-module.version = "2.2.0"
+module.version = "2.3.0"
 
-local show_hp
-local show_shield
-local show_shield_for_vehicles
 local variants = {}
 variants.bar = require("show_hp_and_shield/variants/bar")
 variants.amount = require("show_hp_and_shield/variants/amount")
@@ -27,26 +24,6 @@ variants.percentage = require("show_hp_and_shield/variants/percentage")
 variants.symbol = require("show_hp_and_shield/variants/symbol")
 variants.help_me = require("show_hp_and_shield/variants/help_me")
 variants.nothing = require("show_hp_and_shield/variants/nothing")
-
--- Check settings
-if settings.global["shas_hp_player_mode"] then
-  show_hp = variants[settings.global["shas_hp_player_mode"].value].show_hp
-else
-  show_hp = variants.bar.show_hp
-  log("settings.global[\"shas_hp_player_mode\"] is nil")
-end
-if settings.global["shas_shield_player_mode"] then
-  show_shield = variants[settings.global["shas_shield_player_mode"].value].show_shield
-else
-  show_shield = variants.bar.show_shield
-  log("settings.global[\"shas_shield_player_mode\"] is nil")
-end
-if settings.global["shas_vehicle_shield_mode"] then
-  show_shield_for_vehicles = variants[settings.global["shas_vehicle_shield_mode"].value].show_shield_for_vehicles
-else
-  show_shield_for_vehicles = variants.percentage.show_shield_for_vehicles
-  log("settings.global[\"shas_vehicle_shield_mode\"] is nil")
-end
 
 local function on_init()
   global.show_health_and_shield = global.show_health_and_shield or {}
@@ -59,8 +36,10 @@ local function on_tick()
       local character = player.character
       if character.health ~= nil then
         if not character.vehicle then
-          show_hp(character)
-          show_shield(character)
+          for _, target in pairs(player.force.connected_players) do
+            variants[settings.get_player_settings(target)["shas_hp_player_mode"].value].show_hp(character, target)
+            variants[settings.get_player_settings(target)["shas_shield_player_mode"].value].show_shield(character, target)
+          end
         end
       end
     end
@@ -68,7 +47,9 @@ local function on_tick()
 
   for index, vehicle in pairs(global.show_health_and_shield.vehicles_shield) do
     if vehicle.entity.valid then
-      show_shield_for_vehicles(vehicle)
+      for _, target in pairs(vehicle.entity.force.connected_players) do
+        variants[settings.get_player_settings(target)["shas_vehicle_shield_mode"].value].show_shield_for_vehicles(character, target)
+      end
     else
       global.show_health_and_shield.vehicles_shield[index] = nil
     end
@@ -102,34 +83,35 @@ module.check_vehicles = function()
           if passenger or driver then
             vehicle.tick = game.tick
           else
-            show_health_and_shield.vehicles_shield[index] = nil
             rendering.draw_text{
               text = ".",
               surface = entity.surface,
               target = entity,
               color = {r = 1, g = 1, b = 1, a = 1},
-              time_to_live = 2,
+              time_to_live = 50,
+              forces = {entity.force},
               visible = true,
               alignment = "center",
               scale_with_zoom = true
             }
+            show_health_and_shield.vehicles_shield[index] = nil
           end
         else
           local driver = entity.get_driver()
           if driver then
             vehicle.tick = game.tick
           else
-            show_health_and_shield.vehicles_shield[index] = nil
             rendering.draw_text{
               text = ".",
               surface = entity.surface,
               target = entity,
               color = {r = 1, g = 1, b = 1, a = 1},
-              time_to_live = 2,
-              visible = true,
+              time_to_live = 50,
+              forces = {entity.force},
               alignment = "center",
               scale_with_zoom = true
             }
+            show_health_and_shield.vehicles_shield[index] = nil
           end
         end
       end
@@ -161,24 +143,11 @@ local function on_selected_entity_changed(event)
   end
 end
 
-local function on_runtime_mod_setting_changed(event)
-  if event.setting_type ~= "runtime-global" then return end
-
-  if event.setting == "shas_hp_player_mode" then
-    show_hp = variants[settings.global[event.setting].value].show_hp
-  elseif event.setting == "shas_shield_player_mode" then
-    show_shield = variants[settings.global[event.setting].value].show_shield
-  elseif event.setting == "shas_vehicle_shield_mode" then
-    show_shield_for_vehicles = variants[settings.global[event.setting].value].show_shield_for_vehicles
-  end
-end
-
 module.events = {
   on_tick = on_tick,
   on_player_driving_changed_state = on_player_driving_changed_state,
 	on_init = on_init,
   on_configuration_changed = on_init,
-  on_runtime_mod_setting_changed = on_runtime_mod_setting_changed,
   on_selected_entity_changed = on_selected_entity_changed,
   on_player_mined_entity = on_player_mined_entity
 }

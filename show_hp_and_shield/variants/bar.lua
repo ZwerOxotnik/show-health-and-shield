@@ -1,6 +1,6 @@
 local bar = {}
 
-bar.show_hp = function(character)
+bar.show_hp = function(character, target)
   local health = character.get_health_ratio()
   if health < 0.98 then
     local text = string.rep("●", math.ceil(health * 10 + 0.1))
@@ -11,13 +11,13 @@ bar.show_hp = function(character)
       target = character,
       color = color,
       time_to_live = 2,
-      visible = true,
+      players = {target},
       alignment = "center"
     }
   end
 end
 
-bar.show_shield = function(character)
+bar.show_shield = function(character, target)
   if character.grid == nil then return end
 
   local shield = 0
@@ -45,13 +45,13 @@ bar.show_shield = function(character)
       target = character,
       color = color,
       time_to_live = 2,
-      visible = true,
+      players = {target},
       alignment = "center"
     }
   end
 end
 
-bar.show_shield_for_vehicles = function(vehicle)
+bar.show_shield_for_vehicles = function(vehicle, target)
   local entity = vehicle.entity
   if entity.grid == nil then return end
 
@@ -78,7 +78,7 @@ bar.show_shield_for_vehicles = function(vehicle)
       target = vehicle,
       color = color,
       time_to_live = 2,
-      visible = true,
+      players = {target},
       alignment = "center",
       scale_with_zoom = true
     }

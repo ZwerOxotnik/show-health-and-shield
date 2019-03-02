@@ -1,6 +1,6 @@
 local help_me = {}
 
-help_me.show_hp = function(character)
+help_me.show_hp = function(character, target)
   local health = character.get_health_ratio()
   if health < 0.35 then
     local color = {r = 0, g = 1, b = 0}
@@ -12,6 +12,7 @@ help_me.show_hp = function(character)
       target_offset = {0, -2.1},
       color = color,
       time_to_live = 2,
+      players = {target},
       visible = true,
       alignment = "center",
       scale_with_zoom = true

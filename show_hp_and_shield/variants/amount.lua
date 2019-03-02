@@ -1,6 +1,6 @@
 local amount = {}
 
-amount.show_hp = function(character)
+amount.show_hp = function(character, target)
   local health = character.get_health_ratio()
   if health < 0.98 then
     local surface = character.surface
@@ -12,7 +12,7 @@ amount.show_hp = function(character)
       target_offset = {0, 0.2},
       color = color,
       time_to_live = 2,
-      visible = true,
+      players = {target},
       alignment = "center",
       scale_with_zoom = true
     }

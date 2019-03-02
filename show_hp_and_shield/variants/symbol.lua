@@ -1,6 +1,6 @@
 local symbol = {}
 
-symbol.show_hp = function(character)
+symbol.show_hp = function(character, target)
   local health = character.get_health_ratio()
   if health < 0.98 then
     local color = {r = 1 - health, g = health, b = 0, a = 0.7}
@@ -12,13 +12,13 @@ symbol.show_hp = function(character)
       target_offset = {0.1, -1},
       color = color,
       time_to_live = 2,
-      visible = true,
+      players = {target},
       scale_with_zoom = true
     }
   end
 end
 
-symbol.show_shield = function(character)
+symbol.show_shield = function(character, target)
   if character.grid == nil then return end
 
   local shield = 0
@@ -45,14 +45,14 @@ symbol.show_shield = function(character)
       target_offset = {-0.1, -1},
       color = color,
       time_to_live = 2,
-      visible = true,
+      players = {target},
       alignment = "center",
       scale_with_zoom = true
     }
   end
 end
 
-symbol.show_shield_for_vehicles = function(vehicle)
+symbol.show_shield_for_vehicles = function(vehicle, target)
   local entity = vehicle.entity
   if entity.grid == nil then return end
 
@@ -78,7 +78,7 @@ symbol.show_shield_for_vehicles = function(vehicle)
       target = vehicle,
       color = color,
       time_to_live = 2,
-      visible = true,
+      players = {target},
       alignment = "center",
       scale_with_zoom = true
     }

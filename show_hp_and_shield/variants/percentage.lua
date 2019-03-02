@@ -1,6 +1,6 @@
 local percentage = {}
 
-percentage.show_hp = function(character)
+percentage.show_hp = function(character, target)
   local health = character.get_health_ratio()
   if health < 0.98 then
     local surface = character.surface
@@ -13,14 +13,14 @@ percentage.show_hp = function(character)
       target = character,
       color = color,
       time_to_live = 2,
-      visible = true,
+      players = {target},
       alignment = "center",
       scale_with_zoom = true
     }
   end
 end
 
-percentage.show_shield = function(character)
+percentage.show_shield = function(character, target)
   if character.grid == nil then return end
 
   local shield = 0
@@ -49,14 +49,14 @@ percentage.show_shield = function(character)
       target_offset = {0, 0.3},
       color = color,
       time_to_live = 2,
-      visible = true,
+      players = {target},
       alignment = "center",
       scale_with_zoom = true
     }
   end
 end
 
-percentage.show_shield_for_vehicles = function(vehicle)
+percentage.show_shield_for_vehicles = function(vehicle, target)
   local entity = vehicle.entity
   if entity.grid == nil then return end
 
@@ -83,7 +83,7 @@ percentage.show_shield_for_vehicles = function(vehicle)
       target = vehicle,
       color = color,
       time_to_live = 2,
-      visible = true,
+      players = {target},
       alignment = "center",
       scale_with_zoom = true
     }
