@@ -10,6 +10,7 @@
 ### [v2.2.0][v2.2.0]
 
 * New visualization
+* Fixed: localization of description and name of the mod
 
 ## 2019-03-01
 
