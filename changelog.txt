@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.3.1
+Date: 2019-03-02
+  Bugfixes:
+    - Now there is no check of vehicles of other factions on event "on_selected_entity_changed", "on_player_driving_changed_state"
+  Changes:
+    - Description
+---------------------------------------------------------------------------------------------------
 Version: 2.3.0
 Date: 2019-03-02
   Major features:

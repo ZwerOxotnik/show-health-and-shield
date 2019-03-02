@@ -2,6 +2,11 @@
 
 ## 2019-03-02
 
+### [v2.3.1][v2.3.1]
+
+* Fixed: now there is no check of vehicles of other factions on event "on_selected_entity_changed", "on_player_driving_changed_state"
+* Changed: description
+
 ### [v2.3.0][v2.3.0]
 
 * Added: individual visualization
@@ -133,6 +138,7 @@
 
 * first release for 0.16
 
+[v2.3.1]: https://mods.factorio.com/mod/diplomacy/downloads
 [v2.3.0]: https://mods.factorio.com/download/show-health-and-shield/5c7a6bb4769efa000bf59a64
 [v2.2.0]: https://mods.factorio.com/download/show-health-and-shield/5c7a5b8c769efa000df6000e
 [v2.1.0]: https://mods.factorio.com/download/show-health-and-shield/5c78e511507d61000dcd440d

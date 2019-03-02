@@ -3,11 +3,11 @@ Show health and shield
 Copyright (c) 2018-2019 ZwerOxotnik <zweroxotnik@gmail.com>
 License: The MIT License (MIT)
 Author: ZwerOxotnik
-Version: 2.3.0 (2019.03.02)
+Version: 2.3.1 (2019.03.02)
 Description: shows a health/shield player and a shield vehicle in the game.
              Shows after leaving a vehicle temporarily its shield.
              When you cursor hover over a transport will show its shield.
-             Several types of display.
+             Several types of individual display.
 Source: https://gitlab.com/ZwerOxotnik/show-health-and-shield
 Mod portal: https://mods.factorio.com/mod/show-health-and-shield
 Homepage: https://forums.factorio.com/viewtopic.php?f=190&t=64619
@@ -15,7 +15,7 @@ Homepage: https://forums.factorio.com/viewtopic.php?f=190&t=64619
 
 local TICKS_FOR_VEHICLE = require("show_hp_and_shield.config").TICKS_FOR_VEHICLE * 3
 local module = {}
-module.version = "2.3.0"
+module.version = "2.3.1"
 
 local variants = {}
 variants.bar = require("show_hp_and_shield/variants/bar")
@@ -32,15 +32,11 @@ end
 
 local function on_tick()
   for _, player in pairs(game.connected_players) do
-    if player.character then
-      local character = player.character
-      if character.health ~= nil then
-        if not character.vehicle then
-          for _, target in pairs(player.force.connected_players) do
-            variants[settings.get_player_settings(target)["shas_hp_player_mode"].value].show_hp(character, target)
-            variants[settings.get_player_settings(target)["shas_shield_player_mode"].value].show_shield(character, target)
-          end
-        end
+    local character = player.character
+    if character and character.health ~= nil and not character.vehicle then
+      for _, target in pairs(player.force.connected_players) do
+        variants[settings.get_player_settings(target)["shas_hp_player_mode"].value].show_hp(character, target)
+        variants[settings.get_player_settings(target)["shas_shield_player_mode"].value].show_shield(character, target)
       end
     end
   end
@@ -58,22 +54,22 @@ end
 
 local function on_player_driving_changed_state(event)
   local vehicle = event.entity
-  if vehicle and vehicle.valid then
-    if vehicle.grid then
-			local index = tostring(vehicle.unit_number)
-			local show_health_and_shield = global.show_health_and_shield
-      if show_health_and_shield.vehicles_shield[index] == nil then
-        show_health_and_shield.vehicles_shield[index] = {entity = vehicle, tick = event.tick}
-      else
-        show_health_and_shield.vehicles_shield[index].tick = event.tick
-      end
-    end
+  if not (vehicle and vehicle.valid and vehicle.grid) then return end
+  local player = game.players[event.player_index]
+  if player.force ~= vehicle.force then return end
+
+  local index = tostring(vehicle.unit_number)
+  local data = global.show_health_and_shield
+  if data.vehicles_shield[index] == nil then
+    data.vehicles_shield[index] = {entity = vehicle, tick = event.tick}
+  else
+    data.vehicles_shield[index].tick = event.tick
   end
 end
 
 module.check_vehicles = function()
-	local show_health_and_shield = global.show_health_and_shield
-  for index, vehicle in pairs(show_health_and_shield.vehicles_shield) do
+	local data = global.show_health_and_shield
+  for index, vehicle in pairs(data.vehicles_shield) do
     if vehicle.entity.valid then
       if vehicle.tick + TICKS_FOR_VEHICLE < game.tick then
         local entity = vehicle.entity
@@ -94,7 +90,7 @@ module.check_vehicles = function()
               alignment = "center",
               scale_with_zoom = true
             }
-            show_health_and_shield.vehicles_shield[index] = nil
+            data.vehicles_shield[index] = nil
           end
         else
           local driver = entity.get_driver()
@@ -123,23 +119,25 @@ end
 
 local function on_player_mined_entity(event)
   local entity = event.entity
-  if entity.grid then
-    global.show_health_and_shield.vehicles_shield[tostring(entity.unit_number)] = nil
-  end
+  if not entity.grid then return end
+  global.show_health_and_shield.vehicles_shield[tostring(entity.unit_number)] = nil
 end
 
 local function on_selected_entity_changed(event)
-  local entity = game.players[event.player_index].selected
+  -- Validation of data
+  local player = game.players[event.player_index]
+  local entity = player.selected
   if entity == nil then return end
   if entity.type == "player" then return end
   if not entity.grid then return end
+  if player.force ~= entity.force then return end
 
 	local index = tostring(entity.unit_number)
-	local show_health_and_shield = global.show_health_and_shield
-  if show_health_and_shield.vehicles_shield[index] == nil then
-		show_health_and_shield.vehicles_shield[index] = {entity = entity, tick = event.tick}
+	local data = global.show_health_and_shield
+  if data.vehicles_shield[index] == nil then
+		data.vehicles_shield[index] = {entity = entity, tick = event.tick}
   else
-    show_health_and_shield.vehicles_shield[index].tick = event.tick
+    data.vehicles_shield[index].tick = event.tick
   end
 end
 
