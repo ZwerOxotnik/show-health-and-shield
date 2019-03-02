@@ -13,7 +13,7 @@
 * [Введение](#overview)
 * [Сообщить об ошибки](#issue)
 * [Настройки мода](#mod-settings)
-    * [Для карты](#map)
+    * [Для карты](#player)
 * [Запросить функцию](#feature)
 * [Установка](#installing)
 * [Особая благодарность](#special-thanks)
@@ -31,7 +31,7 @@
 
 ## <a name="mod-settings"></a> Настройки мода
 
-### <a name="map"></a> Для карты:
+### <a name="player"></a> Для игроков:
 
 | Desription | Parameters | (Default) |
 | ---------- | ---------- |  -------- |

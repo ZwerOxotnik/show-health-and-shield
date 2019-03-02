@@ -12,7 +12,7 @@ Read this in another language | [English](/README.md) | [Русский](/docs/r
 
 * [Overview](#overview)
 * [Mod settings](#mod-settings)
-    * [For map](#map)
+    * [For players](#player)
 * [Issues](#issue)
 * [Features](#feature)
 * [Installing](#installing)
@@ -31,7 +31,7 @@ Several types of display.
 
 ## Mod settings
 
-### <a name="map"></a> For map:
+### <a name="player"></a> For players:
 
 | Desription | Parameters | (Default) |
 | ---------- | ---------- |  -------- |
