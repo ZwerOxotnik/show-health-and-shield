@@ -4,9 +4,18 @@ amount.show_hp = function(character)
   local health = character.get_health_ratio()
   if health < 0.98 then
     local surface = character.surface
-    local position = character.position
-    local color = {r = 1 - health, g = health, b = 0, a = 0.5}
-    surface.create_entity{name="hp-shield", color = color, text = math.ceil(character.health), position = {position.x - 2.1, position.y - 2.1}}
+    local color = {r = 1 - health, g = health, b = 0, a = 1}
+    rendering.draw_text{
+      text = math.ceil(character.health),
+      surface = surface,
+      target = character,
+      target_offset = {0, 0.2},
+      color = color,
+      time_to_live = 2,
+      visible = true,
+      alignment = "center",
+      scale_with_zoom = true
+    }
   end
 end
 

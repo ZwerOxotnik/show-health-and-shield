@@ -3,10 +3,18 @@ local symbol = {}
 symbol.show_hp = function(character)
   local health = character.get_health_ratio()
   if health < 0.98 then
-    local surface = character.surface
-    local position = character.position
-    local color = {r = 1 - health, g = health, b = 0, a = 0.5}
-    surface.create_entity{name="hp-shield", color = color, text =("♥"), position = {position.x + 0.1, position.y - 1}}
+    local color = {r = 1 - health, g = health, b = 0, a = 0.7}
+    rendering.draw_text{
+      text = "♥",
+      scale = 0.7,
+      surface = character.surface,
+      target = character,
+      target_offset = {0.1, -1},
+      color = color,
+      time_to_live = 2,
+      visible = true,
+      scale_with_zoom = true
+    }
   end
 end
 
@@ -27,13 +35,20 @@ symbol.show_shield = function(character)
   if shield < 0.02 then
     return
   elseif shield < 0.95 then
-    local surface = character.surface
-    local position = character.position
-    local color = {r = 0, g = shield, b = shield, a = 0.5}
     local abs = math.abs
-    local shield = abs(shield - 1) -- for purple color
-    local color = {r = abs(shield - 1), g = 0, b = 1 - shield, a = 0.5}
-    surface.create_entity{name = "hp-shield", color = color, text = ("♦"), position = {position.x + 1.1, position.y - 1}}
+    shield = abs(shield - 1) -- for purple color
+    local color = {r = abs(shield - 1), g = 0, b = 1 - shield, a = 0.7}
+    rendering.draw_text{
+      text = "♦",
+      surface = character.surface,
+      target = character,
+      target_offset = {-0.1, -1},
+      color = color,
+      time_to_live = 2,
+      visible = true,
+      alignment = "center",
+      scale_with_zoom = true
+    }
   end
 end
 
@@ -54,13 +69,19 @@ symbol.show_shield_for_vehicles = function(vehicle)
   if shield < 0.02 then
     return
   elseif shield < 0.95 then
-    local surface = entity.surface
-    local position = entity.position
-    local color = {r = 0, g = shield, b = shield, a = 0.5}
     local abs = math.abs
-    local shield = abs(shield - 1) -- for purple color
-    local color = {r = abs(shield - 1), g = 0, b = 1 - shield, a = 0.5}
-    global.vehicles_shield[tostring(entity.unit_number)].text = surface.create_entity{name = "hp-shield", color = color, text = ("♦"), position = {position.x + 1.1, position.y - 1}}
+    shield = abs(shield - 1) -- for purple color
+    local color = {r = abs(shield - 1), g = 0, b = 1 - shield, a = 0.7}
+    rendering.draw_text{
+      text = "♦",
+      surface = vehicle.surface,
+      target = vehicle,
+      color = color,
+      time_to_live = 2,
+      visible = true,
+      alignment = "center",
+      scale_with_zoom = true
+    }
   end
 end
 

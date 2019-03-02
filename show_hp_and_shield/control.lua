@@ -3,7 +3,7 @@ Show health and shield
 Copyright (c) 2018-2019 ZwerOxotnik <zweroxotnik@gmail.com>
 License: The MIT License (MIT)
 Author: ZwerOxotnik
-Version: 2.1.0 (2019.03.01)
+Version: 2.2.0 (2019.03.02)
 Description: shows a health/shield player and a shield vehicle in the game.
              Shows after leaving a vehicle temporarily its shield.
              When you cursor hover over a transport will show its shield.
@@ -15,8 +15,11 @@ Homepage: https://forums.factorio.com/viewtopic.php?f=190&t=64619
 
 local TICKS_FOR_VEHICLE = require("show_hp_and_shield.config").TICKS_FOR_VEHICLE * 3
 local module = {}
-module.version = "2.1.0"
+module.version = "2.2.0"
 
+local show_hp
+local show_shield
+local show_shield_for_vehicles
 local variants = {}
 variants.bar = require("show_hp_and_shield/variants/bar")
 variants.amount = require("show_hp_and_shield/variants/amount")
@@ -25,15 +28,30 @@ variants.symbol = require("show_hp_and_shield/variants/symbol")
 variants.help_me = require("show_hp_and_shield/variants/help_me")
 variants.nothing = require("show_hp_and_shield/variants/nothing")
 
-local show_hp = variants[settings.global["shas_hp_player_mode"].value].show_hp
-local show_shield = variants[settings.global["shas_shield_player_mode"].value].show_shield
-local show_shield_for_vehicles = variants[settings.global["shas_vehicle_shield_mode"].value].show_shield_for_vehicles
+-- Check settings
+if settings.global["shas_hp_player_mode"] then
+  show_hp = variants[settings.global["shas_hp_player_mode"].value].show_hp
+else
+  show_hp = variants.bar.show_hp
+  log("settings.global[\"shas_hp_player_mode\"] is nil")
+end
+if settings.global["shas_shield_player_mode"] then
+  show_shield = variants[settings.global["shas_shield_player_mode"].value].show_shield
+else
+  show_shield = variants.bar.show_shield
+  log("settings.global[\"shas_shield_player_mode\"] is nil")
+end
+if settings.global["shas_vehicle_shield_mode"] then
+  show_shield_for_vehicles = variants[settings.global["shas_vehicle_shield_mode"].value].show_shield_for_vehicles
+else
+  show_shield_for_vehicles = variants.percentage.show_shield_for_vehicles
+  log("settings.global[\"shas_vehicle_shield_mode\"] is nil")
+end
 
 local function on_init()
   global.show_health_and_shield = global.show_health_and_shield or {}
 	global.show_health_and_shield.vehicles_shield = global.show_health_and_shield.vehicles_shield or {}
 end
-
 
 local function on_tick()
   for _, player in pairs(game.connected_players) do
@@ -84,16 +102,34 @@ module.check_vehicles = function()
           if passenger or driver then
             vehicle.tick = game.tick
           else
-            entity.surface.create_entity{name = "flying-text", color = {r = 1, g = 1, b = 1, a = 1}, text = ".", position = entity.position}
             show_health_and_shield.vehicles_shield[index] = nil
+            rendering.draw_text{
+              text = ".",
+              surface = entity.surface,
+              target = entity,
+              color = {r = 1, g = 1, b = 1, a = 1},
+              time_to_live = 2,
+              visible = true,
+              alignment = "center",
+              scale_with_zoom = true
+            }
           end
         else
           local driver = entity.get_driver()
           if driver then
             vehicle.tick = game.tick
           else
-            entity.surface.create_entity{name = "flying-text", color = {r = 1, g = 1, b = 1, a = 1}, text = ".", position = entity.position}
             show_health_and_shield.vehicles_shield[index] = nil
+            rendering.draw_text{
+              text = ".",
+              surface = entity.surface,
+              target = entity,
+              color = {r = 1, g = 1, b = 1, a = 1},
+              time_to_live = 2,
+              visible = true,
+              alignment = "center",
+              scale_with_zoom = true
+            }
           end
         end
       end

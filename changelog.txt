@@ -1,4 +1,16 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.2.0
+Date: 2019-03-02
+  Major features:
+    - Individual visualization
+  Changes:
+    - Only teammates can see your health and see shield vehicle of your faction
+---------------------------------------------------------------------------------------------------
+Version: 2.2.0
+Date: 2019-03-02
+  Changes:
+    - New visualization
+---------------------------------------------------------------------------------------------------
 Version: 2.1.0
 Date: 2019-03-01
   Changes:
