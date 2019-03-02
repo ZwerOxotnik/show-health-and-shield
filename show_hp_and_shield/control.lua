@@ -37,7 +37,7 @@ end
 
 local function on_tick()
   for _, player in pairs(game.connected_players) do
-    if player.character ~= nil then
+    if player.character then
       local character = player.character
       if character.health ~= nil then
         if not character.vehicle then

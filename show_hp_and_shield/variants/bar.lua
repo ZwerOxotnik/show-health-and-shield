@@ -1,8 +1,7 @@
 local bar = {}
 
 bar.show_hp = function(character)
-  local max_health = (character.character_health_bonus + game.entity_prototypes[character.name].max_health)
-  local health = character.health / max_health
+  local health = character.get_health_ratio()
   if health < 0.98 then
     local surface = character.surface
     local position = character.position
@@ -52,7 +51,7 @@ bar.show_shield_for_vehicles = function(vehicle)
       max_shield = max_shield + item.max_shield
     --end
   end
-  if shield == 0 then return end 
+  if shield == 0 then return end
   shield = shield / max_shield
   if shield < 0.02 then
     return
