@@ -1,9 +1,8 @@
 --[[
-Show health and shield
-Copyright (c) 2018-2019 ZwerOxotnik <zweroxotnik@gmail.com>
-License: The MIT License (MIT)
+Copyright (C) 2018-2019 ZwerOxotnik <zweroxotnik@gmail.com>
+Licensed under the EUPL, Version 1.2 only (the "LICENCE");
 Author: ZwerOxotnik
-Version: 2.3.1 (2019.03.02)
+Version: 2.4.0 (2019.03.03)
 Description: shows a health/shield player and a shield vehicle in the game.
              Shows after leaving a vehicle temporarily its shield.
              When you cursor hover over a transport will show its shield.
@@ -15,7 +14,7 @@ Homepage: https://forums.factorio.com/viewtopic.php?f=190&t=64619
 
 local TICKS_FOR_VEHICLE = require("show_hp_and_shield.config").TICKS_FOR_VEHICLE * 3
 local module = {}
-module.version = "2.3.1"
+module.version = "2.4.0"
 
 local variants = {}
 variants.bar = require("show_hp_and_shield/variants/bar")
@@ -24,6 +23,8 @@ variants.percentage = require("show_hp_and_shield/variants/percentage")
 variants.symbol = require("show_hp_and_shield/variants/symbol")
 variants.help_me = require("show_hp_and_shield/variants/help_me")
 variants.nothing = require("show_hp_and_shield/variants/nothing")
+variants.arc = require("show_hp_and_shield/variants/arc")
+variants.test_bar = require("show_hp_and_shield/variants/test_bar")
 
 local function on_init()
   global.show_health_and_shield = global.show_health_and_shield or {}

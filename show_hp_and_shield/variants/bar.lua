@@ -1,3 +1,6 @@
+-- Copyright (C) 2018-2019 ZwerOxotnik <zweroxotnik@gmail.com>
+-- Licensed under the EUPL, Version 1.2 only (the "LICENCE");
+
 local bar = {}
 
 bar.show_hp = function(character, target)
