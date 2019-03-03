@@ -17,6 +17,8 @@
 * [Запросить функцию](#feature)
 * [Установка](#installing)
 * [Особая благодарность](#special-thanks)
+* [Зависимости](#dependencies)
+    * [Встроенные](#embedded)
 * [Лицензия](#license)
 
 ## <a name="overview"></a> Введение
@@ -64,6 +66,12 @@
 ## <a name="special-thanks"></a> Особая благодарность
 
 * **OwnlyMe** - спасибо за поддержку
+
+## <a name="dependencies"></a> Зависимости
+
+### <a name="embedded"></a> Встроенные
+
+* Event listener: [mods.factorio.com](https://mods.factorio.com/mod/event-listener), [GitLab](https://gitlab.com/ZwerOxotnik/event-listener), [homepage](https://forums.factorio.com/viewtopic.php?f=190&t=64621)
 
 ## <a name="license"></a> Лицензия
 

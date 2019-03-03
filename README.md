@@ -17,6 +17,8 @@ Read this in another language | [English](/README.md) | [Русский](/docs/r
 * [Features](#feature)
 * [Installing](#installing)
 * [Special thanks](#special-thanks)
+* [Dependencies](#dependencies)
+    * [Embedded](#embedded)
 * [License](#license)
 
 ## Overview
@@ -65,6 +67,12 @@ If you have downloaded the source archive (GitLab):
 ## Special thanks
 
 * **OwnlyMe** - thanks for the support
+
+## Dependencies
+
+### Embedded
+
+* Event listener: [mods.factorio.com](https://mods.factorio.com/mod/event-listener), [GitLab](https://gitlab.com/ZwerOxotnik/event-listener), [homepage](https://forums.factorio.com/viewtopic.php?f=190&t=64621)
 
 ## License
 
