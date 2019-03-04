@@ -1,12 +1,14 @@
 {
     "name": "show-health-and-shield",
-    "version": "2.4.0",
+    "version": "2.4.1",
     "factorio_version": "0.17",
-    "title": "Show health and shield",
+    "title": "Show [color=green]health[/color] and [color=purple]shield[/color]",
     "author": "ZwerOxotnik",
     "contact": "zweroxotnik@gmail.com, https://steamcommunity.com/id/ZwerOxotnik",
     "source": "https://gitlab.com/ZwerOxotnik/show-health-and-shield",
     "homepage": "https://forums.factorio.com/viewtopic.php?f=190&t=64619",
     "description": "Shows a health/shield player and a shield vehicle in the game. Shows after leaving a vehicle temporarily its shield. When you cursor hover over a transport will show its shield. Several types of individual display.",
-    "dependencies": []
+    "dependencies": [
+        "event-listener >= 0.4.0"
+    ]
 }

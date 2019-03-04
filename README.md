@@ -18,7 +18,7 @@ Read this in another language | [English](/README.md) | [Русский](/docs/r
 * [Installing](#installing)
 * [Special thanks](#special-thanks)
 * [Dependencies](#dependencies)
-    * [Embedded](#embedded)
+    * [Required](#required)
 * [License](#license)
 
 ## Overview
@@ -37,7 +37,7 @@ Several types of individual display.
 
 | Desription | Parameters | (Default) |
 | ---------- | ---------- |  -------- |
-| Display mode of health player | ["health bar", "heart symbol", "percentage", "amount", "help me", "nothing", "arc", "test_bar"] | health bar |
+| Display mode of player health | ["health bar", "heart symbol", "percentage", "amount", "help me", "nothing", "arc", "test_bar"] | health bar |
 | Display mode of shield player | ["shield bar", "diamond symbol", "percentage", "nothing"] | shield bar |
 | Display mode of shield vehicle    | ["shield bar", "diamond symbol", "percentage", "nothing"] | percentage |
 
@@ -62,7 +62,7 @@ For more information, see [Installing Mods on the Factorio wiki](https://wiki.fa
 If you have downloaded the source archive (GitLab):
 
 * copy the mod directory into your factorio mods directory
-* rename the mod directory to show-health-and-shield_*versionnumber*, where *versionnumber* is the version of the mod that you've downloaded (e.g., 2.4.0)
+* rename the mod directory to show-health-and-shield_*versionnumber*, where *versionnumber* is the version of the mod that you've downloaded (e.g., 2.4.1)
 
 ## Special thanks
 
@@ -70,15 +70,15 @@ If you have downloaded the source archive (GitLab):
 
 ## Dependencies
 
-### Embedded
+### Required
 
-* Event listener: [mods.factorio.com](https://mods.factorio.com/mod/event-listener), [GitLab](https://gitlab.com/ZwerOxotnik/event-listener), [homepage](https://forums.factorio.com/viewtopic.php?f=190&t=64621)
+* [Event listener](https://mods.factorio.com/mod/event-listener)
 
 ## License
 
 This project is copyright © 2018-2019 ZwerOxotnik \<zweroxotnik@gmail.com\>.
 
-Use of the source code included here is governed by the European Union Public License v. 1.2 only. See the [LICENCE](/LICENCE) file for details. Please also have a look at the [notices about licenses of third-party components](/THIRD-PARTY-NOTICES.txt).
+Use of the source code included here is governed by the European Union Public License v. 1.2 only. See the [LICENCE](/LICENCE) file for details.
 
 [homepage]: http://mods.factorio.com/mod/show-health-and-shield
 [Factorio]: https://factorio.com/

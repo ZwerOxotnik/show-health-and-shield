@@ -18,7 +18,7 @@
 * [Установка](#installing)
 * [Особая благодарность](#special-thanks)
 * [Зависимости](#dependencies)
-    * [Встроенные](#embedded)
+    * [Необходимые](#required)
 * [Лицензия](#license)
 
 ## <a name="overview"></a> Введение
@@ -61,7 +61,7 @@
 Если вы скачали исходный архив (GitLab):
 
 * скопируйте данный мод в директорию модов Factorio
-* переименуйте данный мод в scan-rocket-with-radars_*версия*, где *версия* это версия мода, которую вы скачали (например, 2.4.0)
+* переименуйте данный мод в scan-rocket-with-radars_*версия*, где *версия* это версия мода, которую вы скачали (например, 2.4.1)
 
 ## <a name="special-thanks"></a> Особая благодарность
 
@@ -69,15 +69,15 @@
 
 ## <a name="dependencies"></a> Зависимости
 
-### <a name="embedded"></a> Встроенные
+### <a name="required"></a> Необходимые
 
-* Event listener: [mods.factorio.com](https://mods.factorio.com/mod/event-listener), [GitLab](https://gitlab.com/ZwerOxotnik/event-listener), [homepage](https://forums.factorio.com/viewtopic.php?f=190&t=64621)
+* [Event listener](https://mods.factorio.com/mod/event-listener)
 
 ## <a name="license"></a> Лицензия
 
 Этот проект защищен авторским правом © 2018-2019 ZwerOxotnik \<zweroxotnik@gmail.com\>.
 
-Использование исходного кода, включенного здесь, регламентируется European Union Public License v. 1.2 только. Смотрите [LICENCE](/LICENCE) файл для разбора. Пожалуйста, взгляните также и на уведомления о лицензиях сторонних компонентов в файле [THIRD-PARTY-NOTICES.txt](/THIRD-PARTY-NOTICES.txt).
+Использование исходного кода, включенного здесь, регламентируется European Union Public License v. 1.2 только. Смотрите [LICENCE](/LICENCE) файл для разбора.
 
 [homepage]: http://mods.factorio.com/mod/show-health-and-shield
 [Factorio]: https://factorio.com/

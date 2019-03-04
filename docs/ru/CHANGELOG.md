@@ -1,5 +1,12 @@
 # Changelog
 
+## 2019-03-04
+
+### [v2.4.1][v2.4.1]
+
+* Изменено: другие зависимости
+* Исправлено:
+
 ## 2019-03-03
 
 ### [v2.4.0][v2.4.0]
@@ -143,7 +150,8 @@
 
 * Первый релиз для 0.16
 
-[v2.4.0]: https://mods.factorio.com/mod/show-health-and-shield/downloads
+[v2.4.1]: https://mods.factorio.com/mod/show-health-and-shield/downloads
+[v2.4.0]: https://mods.factorio.com/download/show-health-and-shield/5c7bd045c3dad0000c6e6bab
 [v2.3.1]: https://mods.factorio.com/download/show-health-and-shield/5c7a7fbc769efa000bf88197
 [v2.3.0]: https://mods.factorio.com/download/show-health-and-shield/5c7a6bb4769efa000bf59a64
 [v2.2.0]: https://mods.factorio.com/download/show-health-and-shield/5c7a5b8c769efa000df6000e

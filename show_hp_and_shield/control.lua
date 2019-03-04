@@ -7,9 +7,12 @@ Description: shows a health/shield player and a shield vehicle in the game.
              Shows after leaving a vehicle temporarily its shield.
              When you cursor hover over a transport will show its shield.
              Several types of individual display.
+
+You can write and receive any information on the links below.
 Source: https://gitlab.com/ZwerOxotnik/show-health-and-shield
 Mod portal: https://mods.factorio.com/mod/show-health-and-shield
 Homepage: https://forums.factorio.com/viewtopic.php?f=190&t=64619
+
 ]]--
 
 local TICKS_FOR_VEHICLE = require("show_hp_and_shield.config").TICKS_FOR_VEHICLE * 3
@@ -35,8 +38,8 @@ local function on_tick()
   for _, player in pairs(game.connected_players) do
     local character = player.character
     if character and character.health ~= nil and not character.vehicle then
+      variants[settings.get_player_settings(player)["shas_hp_player_mode"].value].show_hp(character, player)
       for _, target in pairs(player.force.connected_players) do
-        variants[settings.get_player_settings(target)["shas_hp_player_mode"].value].show_hp(character, target)
         variants[settings.get_player_settings(target)["shas_shield_player_mode"].value].show_shield(character, target)
       end
     end
