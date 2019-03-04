@@ -5,7 +5,7 @@
 ### [v2.4.1][v2.4.1]
 
 * Changed: another dependencies
-* Fixed:
+* Fixed: display of player health
 
 ## 2019-03-03
 
