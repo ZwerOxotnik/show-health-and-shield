@@ -77,8 +77,8 @@ symbol.show_shield_for_vehicles = function(vehicle, target)
     local color = {r = abs(shield - 1), g = 0, b = 1 - shield, a = 0.7}
     rendering.draw_text{
       text = "♦",
-      surface = vehicle.surface,
-      target = vehicle,
+      surface = entity.surface,
+      target = entity,
       color = color,
       time_to_live = 2,
       players = {target},

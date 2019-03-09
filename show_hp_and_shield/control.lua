@@ -2,7 +2,7 @@
 Copyright (C) 2018-2019 ZwerOxotnik <zweroxotnik@gmail.com>
 Licensed under the EUPL, Version 1.2 only (the "LICENCE");
 Author: ZwerOxotnik
-Version: 2.4.0 (2019.03.03)
+Version: 2.4.2 (2019.03.09)
 Description: shows a health/shield player and a shield vehicle in the game.
              Shows after leaving a vehicle temporarily its shield.
              When you cursor hover over a transport will show its shield.
@@ -17,7 +17,7 @@ Homepage: https://forums.factorio.com/viewtopic.php?f=190&t=64619
 
 local TICKS_FOR_VEHICLE = require("show_hp_and_shield.config").TICKS_FOR_VEHICLE * 3
 local module = {}
-module.version = "2.4.0"
+module.version = "2.4.2"
 
 local variants = {}
 variants.bar = require("show_hp_and_shield/variants/bar")
@@ -48,7 +48,7 @@ local function on_tick()
   for index, vehicle in pairs(global.show_health_and_shield.vehicles_shield) do
     if vehicle.entity.valid then
       for _, target in pairs(vehicle.entity.force.connected_players) do
-        variants[settings.get_player_settings(target)["shas_vehicle_shield_mode"].value].show_shield_for_vehicles(character, target)
+        variants[settings.get_player_settings(target)["shas_vehicle_shield_mode"].value].show_shield_for_vehicles(vehicle, target)
       end
     else
       global.show_health_and_shield.vehicles_shield[index] = nil
@@ -62,12 +62,11 @@ local function on_player_driving_changed_state(event)
   local player = game.players[event.player_index]
   if player.force ~= vehicle.force then return end
 
-  local index = tostring(vehicle.unit_number)
   local data = global.show_health_and_shield
-  if data.vehicles_shield[index] == nil then
-    data.vehicles_shield[index] = {entity = vehicle, tick = event.tick}
+  if data.vehicles_shield[vehicle.unit_number] == nil then
+    data.vehicles_shield[vehicle.unit_number] = {entity = vehicle, tick = event.tick}
   else
-    data.vehicles_shield[index].tick = event.tick
+    data.vehicles_shield[vehicle.unit_number].tick = event.tick
   end
 end
 
@@ -88,7 +87,7 @@ module.check_vehicles = function()
               surface = entity.surface,
               target = entity,
               color = {r = 1, g = 1, b = 1, a = 1},
-              time_to_live = 50,
+              time_to_live = 20,
               forces = {entity.force},
               visible = true,
               alignment = "center",
@@ -106,7 +105,7 @@ module.check_vehicles = function()
               surface = entity.surface,
               target = entity,
               color = {r = 1, g = 1, b = 1, a = 1},
-              time_to_live = 50,
+              time_to_live = 20,
               forces = {entity.force},
               alignment = "center",
               scale_with_zoom = true
@@ -136,12 +135,11 @@ local function on_selected_entity_changed(event)
   if not entity.grid then return end
   if player.force ~= entity.force then return end
 
-	local index = tostring(entity.unit_number)
 	local data = global.show_health_and_shield
-  if data.vehicles_shield[index] == nil then
-		data.vehicles_shield[index] = {entity = entity, tick = event.tick}
+  if data.vehicles_shield[entity.unit_number] == nil then
+		data.vehicles_shield[entity.unit_number] = {entity = entity, tick = event.tick}
   else
-    data.vehicles_shield[index].tick = event.tick
+    data.vehicles_shield[entity.unit_number].tick = event.tick
   end
 end
 

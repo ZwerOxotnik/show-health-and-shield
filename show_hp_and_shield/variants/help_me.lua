@@ -16,7 +16,6 @@ help_me.show_hp = function(character, target)
       color = color,
       time_to_live = 2,
       forces = {target.force},
-      visible = true,
       alignment = "center",
       scale_with_zoom = true
     }
