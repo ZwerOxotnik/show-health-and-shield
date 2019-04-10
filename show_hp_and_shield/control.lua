@@ -2,7 +2,7 @@
 Copyright (C) 2018-2019 ZwerOxotnik <zweroxotnik@gmail.com>
 Licensed under the EUPL, Version 1.2 only (the "LICENCE");
 Author: ZwerOxotnik
-Version: 2.4.2 (2019.03.09)
+Version: 2.4.3 (2019.04.10)
 Description: shows a health/shield player and a shield vehicle in the game.
              Shows after leaving a vehicle temporarily its shield.
              When you cursor hover over a transport will show its shield.
@@ -17,7 +17,38 @@ Homepage: https://forums.factorio.com/viewtopic.php?f=190&t=64619
 
 local TICKS_FOR_VEHICLE = require("show_hp_and_shield.config").TICKS_FOR_VEHICLE * 3
 local module = {}
-module.version = "2.4.2"
+module.events = {}
+module.version = "2.4.3"
+
+-- This code for "put_event" function
+local get_event
+if event_listener then
+	get_event = function(event)
+		return defines.events[event] or event
+	end
+else
+	get_event = function(event)
+		if type(event) == "number" then
+			return event
+		else
+			return defines.events[event]
+		end
+	end
+end
+
+-- This function for compatibility with "Event listener" module and into other modules
+-- Please, use the function in your module
+local function put_event(event, func)
+	event = get_event(event)
+	if event then
+		module.events[event] = func
+		return true
+	else
+		log("That event is nil")
+		-- error("That event is nil")
+	end
+	return false
+end
 
 local variants = {}
 variants.bar = require("show_hp_and_shield/variants/bar")
@@ -45,13 +76,14 @@ local function on_tick()
     end
   end
 
-  for index, vehicle in pairs(global.show_health_and_shield.vehicles_shield) do
+  local data = global.show_health_and_shield
+  for index, vehicle in pairs(data.vehicles_shield) do
     if vehicle.entity.valid then
       for _, target in pairs(vehicle.entity.force.connected_players) do
         variants[settings.get_player_settings(target)["shas_vehicle_shield_mode"].value].show_shield_for_vehicles(vehicle, target)
       end
     else
-      global.show_health_and_shield.vehicles_shield[index] = nil
+      data.vehicles_shield[index] = nil
     end
   end
 end
@@ -110,12 +142,12 @@ module.check_vehicles = function()
               alignment = "center",
               scale_with_zoom = true
             }
-            show_health_and_shield.vehicles_shield[index] = nil
+            data.vehicles_shield[index] = nil
           end
         end
       end
     else
-      show_health_and_shield.vehicles_shield[index] = nil
+      data.vehicles_shield[index] = nil
     end
   end
 end
@@ -130,9 +162,8 @@ local function on_selected_entity_changed(event)
   -- Validation of data
   local player = game.players[event.player_index]
   local entity = player.selected
-  if entity == nil then return end
+  if not (entity and entity.grid) then return end
   if entity.type == "player" then return end
-  if not entity.grid then return end
   if player.force ~= entity.force then return end
 
 	local data = global.show_health_and_shield
@@ -143,13 +174,11 @@ local function on_selected_entity_changed(event)
   end
 end
 
-module.events = {
-  on_tick = on_tick,
-  on_player_driving_changed_state = on_player_driving_changed_state,
-	on_init = on_init,
-  on_configuration_changed = on_init,
-  on_selected_entity_changed = on_selected_entity_changed,
-  on_player_mined_entity = on_player_mined_entity
-}
+module.on_init = on_init
+module.on_configuration_changed = on_init
+put_event("on_tick", on_tick)
+put_event("on_player_driving_changed_state", on_player_driving_changed_state)
+put_event("on_selected_entity_changed", on_selected_entity_changed)
+put_event("on_player_mined_entity", on_player_mined_entity)
 
 return module

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2019-04-10
+
+### [v2.4.3][v2.4.3]
+
+- Исправлено взаимодействие с сеткой транспортных средств.
+
 ## 2019-03-09
 
 ### [v2.4.2][v2.4.2]
@@ -157,7 +163,8 @@
 
 * Первый релиз для 0.16
 
-[v2.4.2]: https://mods.factorio.com/show-health-and-shield/downloads
+[v2.4.3]: https://mods.factorio.com/show-health-and-shield/downloads
+[v2.4.2]: https://mods.factorio.com/download/show-health-and-shield/5c83fff6268804000b0ee19e
 [v2.4.1]: https://mods.factorio.com/download/show-health-and-shield/5c7d82ddeb33a0000d3676fd
 [v2.4.0]: https://mods.factorio.com/download/show-health-and-shield/5c7bd045c3dad0000c6e6bab
 [v2.3.1]: https://mods.factorio.com/download/show-health-and-shield/5c7a7fbc769efa000bf88197
