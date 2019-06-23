@@ -2,7 +2,7 @@
 Copyright (C) 2018-2019 ZwerOxotnik <zweroxotnik@gmail.com>
 Licensed under the EUPL, Version 1.2 only (the "LICENCE");
 Author: ZwerOxotnik
-Version: 2.5.0 (2019.05.03)
+Version: 2.5.3 (2019.06.23)
 
 You can write and receive any information on the links below.
 Source: https://gitlab.com/ZwerOxotnik/show-health-and-shield
@@ -14,7 +14,7 @@ Homepage: https://forums.factorio.com/viewtopic.php?f=190&t=64619
 local TICKS_FOR_VEHICLE = require("show_hp_and_shield.config").TICKS_FOR_VEHICLE * 3
 local module = {}
 module.events = {}
-module.version = "2.5.0"
+module.version = "2.5.3"
 
 local function get_event(event)
 	if type(event) == "number" then
