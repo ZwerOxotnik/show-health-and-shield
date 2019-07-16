@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.6.0
+Date: 2019-07-16
+  Major features:
+    - Added display mode "orb" of player/vehicle health/shield
+  Notes:
+    - This update for Factorio 0.17
+---------------------------------------------------------------------------------------------------
 Version: 2.5.3
 Date: 2019-06-23
   Features:

@@ -7,20 +7,20 @@ data:extend({
     name = "shas_hp_player_mode",
     setting_type = "runtime-per-user",
     default_value = "bar",
-    allowed_values = {"bar", "symbol", "percentage", "amount", "help_me", "nothing", "arc", "test_bar"}
+    allowed_values = {"bar", "symbol", "percentage", "amount", "help_me", "nothing", "arc", "test_bar", "orb"}
   },
   {
     type = "string-setting",
     name = "shas_shield_player_mode",
     setting_type = "runtime-per-user",
     default_value = "bar",
-    allowed_values = {"bar", "symbol", "percentage", "nothing"}
+    allowed_values = {"bar", "symbol", "percentage", "nothing", "orb"}
   },
   {
     type = "string-setting",
     name = "shas_vehicle_shield_mode",
     setting_type = "runtime-per-user",
     default_value = "percentage",
-    allowed_values = {"bar", "symbol", "percentage", "nothing"}
+    allowed_values = {"bar", "symbol", "percentage", "nothing", "orb"}
   }
 })
