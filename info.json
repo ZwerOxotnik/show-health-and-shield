@@ -1,6 +1,6 @@
 {
     "name": "show-health-and-shield",
-    "version": "2.6.0",
+    "version": "2.7.0",
     "factorio_version": "0.17",
     "title": "Show health and shield",
     "author": "ZwerOxotnik",
@@ -10,6 +10,7 @@
     "description": "Shows a health/shield player and a shield vehicle in the game. Shows after leaving a vehicle temporarily its shield. When your cursor hovers over a transport will show its shield. Several types of individual display.",
     "dependencies": [
         "event-listener >= 0.8.0",
-        "base >= 0.17.35"
+        "base >= 0.17.35",
+		"? spell-pack >= 0.17.17"
     ]
 }

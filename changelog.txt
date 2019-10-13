@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.7.0
+Date: 2019-07-18
+  Major features:
+    - Added interactions with "Spell pack" mod (https://mods.factorio.com/mod/spell-pack)
+  Notes:
+    - This update for Factorio 0.17
+    - Refactoring
+---------------------------------------------------------------------------------------------------
 Version: 2.6.0
 Date: 2019-07-16
   Major features:
