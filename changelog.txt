@@ -1,4 +1,26 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.7.0
+Date: 2019-07-18
+  Major features:
+    - Added interactions with "Spell pack" mod (https://mods.factorio.com/mod/spell-pack)
+  Notes:
+    - This update for Factorio 0.17
+    - Refactoring
+---------------------------------------------------------------------------------------------------
+Version: 2.6.0
+Date: 2019-07-16
+  Major features:
+    - Added display mode "orb" of player/vehicle health/shield
+  Notes:
+    - This update for Factorio 0.17
+---------------------------------------------------------------------------------------------------
+Version: 2.5.3
+Date: 2019-06-23
+  Features:
+    - Removed rich text in the mod name (see https://forums.factorio.com/70895)
+  Notes:
+    - This update for Factorio 0.17
+---------------------------------------------------------------------------------------------------
 Version: 2.5.2
 Date: 2019-05-03
   Changes:
