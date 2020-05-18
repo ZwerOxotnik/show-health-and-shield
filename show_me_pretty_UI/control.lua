@@ -22,11 +22,11 @@ local update_hp_UI = variants[SmeB_UI_player_hp_mode].update_hp_UI
 local init_hp_UI_to_player = variants[SmeB_UI_player_hp_mode].init_hp_UI_to_player
 local SmeB_UI_player_shield_mode = settings.global["SmeB_UI_player_shield_mode"].value
 local init_shield_UI_to_players = variants[SmeB_UI_player_shield_mode].init_shield_UI_to_players
-local update_shield = variants[SmeB_UI_player_shield_mode].update_shield
+local update_shield_UI = variants[SmeB_UI_player_shield_mode].update_shield_UI
 
 local function update_global_data()
 	global.SmeB_UI = global.SmeB_UI or {}
-	local SmeB_UI = global.SmeB_UI
+	SmeB_UI = global.SmeB_UI
 	SmeB_UI.vehicles_shield = SmeB_UI.vehicles_shield or {}
 	SmeB_UI.target_characters = SmeB_UI.target_characters or {}
 	SmeB_UI.player_HP_UIs = SmeB_UI.player_HP_UIs or {}
@@ -34,34 +34,35 @@ local function update_global_data()
 	SmeB_UI.vehcile_shield_UIs = SmeB_UI.vehcile_shield_UIs or {}
 end
 
-local function remove_UIs(variable)
-	for _, id in pairs(SmeB_UI[variable]) do
-		rendering.destroy(id)
-		SmeB_UI[variable][id] = nil
+local function remove_character_data(player_index)
+	SmeB_UI.target_characters[player_index] = nil
+	local ID = SmeB_UI.player_HP_UIs[player_index]
+	if ID then
+		rendering.destroy(ID)
+		SmeB_UI.player_HP_UIs[player_index] = nil
+	end
+	local ID = SmeB_UI.player_shield_UIs[player_index]
+	if ID then
+		rendering.destroy(ID)
+		SmeB_UI.player_shield_UIs[player_index] = nil
+	end
+end
+
+local function update_player_UI(player)
+	if not SmeB_UI.target_characters[player.index] then return end
+
+	local character = player.character
+	if character then
+		update_hp_UI(player, SmeB_UI.player_HP_UIs[player.index])
+		update_shield_UI(player, SmeB_UI.player_shield_UIs[player.index])
+	else
+		remove_character_data(player.index)
 	end
 end
 
 local function update_UIs()
-	local SmeB_UI = global.SmeB_UI
 	for player_index, _ in pairs(SmeB_UI.target_characters) do
-		local player = game.connected_players[player_index]
-		local character = player.character
-		if character then
-			update_hp_UI(player, SmeB_UI.player_HP_UIs[player_index])
-			update_shield(player, SmeB_UI.player_shield_UIs[player_index])
-		else
-			SmeB_UI.target_characters[player_index] = nil
-			local ID = SmeB_UI.player_HP_UIs[player_index]
-			if ID then
-				rendering.destroy(ID)
-				SmeB_UI.player_HP_UIs[player_index] = nil
-			end
-			local ID = SmeB_UI.player_shield_UIs[player_index]
-			if ID then
-				rendering.destroy(ID)
-				SmeB_UI.player_shield_UIs[player_index] = nil
-			end
-		end
+		update_player_UI(game.connected_players[player_index])
 	end
 
 	-- for vehicle_index, vehicle in pairs(SmeB_UI.vehicles_shield) do
@@ -78,28 +79,17 @@ end
 local function check_player(player)
 	if not player.valid then return end
 
-	local SmeB_UI = global.SmeB_UI
 	local character = player.character
-	if character and character.health ~= nil and not character.vehicle then
+	if character and character.health ~= nil and not player.vehicle then
 		SmeB_UI.target_characters[player.index] = true
 		if not SmeB_UI.player_HP_UIs[player.index] then
 			init_hp_UI_to_player(player)
 		end
 		if not SmeB_UI.player_shield_UIs[player.index] then
-			-- init_shield_UI_to_player(player)
+			-- init_shield_UI_to_character(player)
 		end
 	else
-		SmeB_UI.target_characters[player.index] = nil
-		local ID = SmeB_UI.player_HP_UIs[player.index]
-		if ID then
-			rendering.destroy(ID)
-			SmeB_UI.player_HP_UIs[player.index] = nil
-		end
-		local ID = SmeB_UI.player_shield_UIs[player.index]
-		if ID then
-			rendering.destroy(ID)
-			SmeB_UI.player_shield_UIs[player.index] = nil
-		end
+		remove_character_data(player.index)
 	end
 end
 
@@ -114,19 +104,14 @@ local function check_player_on_event(event)
 	if not (player and player.valid) then return end
 
 	check_player(player)
-end
-
-local function remove_character_data(event)
-	SmeB_UI.target_characters[event.player_index] = nil
-	remove_UIs("player_HP_UIs")
-	remove_UIs("player_shield_UIs")
+	update_player_UI(player)
 end
 
 local function on_player_driving_changed_state(event)
-	local player = game.players[event.player_index]
-	check_player(player)
+	check_player_on_event(event)
 	local vehicle = event.entity
 	if not (vehicle and vehicle.valid and vehicle.grid) then return end
+	local player = game.players[event.player_index]
 	if player.force ~= vehicle.force then return end
 
 	local data = global.SmeB_UI.vehicles_shield
@@ -230,7 +215,7 @@ local function on_runtime_mod_setting_changed(event)
 	elseif event.setting == "SmeB_UI_player_shield_mode" then
 		local value = settings.global[event.setting].value
 		SmeB_UI_player_shield_mode = value
-		update_shield = variants[value].update_shield
+		update_shield_UI = variants[value].update_shield_UI
 		init_shield_UI_to_players = variants[value].init_shield_UI_to_players
 		-- recreate_UIs
 		init_shield_UI_to_players()
