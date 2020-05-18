@@ -48,9 +48,19 @@ local function update_UIs()
 		local character = player.character
 		if character then
 			update_hp_UI(player, SmeB_UI.player_HP_UIs[player_index])
-			-- update_shield(character)
+			update_shield(player, SmeB_UI.player_shield_UIs[player_index])
 		else
 			SmeB_UI.target_characters[player_index] = nil
+			local ID = SmeB_UI.player_HP_UIs[player_index]
+			if ID then
+				rendering.destroy(ID)
+				SmeB_UI.player_HP_UIs[player_index] = nil
+			end
+			local ID = SmeB_UI.player_shield_UIs[player_index]
+			if ID then
+				rendering.destroy(ID)
+				SmeB_UI.player_shield_UIs[player_index] = nil
+			end
 		end
 	end
 
@@ -88,7 +98,7 @@ local function check_player(player)
 		local ID = SmeB_UI.player_shield_UIs[player.index]
 		if ID then
 			rendering.destroy(ID)
-			SmeB_UI.player_HP_UIs[player.index] = nil
+			SmeB_UI.player_shield_UIs[player.index] = nil
 		end
 	end
 end
@@ -113,10 +123,10 @@ local function remove_character_data(event)
 end
 
 local function on_player_driving_changed_state(event)
-	local vehicle = event.entity
-	if not (vehicle and vehicle.valid and vehicle.grid) then return end
 	local player = game.players[event.player_index]
 	check_player(player)
+	local vehicle = event.entity
+	if not (vehicle and vehicle.valid and vehicle.grid) then return end
 	if player.force ~= vehicle.force then return end
 
 	local data = global.SmeB_UI.vehicles_shield
