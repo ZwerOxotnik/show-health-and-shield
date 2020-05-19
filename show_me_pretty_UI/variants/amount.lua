@@ -1,25 +1,40 @@
 -- Copyright (C) 2018-2020 ZwerOxotnik <zweroxotnik@gmail.com>
 -- Licensed under the EUPL, Version 1.2 only (the "LICENCE");
 
-local amount = {}
+local UI = {}
 
-amount.show_hp = function(character, target)
+local function create_player_hp_UI(player, text, color)
+	local character = player.character
+	SmeB_UI.player_HP_UIs[player.index] = rendering.draw_text{
+		text = text,
+		surface = player.surface,
+		target = character,
+		target_offset = {0, 0.2},
+		color = color,
+		players = {player},
+		alignment = "center",
+		scale_with_zoom = true,
+		-- visible = is_SmeB_UI_public,
+		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
+	}
+end
+
+UI.update_player_hp_UI = function(player, UI_id)
+	local character = player.character
 	local health = character.get_health_ratio()
 	if health < 0.98 then
-		local surface = character.surface
+		local text = math.ceil(character.health)
 		local color = {r = 1 - health, g = health, b = 0, a = 1}
-		rendering.draw_text{
-			text = math.ceil(character.health),
-			surface = surface,
-			target = character,
-			target_offset = {0, 0.2},
-			color = color,
-			time_to_live = 2,
-			players = {target},
-			alignment = "center",
-			scale_with_zoom = true
-		}
+		if UI_id then
+			rendering.set_color(UI_id, color)
+			rendering.set_text(UI_id, text)
+		else
+			create_player_hp_UI(player, text, color)
+		end
+	elseif UI_id then
+		rendering.destroy(UI_id)
+		SmeB_UI.player_HP_UIs[player.index] = nil
 	end
 end
 
-return amount
+return UI
