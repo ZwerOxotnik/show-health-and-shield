@@ -15,24 +15,12 @@ module.events = {}
 
 local variants = require("show_me_pretty_UI/variants/list")
 
-local SmeB_UI_vehicle_shield_mode = settings.global["SmeB_UI_vehicle_shield_mode"].value
-local show_shield_for_vehicles = variants[SmeB_UI_vehicle_shield_mode].show_shield_for_vehicles
-local SmeB_UI_player_hp_mode = settings.global["SmeB_UI_player_hp_mode"].value
-local update_hp_UI = variants[SmeB_UI_player_hp_mode].update_hp_UI
-local init_hp_UI_to_player = variants[SmeB_UI_player_hp_mode].init_hp_UI_to_player
-local SmeB_UI_player_shield_mode = settings.global["SmeB_UI_player_shield_mode"].value
-local init_shield_UI_to_players = variants[SmeB_UI_player_shield_mode].init_shield_UI_to_players
-local update_shield_UI = variants[SmeB_UI_player_shield_mode].update_shield_UI
-
-local function update_global_data()
-	global.SmeB_UI = global.SmeB_UI or {}
-	SmeB_UI = global.SmeB_UI
-	SmeB_UI.vehicles_shield = SmeB_UI.vehicles_shield or {}
-	SmeB_UI.target_characters = SmeB_UI.target_characters or {}
-	SmeB_UI.player_HP_UIs = SmeB_UI.player_HP_UIs or {}
-	SmeB_UI.player_shield_UIs = SmeB_UI.player_shield_UIs or {}
-	SmeB_UI.vehcile_shield_UIs = SmeB_UI.vehcile_shield_UIs or {}
-end
+local vehicle_shield_mode = settings.global["SmeB_UI_vehicle_shield_mode"].value
+local show_shield_for_vehicles = variants[vehicle_shield_mode].show_shield_for_vehicles
+local player_hp_mode = settings.global["SmeB_UI_player_hp_mode"].value
+local update_hp_UI = variants[player_hp_mode].update_hp_UI
+local player_shield_mode = settings.global["SmeB_UI_player_shield_mode"].value
+local update_shield_UI = variants[player_shield_mode].update_shield_UI
 
 local function remove_character_data(player_index)
 	SmeB_UI.target_characters[player_index] = nil
@@ -48,21 +36,16 @@ local function remove_character_data(player_index)
 	end
 end
 
-local function update_player_UI(player)
-	if not SmeB_UI.target_characters[player.index] then return end
-
-	local character = player.character
-	if character then
-		update_hp_UI(player, SmeB_UI.player_HP_UIs[player.index])
-		update_shield_UI(player, SmeB_UI.player_shield_UIs[player.index])
-	else
-		remove_character_data(player.index)
-	end
-end
 
 local function update_UIs()
 	for player_index, _ in pairs(SmeB_UI.target_characters) do
-		update_player_UI(game.connected_players[player_index])
+		local player = game.players[player_index]
+		if player and player.valid and player.character then
+			update_hp_UI(player, SmeB_UI.player_HP_UIs[player_index])
+			update_shield_UI(player, SmeB_UI.player_shield_UIs[player_index])
+		else
+			remove_character_data(player_index)
+		end
 	end
 
 	-- for vehicle_index, vehicle in pairs(SmeB_UI.vehicles_shield) do
@@ -77,17 +60,16 @@ local function update_UIs()
 end
 
 local function check_player(player)
-	if not player.valid then return end
+	if not player.valid or not player.connected then
+		remove_character_data(player.index)
+		return
+	end
 
 	local character = player.character
 	if character and character.health ~= nil and not player.vehicle then
 		SmeB_UI.target_characters[player.index] = true
-		if not SmeB_UI.player_HP_UIs[player.index] then
-			init_hp_UI_to_player(player)
-		end
-		if not SmeB_UI.player_shield_UIs[player.index] then
-			-- init_shield_UI_to_character(player)
-		end
+		update_hp_UI(player, SmeB_UI.player_HP_UIs[player.index])
+		update_shield_UI(player, SmeB_UI.player_shield_UIs[player.index])
 	else
 		remove_character_data(player.index)
 	end
@@ -99,19 +81,61 @@ local function check_players()
 	end
 end
 
+local function update_global_data()
+	global.SmeB_UI = global.SmeB_UI or {}
+	SmeB_UI = global.SmeB_UI
+	SmeB_UI.vehicles_shield = SmeB_UI.vehicles_shield or {}
+	SmeB_UI.target_characters = SmeB_UI.target_characters or {}
+	SmeB_UI.player_HP_UIs = SmeB_UI.player_HP_UIs or {}
+	SmeB_UI.player_shield_UIs = SmeB_UI.player_shield_UIs or {}
+	SmeB_UI.vehcile_shield_UIs = SmeB_UI.vehcile_shield_UIs or {}
+end
+
+local function on_load()
+	SmeB_UI = global.SmeB_UI
+end
+
+-- local function check_character_on_event(event)
+-- 	if not SmeB_UI.target_characters[event.player_index] then return end
+-- 	local player = game.players[event.player_index]
+-- 	if not (player and player.valid) then return end
+
+-- 	if player.character then
+-- 		SmeB_UI.target_characters[event.player_index] = true
+-- 		update_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
+-- 		update_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
+-- 	else
+-- 		remove_character_data(event.player_index)
+-- 	end
+-- end
+
 local function check_player_on_event(event)
 	local player = game.players[event.player_index]
 	if not (player and player.valid) then return end
 
-	check_player(player)
-	update_player_UI(player)
+	if player.character then
+		SmeB_UI.target_characters[event.player_index] = true
+		update_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
+		update_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
+	else
+		remove_character_data(event.player_index)
+	end
 end
 
 local function on_player_driving_changed_state(event)
-	check_player_on_event(event)
+	local player = game.players[event.player_index]
+	if not (player and player.valid) then return end
+
+	if player.character and not player.vehicle then
+		SmeB_UI.target_characters[player.index] = true
+		update_hp_UI(player, SmeB_UI.player_HP_UIs[player_index])
+		update_shield_UI(player, SmeB_UI.player_shield_UIs[player_index])
+	else
+		remove_character_data(player_index)
+	end
+
 	local vehicle = event.entity
 	if not (vehicle and vehicle.valid and vehicle.grid) then return end
-	local player = game.players[event.player_index]
 	if player.force ~= vehicle.force then return end
 
 	local data = global.SmeB_UI.vehicles_shield
@@ -200,29 +224,28 @@ local function on_runtime_mod_setting_changed(event)
 
 	if event.setting == "SmeB_UI_vehicle_shield_mode" then
 		local value = settings.global[event.setting].value
-		SmeB_UI_vehicle_shield_mode = value
+		vehicle_shield_mode = value
 		show_shield_for_vehicles = variants[value].show_shield_for_vehicles
-		init_shield_UI_to_vehicles = variants[value].init_shield_UI_to_vehicles
-		-- recreate_UIs
-		init_shield_UI_to_vehicles()
+		check_players()
 	elseif event.setting == "SmeB_UI_player_hp_mode" then
 		local value = settings.global[event.setting].value
-		SmeB_UI_player_hp_mode = value
+		player_hp_mode = value
 		update_hp_UI = variants[value].update_hp_UI
-		init_hp_UI_to_players = variants[value].init_hp_UI_to_players
-		-- recreate_UIs
-		init_hp_UI_to_players()
+		check_players()
 	elseif event.setting == "SmeB_UI_player_shield_mode" then
 		local value = settings.global[event.setting].value
-		SmeB_UI_player_shield_mode = value
+		player_shield_mode = value
 		update_shield_UI = variants[value].update_shield_UI
-		init_shield_UI_to_players = variants[value].init_shield_UI_to_players
-		-- recreate_UIs
-		init_shield_UI_to_players()
+		check_players()
 	end
 end
 
+local function remove_character_data_on_event(event)
+	remove_character_data(event.player_index)
+end
+
 module.on_init = update_global_data
+module.on_load = on_load
 module.on_configuration_changed = update_global_data
 module.events = {
 	[defines.events.on_player_driving_changed_state] = on_player_driving_changed_state,
@@ -230,10 +253,10 @@ module.events = {
 	[defines.events.on_player_mined_entity] = on_player_mined_entity,
 	-- [defines.events.on_player_changed_force] = on_player_changed_force,
 	-- [defines.events.on_player_changed_surface] = on_player_changed_surface,
-	[defines.events.on_player_removed] = remove_character_data,
+	[defines.events.on_player_removed] = remove_character_data_on_event,
 	[defines.events.on_player_respawned] = check_player_on_event,
-	[defines.events.on_player_died] = remove_character_data,
-	[defines.events.on_pre_player_left_game] = remove_character_data,
+	[defines.events.on_player_died] = remove_character_data_on_event,
+	[defines.events.on_pre_player_left_game] = remove_character_data_on_event,
 	[defines.events.on_player_joined_game] = check_player_on_event,
 	[defines.events.on_player_created] = check_player_on_event,
 	[defines.events.on_player_toggled_map_editor] = check_player_on_event,

@@ -3,10 +3,6 @@
 
 local bar = {}
 
-bar.init_hp_UI_to_player = function(player)
-	-- ?
-end
-
 local function recreate_hp_UI(player, text, color)
 	local character = player.character
 	global.SmeB_UI.player_HP_UIs[player.index] = rendering.draw_text{
@@ -35,10 +31,6 @@ bar.update_hp_UI = function(player, id)
 		rendering.destroy(id)
 		global.SmeB_UI.player_HP_UIs[player.index] = nil
 	end
-end
-
-bar.init_shield_UI_to_character = function(player)
-	-- ?
 end
 
 local function recreate_shield_UI(player, text, color)
