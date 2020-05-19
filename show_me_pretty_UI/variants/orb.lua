@@ -7,7 +7,7 @@ local function get_orb_raduis_by_ratio(ratio)
 	return 0.23 + ratio * 0.11
 end
 
-local function create_player_hp_UI(player, health)
+local function create_player_hp_UI(player, health, color)
 	local character = player.character
 	SmeB_UI.player_HP_UIs[player.index] = rendering.draw_circle{
 		radius = get_orb_raduis_by_ratio(health),
@@ -28,8 +28,9 @@ orb.update_player_hp_UI = function(player, UI_id)
 		local color = {r = 1 - health, g = health, b = 0, a = 0.8}
 		if UI_id then
 			rendering.set_radius(UI_id, get_orb_raduis_by_ratio(health))
+			rendering.set_color(UI_id, color)
 		else
-			create_player_hp_UI(player, health)
+			create_player_hp_UI(player, health, color)
 		end
 	elseif UI_id then
 		rendering.destroy(UI_id)
