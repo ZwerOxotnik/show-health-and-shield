@@ -3,9 +3,9 @@
 
 local bar = {}
 
-local function create_hp_UI(player, text, color)
+local function create_player_hp_UI(player, text, color)
 	local character = player.character
-	global.SmeB_UI.player_HP_UIs[player.index] = rendering.draw_text{
+	SmeB_UI.player_HP_UIs[player.index] = rendering.draw_text{
 		surface = character.surface,
 		target = character,
 		players = {player},
@@ -16,9 +16,8 @@ local function create_hp_UI(player, text, color)
 	}
 end
 
-bar.update_hp_UI = function(player, UI_id)
-	local character = player.character
-	local health = character.get_health_ratio()
+bar.update_player_hp_UI = function(player, UI_id)
+	local health = player.character.get_health_ratio()
 	if health < 0.98 then
 		local text = string.rep("●", math.ceil(health * 10 + 0.1))
 		local color = {r = 1 - health, g = health, b = 0, a = 0.7}
@@ -26,17 +25,17 @@ bar.update_hp_UI = function(player, UI_id)
 			rendering.set_text(UI_id, text)
 			rendering.set_color(UI_id, color)
 		else
-			create_hp_UI(player, text, color)
+			create_player_hp_UI(player, text, color)
 		end
 	elseif UI_id then
 		rendering.destroy(UI_id)
-		global.SmeB_UI.player_HP_UIs[player.index] = nil
+		SmeB_UI.player_HP_UIs[player.index] = nil
 	end
 end
 
-local function create_shield_UI(player, text, color)
+local function create_player_shield_UI(player, text, color)
 	local character = player.character
-	global.SmeB_UI.player_shield_UIs[player.index] = rendering.draw_text{
+	SmeB_UI.player_shield_UIs[player.index] = rendering.draw_text{
 		text = text,
 		surface = character.surface,
 		target_offset = {0, 0.3},
@@ -48,52 +47,29 @@ local function create_shield_UI(player, text, color)
 	}
 end
 
-bar.update_shield_UI = function(player, UI_id)
-	local character = player.character
-	if character.grid == nil then
-		if UI_id then
-			rendering.destroy(UI_id)
-			SmeB_UI.player_shield_UIs[player.index] = nil
-		end
-		return
-	end
+bar.update_player_shield_UI = function(player, UI_id)
+	local shield_ratio = UI_util.check_character_shield_ratio(player)
+	if shield_ratio == nil then return end
 
-	local shield = 0
-	local max_shield = 0
-	for _, item in pairs(character.grid.equipment) do
-		--if item.max_shield and item.shield then
-			shield = shield + item.shield
-			max_shield = max_shield + item.max_shield
-		--end
-	end
-	if shield == 0 then
+	if shield_ratio < 0.02 then
 		if UI_id then
 			rendering.destroy(UI_id)
 			SmeB_UI.player_shield_UIs[player.index] = nil
 		end
-		return
-	end
-
-	shield = shield / max_shield
-	if shield < 0.02 then
-		if UI_id then
-			rendering.destroy(UI_id)
-			SmeB_UI.player_shield_UIs[player.index] = nil
-		end
-	elseif shield < 0.95 then
+	elseif shield_ratio < 0.95 then
 		local abs = math.abs
-		local text = string.rep("●", math.ceil(shield * 10 + 0.1))
-		shield = abs(shield - 1) -- for purple color
-		local color = {r = abs(shield - 1), g = 0, b = 1 - shield, a = 0.7}
+		local text = string.rep("●", math.ceil(shield_ratio * 10 + 0.1))
+		shield_ratio = abs(shield_ratio - 1) -- for purple color
+		local color = {r = abs(shield_ratio - 1), g = 0, b = 1 - shield_ratio, a = 0.7}
 		if UI_id then
 			rendering.set_text(UI_id, text)
 			rendering.set_color(UI_id, color)
 		else
-			create_hp_UI(player, text, color)
+			create_player_shield_UI(player, text, color)
 		end
 	elseif UI_id then
 		rendering.destroy(UI_id)
-		global.SmeB_UI.player_shield_UIs[player.index] = nil
+		SmeB_UI.player_shield_UIs[player.index] = nil
 	end
 end
 
@@ -114,31 +90,8 @@ local function create_vehicle_shield_UI(vehicle, text, color)
 end
 
 bar.update_vehicle_shield_UI = function(vehicle)
-	local entity = vehicle.entity
-	if entity.grid == nil then
-		if vehicle.UI_id then
-			rendering.destroy(vehicle.UI_id)
-			SmeB_UI.vehicles_shield[entity.unit_number] = nil
-		end
-		return
-	end
-
-	local shield = 0
-	local max_shield = 0
-	for _, item in pairs(entity.grid.equipment) do
-		--if item.max_shield and item.shield then
-			shield = shield + item.shield
-			max_shield = max_shield + item.max_shield
-		--end
-	end
-	if shield == 0 then
-		if vehicle.UI_id then
-			rendering.destroy(vehicle.UI_id)
-			SmeB_UI.vehicles_shield[entity.unit_number] = nil
-		end
-		return
-	end
-	shield = shield / max_shield
+	local shield_ratio = check_vehicle_shield_ratio(vehicle)
+	if shield_ratio == nil then return end
 
 	if shield < 0.02 then
 		if vehicle.UI_id then

@@ -13,12 +13,13 @@ Homepage: https://forums.factorio.com/viewtopic.php?f=190&t=64619
 local module = {}
 module.events = {}
 
+UI_util = require("show_me_pretty_UI/UI_util")
 local variants = require("show_me_pretty_UI/variants/list")
 
 local player_hp_mode = settings.global["SmeB_UI_player_hp_mode"].value
-local update_hp_UI = variants[player_hp_mode].update_hp_UI
+local update_player_hp_UI = variants[player_hp_mode].update_player_hp_UI
 local player_shield_mode = settings.global["SmeB_UI_player_shield_mode"].value
-local update_shield_UI = variants[player_shield_mode].update_shield_UI
+local update_player_shield_UI = variants[player_shield_mode].update_player_shield_UI
 local vehicle_shield_mode = settings.global["SmeB_UI_vehicle_shield_mode"].value
 local update_vehicle_shield_UI = variants[vehicle_shield_mode].update_vehicle_shield_UI
 show_SmeB_UIs_only_in_alt_mode = settings.global["show_SmeB_UIs_only_in_alt_mode"].value or false
@@ -42,8 +43,8 @@ local function update_UIs()
 	for player_index, _ in pairs(SmeB_UI.target_characters) do
 		local player = game.players[player_index]
 		if player and player.valid and player.character then
-			update_hp_UI(player, SmeB_UI.player_HP_UIs[player_index])
-			update_shield_UI(player, SmeB_UI.player_shield_UIs[player_index])
+			update_player_hp_UI(player, SmeB_UI.player_HP_UIs[player_index])
+			update_player_shield_UI(player, SmeB_UI.player_shield_UIs[player_index])
 		else
 			remove_character_data(player_index)
 		end
@@ -67,8 +68,8 @@ local function check_player(player)
 	local character = player.character
 	if character and character.health ~= nil and not player.vehicle then
 		SmeB_UI.target_characters[player.index] = true
-		update_hp_UI(player, SmeB_UI.player_HP_UIs[player.index])
-		update_shield_UI(player, SmeB_UI.player_shield_UIs[player.index])
+		update_player_hp_UI(player, SmeB_UI.player_HP_UIs[player.index])
+		update_player_shield_UI(player, SmeB_UI.player_shield_UIs[player.index])
 	else
 		remove_character_data(player.index)
 	end
@@ -100,8 +101,8 @@ local function check_player_on_event(event)
 
 	if player.character then
 		SmeB_UI.target_characters[event.player_index] = true
-		update_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
-		update_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
+		update_player_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
+		update_player_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
 	else
 		remove_character_data(event.player_index)
 	end
@@ -113,8 +114,8 @@ local function on_player_joined_game(event)
 
 	if player.character and not player.vehicle then
 		SmeB_UI.target_characters[event.player_index] = true
-		update_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
-		update_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
+		update_player_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
+		update_player_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
 	else
 		remove_character_data(event.player_index)
 	end
@@ -126,8 +127,8 @@ local function on_player_driving_changed_state(event)
 
 	if player.character and not player.vehicle then
 		SmeB_UI.target_characters[player.index] = true
-		update_hp_UI(player, SmeB_UI.player_HP_UIs[player_index])
-		update_shield_UI(player, SmeB_UI.player_shield_UIs[player_index])
+		update_player_hp_UI(player, SmeB_UI.player_HP_UIs[player_index])
+		update_player_shield_UI(player, SmeB_UI.player_shield_UIs[player_index])
 	else
 		remove_character_data(event.player_index)
 	end
@@ -226,12 +227,12 @@ local function on_runtime_mod_setting_changed(event)
 	elseif event.setting == "SmeB_UI_player_hp_mode" then
 		local value = settings.global[event.setting].value
 		player_hp_mode = value
-		update_hp_UI = variants[value].update_hp_UI
+		update_player_hp_UI = variants[value].update_player_hp_UI
 		check_players()
 	elseif event.setting == "SmeB_UI_player_shield_mode" then
 		local value = settings.global[event.setting].value
 		player_shield_mode = value
-		update_shield_UI = variants[value].update_shield_UI
+		update_player_shield_UI = variants[value].update_player_shield_UI
 		check_players()
 	elseif event.setting == "show_SmeB_UIs_only_in_alt_mode" then
 		show_SmeB_UIs_only_in_alt_mode = settings.global[event.setting].value
@@ -247,8 +248,8 @@ local function on_player_changed_surface(event)
 	-- TODO: check vehicle
 	if player.character and not player.vehicle then
 		SmeB_UI.target_characters[event.player_index] = true
-		update_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
-		update_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
+		update_player_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
+		update_player_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
 	end
 end
 
