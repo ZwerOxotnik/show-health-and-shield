@@ -2,6 +2,7 @@
 -- Licensed under the EUPL, Version 1.2 only (the "LICENCE");
 
 local symbol = {}
+local abs = math.abs
 
 symbol.show_hp = function(character, target)
 	local health = character.get_health_ratio()
@@ -38,7 +39,6 @@ symbol.show_shield = function(character, target)
 	if shield < 0.02 then
 		return
 	elseif shield < 0.95 then
-		local abs = math.abs
 		shield = abs(shield - 1) -- for purple color
 		local color = {r = abs(shield - 1), g = 0, b = 1 - shield, a = 0.7}
 		rendering.draw_text{
@@ -72,7 +72,6 @@ symbol.show_shield_for_vehicles = function(vehicle, target)
 	if shield < 0.02 then
 		return
 	elseif shield < 0.95 then
-		local abs = math.abs
 		shield = abs(shield - 1) -- for purple color
 		local color = {r = abs(shield - 1), g = 0, b = 1 - shield, a = 0.7}
 		rendering.draw_text{
