@@ -59,9 +59,9 @@ UI.update_player_shield_UI = function(player, UI_id)
 	if shield_ratio == nil then return end
 
 	if shield_ratio < 0.95 and shield_ratio > 0.02 then
-		shield = abs(shield - 1) -- for purple color
-		local color = {r = abs(shield - 1), g = 0, b = 1 - shield, a = 0.7}
-		local text = math.ceil(shield * 100) .. "%"
+		shield_ratio = abs(shield_ratio - 1) -- for purple color
+		local color = {r = abs(shield_ratio - 1), g = 0, b = 1 - shield_ratio, a = 0.7}
+		local text = math.ceil(shield_ratio * 100) .. "%"
 		if UI_id then
 			rendering.set_text(UI_id, text)
 			rendering.set_color(UI_id, color)
@@ -95,16 +95,10 @@ UI.update_vehicle_shield_UI = function(vehicle)
 	local shield_ratio = check_vehicle_shield_ratio(vehicle)
 	if shield_ratio == nil then return end
 
-	if shield_ratio < 0.02 then
-		if vehicle.UI_id then
-			rendering.destroy(vehicle.UI_id)
-			SmeB_UI.vehicles_shield[entity.unit_number] = nil
-		end
-		return
-	elseif shield_ratio < 0.95 then
-		shield = abs(shield - 1) -- for purple color
-		local text = math.ceil(shield * 100) .. "%"
-		local color = {r = abs(shield - 1), g = 0, b = 1 - shield, a = 0.7}
+	if shield_ratio < 0.95 and shield_ratio > 0.02 then
+		shield_ratio = abs(shield_ratio - 1) -- for purple color
+		local text = math.ceil(shield_ratio * 100) .. "%"
+		local color = {r = abs(shield_ratio - 1), g = 0, b = 1 - shield_ratio, a = 0.7}
 		if vehicle.UI_id then
 			rendering.set_text(vehicle.UI_id, text)
 			rendering.set_color(vehicle.UI_id, color)

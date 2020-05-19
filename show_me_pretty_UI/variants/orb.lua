@@ -97,13 +97,7 @@ UI.update_vehicle_shield_UI = function(vehicle)
 	local shield_ratio = check_vehicle_shield_ratio(vehicle)
 	if shield_ratio == nil then return end
 
-	if shield_ratio < 0.02 then
-		if vehicle.UI_id then
-			rendering.destroy(vehicle.UI_id)
-			SmeB_UI.vehicles_shield[entity.unit_number] = nil
-		end
-		return
-	elseif shield < 0.95 then
+	if shield_ratio < 0.95 and shield_ratio > 0.02 then
 		shield_ratio = abs(shield_ratio - 1) -- for purple color
 		local color = {r = abs(shield_ratio - 1), g = 0, b = 1 - shield_ratio, a = 0.7}
 		if vehicle.UI_id then
