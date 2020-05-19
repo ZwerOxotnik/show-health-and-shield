@@ -3,8 +3,11 @@ UI_util = {}
 UI_util.check_character_shield_ratio = function(player)
     local character = player.character
     if character.grid == nil then
-        if UI_id then
-            rendering.destroy(UI_id)
+        local UI_IDs = SmeB_UI.player_shield_UIs[player.index]
+        if UI_IDs then
+            for _, id in pairs(UI_IDs) do
+                rendering.destroy(id)
+            end
             SmeB_UI.player_shield_UIs[player.index] = nil
         end
         return nil
@@ -27,11 +30,14 @@ end
 
 UI_util.check_vehicle_shield_ratio = function(vehicle)
 	local entity = vehicle.entity
-	if entity.grid == nil then
-		if vehicle.UI_id then
-			rendering.destroy(vehicle.UI_id)
-			SmeB_UI.vehicles_shield[entity.unit_number] = nil
-		end
+    if entity.grid == nil then
+        local UI_IDs = SmeB_UI.vehicles_shield[player.index]
+        if UI_IDs then
+            for _, id in pairs(UI_IDs) do
+                rendering.destroy(id)
+            end
+            SmeB_UI.vehicles_shield[player.index] = nil
+        end
 		return nil
 	end
 
