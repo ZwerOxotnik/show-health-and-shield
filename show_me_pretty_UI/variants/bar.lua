@@ -9,11 +9,10 @@ local function create_player_hp_UI(player, text, color)
 	SmeB_UI.player_HP_UIs[player.index] = rendering.draw_text{
 		surface = character.surface,
 		target = character,
-		players = {player},
+		players = (is_SmeB_UI_public and {player}),
 		color = color,
 		text = text,
 		alignment = "center",
-		-- visible = is_SmeB_UI_public,
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	}
 end
@@ -43,9 +42,8 @@ local function create_player_shield_UI(player, text, color)
 		target_offset = {0, 0.3},
 		target = character,
 		color = color,
-		players = {player},
+		players = (is_SmeB_UI_public and {player}),
 		alignment = "center",
-		-- visible = is_SmeB_UI_public,
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	}
 end
@@ -78,7 +76,6 @@ local function create_vehicle_shield_UI(vehicle, text, color)
 		color = color,
 		alignment = "center",
 		scale_with_zoom = true,
-		-- visible = is_SmeB_UI_public,
 		only_in_alt_mode = true
 	}
 

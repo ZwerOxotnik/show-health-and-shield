@@ -17,9 +17,8 @@ local function create_player_hp_UI(player, health, color)
 		start_angle = 3,
 		angle = get_new_angle(health),
 		color = color,
-		players = {player},
+		players = (is_SmeB_UI_public and {player}),
 		alignment = "left",
-		-- visible = is_SmeB_UI_public,
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	}
 end

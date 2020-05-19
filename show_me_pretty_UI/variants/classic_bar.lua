@@ -13,9 +13,8 @@ local function create_player_hp_UI(player, number, color)
 		target = character,
 		target_offset = {-2.085, -2},
 		color = color,
-		players = {target},
+		players = (is_SmeB_UI_public and {player}),
 		alignment = "left",
-		-- visible = is_SmeB_UI_public,
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	})
 	table.insert(SmeB_UI.player_HP_UIs[player.index], rendering.draw_text{
@@ -25,9 +24,8 @@ local function create_player_hp_UI(player, number, color)
 		target = character,
 		target_offset = {2.085, -2},
 		color = {r = 0, g = 0, b = 0, a = 0.7},
-		players = {target},
+		players = (is_SmeB_UI_public and {player}),
 		alignment = "right",
-		-- visible = is_SmeB_UI_public,
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	})
 end

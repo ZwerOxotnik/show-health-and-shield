@@ -11,10 +11,9 @@ local function create_player_hp_UI(player, text, color)
 		target = character,
 		target_offset = {0, 0.2},
 		color = color,
-		players = {player},
+		players = (is_SmeB_UI_public and {player}),
 		alignment = "center",
 		scale_with_zoom = true,
-		-- visible = is_SmeB_UI_public,
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	}
 end
