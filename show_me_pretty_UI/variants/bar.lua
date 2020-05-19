@@ -1,7 +1,7 @@
 -- Copyright (C) 2018-2020 ZwerOxotnik <zweroxotnik@gmail.com>
 -- Licensed under the EUPL, Version 1.2 only (the "LICENCE");
 
-local bar = {}
+local UI = {}
 
 local function create_player_hp_UI(player, text, color)
 	local character = player.character
@@ -12,12 +12,12 @@ local function create_player_hp_UI(player, text, color)
 		color = color,
 		text = text,
 		alignment = "center",
-		visible = is_SmeB_UI_public,
+		-- visible = is_SmeB_UI_public,
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	}
 end
 
-bar.update_player_hp_UI = function(player, UI_id)
+UI.update_player_hp_UI = function(player, UI_id)
 	local health = player.character.get_health_ratio()
 	if health < 0.98 then
 		local text = string.rep("●", math.ceil(health * 10 + 0.1))
@@ -44,12 +44,12 @@ local function create_player_shield_UI(player, text, color)
 		color = color,
 		players = {player},
 		alignment = "center",
-		visible = is_SmeB_UI_public,
+		-- visible = is_SmeB_UI_public,
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	}
 end
 
-bar.update_player_shield_UI = function(player, UI_id)
+UI.update_player_shield_UI = function(player, UI_id)
 	local shield_ratio = UI_util.check_character_shield_ratio(player)
 	if shield_ratio == nil then return end
 
@@ -83,7 +83,7 @@ local function create_vehicle_shield_UI(vehicle, text, color)
 		color = color,
 		alignment = "center",
 		scale_with_zoom = true,
-		visible = is_SmeB_UI_public,
+		-- visible = is_SmeB_UI_public,
 		only_in_alt_mode = true
 	}
 
@@ -92,7 +92,7 @@ local function create_vehicle_shield_UI(vehicle, text, color)
 	end
 end
 
-bar.update_vehicle_shield_UI = function(vehicle)
+UI.update_vehicle_shield_UI = function(vehicle)
 	local shield_ratio = check_vehicle_shield_ratio(vehicle)
 	if shield_ratio == nil then return end
 
@@ -121,4 +121,4 @@ bar.update_vehicle_shield_UI = function(vehicle)
 	end
 end
 
-return bar
+return UI

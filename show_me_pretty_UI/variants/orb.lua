@@ -1,7 +1,7 @@
 -- Copyright (C) 2018-2020 ZwerOxotnik <zweroxotnik@gmail.com>
 -- Licensed under the EUPL, Version 1.2 only (the "LICENCE");
 
-local orb = {}
+local UI = {}
 
 local function get_orb_raduis_by_ratio(ratio)
 	return 0.23 + ratio * 0.11
@@ -18,12 +18,12 @@ local function create_player_hp_UI(player, health, color)
 		players = {player},
 		target_offset = {-1.0, -1.0},
 		scale_with_zoom = true,
-		visible = is_SmeB_UI_public,
+		-- visible = is_SmeB_UI_public,
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	}
 end
 
-orb.update_player_hp_UI = function(player, UI_id)
+UI.update_player_hp_UI = function(player, UI_id)
 	local health = player.character.get_health_ratio()
 	if health < 0.98 then
 		local color = {r = 1 - health, g = health, b = 0, a = 0.8}
@@ -50,12 +50,12 @@ local function create_player_shield_UI(player, shield_ratio)
 		players = {player},
 		target_offset = {1.0, -1.0},
 		scale_with_zoom = true,
-		visible = is_SmeB_UI_public,
+		-- visible = is_SmeB_UI_public,
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	}
 end
 
-orb.update_player_shield_UI = function(player, UI_id)
+UI.update_player_shield_UI = function(player, UI_id)
 	local shield_ratio = UI_util.check_character_shield_ratio(player)
 	if shield_ratio == nil then return end
 
@@ -89,7 +89,7 @@ local function create_vehicle_shield_UI(vehicle, shield, color)
 		color = color,
 		target_offset = {1.0, -1.0},
 		scale_with_zoom = true,
-		visible = is_SmeB_UI_public,
+		-- visible = is_SmeB_UI_public,
 		only_in_alt_mode = true
 	}
 
@@ -98,7 +98,7 @@ local function create_vehicle_shield_UI(vehicle, shield, color)
 	end
 end
 
-orb.update_vehicle_shield_UI = function(vehicle)
+UI.update_vehicle_shield_UI = function(vehicle)
 	local shield_ratio = check_vehicle_shield_ratio(vehicle)
 	if shield_ratio == nil then return end
 
@@ -126,7 +126,7 @@ orb.update_vehicle_shield_UI = function(vehicle)
 	end
 end
 
-orb.show_mana = function(player, target)
+UI.show_mana = function(player, target)
 	local mana = remote.call("spell-pack", "getstats", player).pctmana
 	if mana < 0.98 then
 		local color = {r = 1 - mana, g = mana, b = 0, a = 0.8}
@@ -145,7 +145,7 @@ orb.show_mana = function(player, target)
 	end
 end
 
-orb.show_spirit = function(player, target)
+UI.show_spirit = function(player, target)
 	local spirit = remote.call("spell-pack", "getstats", player).pctspirit
 	if spirit > 0 and spirit < 0.98 then
 		local color = {r = 1 - spirit, g = spirit, b = 0, a = 0.8}
@@ -164,4 +164,4 @@ orb.show_spirit = function(player, target)
 	end
 end
 
-return orb
+return UI
