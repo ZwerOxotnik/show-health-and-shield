@@ -16,7 +16,7 @@ local function create_player_hp_UI(player, health, color)
 		surface = character.surface,
 		target = character,
 		color = color,
-		players = (is_SmeB_UI_public and {player}),
+		players = (is_SmeB_UI_public and {player}) or nil,
 		target_offset = {-1.0, -1.0},
 		scale_with_zoom = true,
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
@@ -47,7 +47,7 @@ local function create_player_shield_UI(player, shield_ratio)
 		surface = character.surface,
 		target = character,
 		color = color,
-		players = (is_SmeB_UI_public and {player}),
+		players = (is_SmeB_UI_public and {player}) or nil,
 		target_offset = {1.0, -1.0},
 		scale_with_zoom = true,
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode

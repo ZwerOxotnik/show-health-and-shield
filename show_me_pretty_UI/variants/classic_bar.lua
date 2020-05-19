@@ -13,7 +13,7 @@ local function create_player_hp_UI(player, number, color)
 		target = character,
 		target_offset = {-2.085, -2},
 		color = color,
-		players = (is_SmeB_UI_public and {player}),
+		players = (is_SmeB_UI_public and {player}) or nil,
 		alignment = "left",
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	})
@@ -24,7 +24,7 @@ local function create_player_hp_UI(player, number, color)
 		target = character,
 		target_offset = {2.085, -2},
 		color = {r = 0, g = 0, b = 0, a = 0.7},
-		players = (is_SmeB_UI_public and {player}),
+		players = (is_SmeB_UI_public and {player}) or nil,
 		alignment = "right",
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	})

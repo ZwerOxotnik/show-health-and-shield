@@ -9,7 +9,7 @@ local function create_player_hp_UI(player, text, color)
 	SmeB_UI.player_HP_UIs[player.index] = rendering.draw_text{
 		surface = character.surface,
 		target = character,
-		players = (is_SmeB_UI_public and {player}),
+		players = (is_SmeB_UI_public and {player}) or nil,
 		color = color,
 		text = text,
 		alignment = "center",
@@ -42,7 +42,7 @@ local function create_player_shield_UI(player, text, color)
 		target_offset = {0, 0.3},
 		target = character,
 		color = color,
-		players = (is_SmeB_UI_public and {player}),
+		players = (is_SmeB_UI_public and {player}) or nil,
 		alignment = "center",
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	}
