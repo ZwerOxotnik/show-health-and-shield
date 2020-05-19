@@ -1,11 +1,11 @@
 -- Copyright (C) 2018-2020 ZwerOxotnik <zweroxotnik@gmail.com>
 -- Licensed under the EUPL, Version 1.2 only (the "LICENCE");
+local UI = {}
 
 local function get_new_angle(health)
 	return health * 3.4
 end
 
-local UI = {}
 local function create_player_hp_UI(player, health, color)
 	local character = player.character
 	SmeB_UI.player_HP_UIs[player.index] = rendering.draw_arc{
