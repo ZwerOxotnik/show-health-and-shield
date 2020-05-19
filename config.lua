@@ -16,7 +16,7 @@ CONFIG.UI_SETTINGS = {
 	},
 	{
 		name = "vehicle_shield",
-		default_value = "percentage",
+		default_value = "nothing",
 		allowed_values = {"bar", "symbol", "percentage", "nothing", "orb"}
 	},
 }

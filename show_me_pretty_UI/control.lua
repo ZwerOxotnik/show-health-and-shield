@@ -277,7 +277,7 @@ module.events = {
 module.on_nth_tick = {
 	[settings.startup["SmeB_update_UIs_on_nth_tick"].value] = update_UIs,
 	[CONFIG.CHECK_VEHICLES_ON_Nth_TICK] = module.check_vehicles,
-	-- [CONFIG.TICKS_FOR_CHEKING_OF_CHARACTERS] = module.check_players
+	[CONFIG.TICKS_FOR_CHEKING_OF_CHARACTERS] = module.check_players
 }
 
 return module
