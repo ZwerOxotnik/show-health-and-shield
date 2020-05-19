@@ -37,7 +37,7 @@ Several types of individual display.
 
 | Desription | Parameters | (Default) |
 | ---------- | ---------- |  -------- |
-| Display mode of player health | ["health bar", "heart symbol", "percentage", "amount", "help me", "nothing", "arc", "test_bar", "orb"] | health bar |
+| Display mode of player health | ["health bar", "heart symbol", "percentage", "amount", "help me", "nothing", "arc", "classic_bar", "orb"] | health bar |
 | Display mode of shield player | ["shield bar", "diamond symbol", "percentage", "nothing", "orb"] | shield bar |
 | Display mode of shield vehicle    | ["shield bar", "diamond symbol", "percentage", "nothing", "orb"] | percentage |
 

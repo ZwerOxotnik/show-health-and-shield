@@ -7,7 +7,7 @@ CONFIG.UI_SETTINGS = {
 	{
 		name = "player_hp",
 		default_value = "bar",
-		allowed_values = {"bar", "symbol", "percentage", "amount", "help_me", "nothing", "arc", "test_bar", "orb"}
+		allowed_values = {"bar", "symbol", "percentage", "amount", "help_me", "nothing", "arc", "classic_bar", "orb"}
 	},
 	{
 		name = "player_shield",
