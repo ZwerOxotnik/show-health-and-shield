@@ -95,25 +95,24 @@ local function on_load()
 	SmeB_UI = global.SmeB_UI
 end
 
--- local function check_character_on_event(event)
--- 	if not SmeB_UI.target_characters[event.player_index] then return end
--- 	local player = game.players[event.player_index]
--- 	if not (player and player.valid) then return end
-
--- 	if player.character then
--- 		SmeB_UI.target_characters[event.player_index] = true
--- 		update_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
--- 		update_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
--- 	else
--- 		remove_character_data(event.player_index)
--- 	end
--- end
-
 local function check_player_on_event(event)
 	local player = game.players[event.player_index]
 	if not (player and player.valid) then return end
 
 	if player.character then
+		SmeB_UI.target_characters[event.player_index] = true
+		update_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
+		update_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
+	else
+		remove_character_data(event.player_index)
+	end
+end
+
+local function on_player_joined_game(event)
+	local player = game.players[event.player_index]
+	if not (player and player.valid) then return end
+
+	if player.character and not player.vehicle then
 		SmeB_UI.target_characters[event.player_index] = true
 		update_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
 		update_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
@@ -240,6 +239,19 @@ local function on_runtime_mod_setting_changed(event)
 	end
 end
 
+local function on_player_changed_surface(event)
+	remove_character_data(event.player_index)
+	local player = game.players[event.player_index]
+	if not (player and player.valid) then return end
+
+	-- TODO: check vehicle
+	if player.character and not player.vehicle then
+		SmeB_UI.target_characters[event.player_index] = true
+		update_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
+		update_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
+	end
+end
+
 local function remove_character_data_on_event(event)
 	remove_character_data(event.player_index)
 end
@@ -252,12 +264,12 @@ module.events = {
 	[defines.events.on_selected_entity_changed] = on_selected_entity_changed,
 	[defines.events.on_player_mined_entity] = on_player_mined_entity,
 	-- [defines.events.on_player_changed_force] = on_player_changed_force,
-	-- [defines.events.on_player_changed_surface] = on_player_changed_surface,
+	[defines.events.on_player_changed_surface] = on_player_changed_surface,
 	[defines.events.on_player_removed] = remove_character_data_on_event,
 	[defines.events.on_player_respawned] = check_player_on_event,
 	[defines.events.on_player_died] = remove_character_data_on_event,
 	[defines.events.on_pre_player_left_game] = remove_character_data_on_event,
-	[defines.events.on_player_joined_game] = check_player_on_event,
+	[defines.events.on_player_joined_game] = on_player_joined_game,
 	[defines.events.on_player_created] = check_player_on_event,
 	[defines.events.on_player_toggled_map_editor] = check_player_on_event,
 	-- [defines.events.on_player_toggled_alt_mode] = on_player_toggled_alt_mode,
