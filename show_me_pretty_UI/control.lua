@@ -15,12 +15,12 @@ module.events = {}
 
 local variants = require("show_me_pretty_UI/variants/list")
 
-local vehicle_shield_mode = settings.global["SmeB_UI_vehicle_shield_mode"].value
-local show_shield_for_vehicles = variants[vehicle_shield_mode].show_shield_for_vehicles
 local player_hp_mode = settings.global["SmeB_UI_player_hp_mode"].value
 local update_hp_UI = variants[player_hp_mode].update_hp_UI
 local player_shield_mode = settings.global["SmeB_UI_player_shield_mode"].value
 local update_shield_UI = variants[player_shield_mode].update_shield_UI
+local vehicle_shield_mode = settings.global["SmeB_UI_vehicle_shield_mode"].value
+local update_vehicle_shield_UI = variants[vehicle_shield_mode].update_vehicle_shield_UI
 
 local function remove_character_data(player_index)
 	SmeB_UI.target_characters[player_index] = nil
@@ -48,15 +48,13 @@ local function update_UIs()
 		end
 	end
 
-	-- for vehicle_index, vehicle in pairs(SmeB_UI.vehicles_shield) do
-	-- 	if vehicle.entity.valid then
-	-- 		for _, player in pairs(vehicle.entity.force.connected_players) do
-	-- 			show_shield_for_vehicles(vehicle, player)
-	-- 		end
-	-- 	else
-	-- 		SmeB_UI.vehicles_shield[vehicle_index] = nil
-	-- 	end
-	-- end
+	for vehicle_index, vehicle in pairs(SmeB_UI.vehicles_shield) do
+		if vehicle.entity.valid then
+			update_vehicle_shield_UI(vehicle)
+		else
+			SmeB_UI.vehicles_shield[vehicle_index] = nil
+		end
+	end
 end
 
 local function check_player(player)
@@ -130,24 +128,23 @@ local function on_player_driving_changed_state(event)
 		update_hp_UI(player, SmeB_UI.player_HP_UIs[player_index])
 		update_shield_UI(player, SmeB_UI.player_shield_UIs[player_index])
 	else
-		remove_character_data(player_index)
+		remove_character_data(event.player_index)
 	end
 
 	local vehicle = event.entity
 	if not (vehicle and vehicle.valid and vehicle.grid) then return end
 	if player.force ~= vehicle.force then return end
 
-	local data = global.SmeB_UI.vehicles_shield
+	local data = SmeB_UI.vehicles_shield
 	if data[vehicle.unit_number] == nil then
-		data[vehicle.unit_number] = {entity = vehicle, tick = event.tick}
+		update_vehicle_shield_UI({entity = vehicle})
 	else
 		data[vehicle.unit_number].tick = event.tick
 	end
 end
 
 module.check_vehicles = function()
-	local data = global.SmeB_UI
-	for index, vehicle in pairs(data.vehicles_shield) do
+	for index, vehicle in pairs(SmeB_UI.vehicles_shield) do
 		if vehicle.entity.valid then
 			if vehicle.tick + CONFIG.TICKS_FOR_VEHICLE < game.tick then
 				local entity = vehicle.entity
@@ -168,7 +165,7 @@ module.check_vehicles = function()
 							alignment = "center",
 							scale_with_zoom = true
 						}
-						data.vehicles_shield[index] = nil
+						SmeB_UI.vehicles_shield[index] = nil
 					end
 				else
 					local driver = entity.get_driver()
@@ -185,12 +182,12 @@ module.check_vehicles = function()
 							alignment = "center",
 							scale_with_zoom = true
 						}
-						data.vehicles_shield[index] = nil
+						SmeB_UI.vehicles_shield[index] = nil
 					end
 				end
 			end
 		else
-			data.vehicles_shield[index] = nil
+			SmeB_UI.vehicles_shield[index] = nil
 		end
 	end
 end
@@ -199,7 +196,7 @@ local function on_player_mined_entity(event)
 	local entity = event.entity
 	if not entity.grid then return end
 
-	global.SmeB_UI.vehicles_shield[tostring(entity.unit_number)] = nil
+	SmeB_UI.vehicles_shield[tostring(entity.unit_number)] = nil
 end
 
 local function on_selected_entity_changed(event)
@@ -210,11 +207,10 @@ local function on_selected_entity_changed(event)
 	if player.force ~= entity.force then return end
 	if entity.type == "character" then return end
 
-	local data = global.SmeB_UI
-	if data.vehicles_shield[entity.unit_number] == nil then
-		data.vehicles_shield[entity.unit_number] = {entity = entity, tick = event.tick} -- TODO: test it
+	if SmeB_UI.vehicles_shield[entity.unit_number] == nil then
+		update_vehicle_shield_UI({entity = entity})
 	else
-		data.vehicles_shield[entity.unit_number].tick = event.tick
+		SmeB_UI.vehicles_shield[entity.unit_number].tick = event.tick
 	end
 end
 
@@ -224,7 +220,7 @@ local function on_runtime_mod_setting_changed(event)
 	if event.setting == "SmeB_UI_vehicle_shield_mode" then
 		local value = settings.global[event.setting].value
 		vehicle_shield_mode = value
-		show_shield_for_vehicles = variants[value].show_shield_for_vehicles
+		update_vehicle_shield_UI = variants[value].update_vehicle_shield_UI
 		check_players()
 	elseif event.setting == "SmeB_UI_player_hp_mode" then
 		local value = settings.global[event.setting].value
@@ -263,7 +259,6 @@ module.events = {
 	[defines.events.on_player_driving_changed_state] = on_player_driving_changed_state,
 	[defines.events.on_selected_entity_changed] = on_selected_entity_changed,
 	[defines.events.on_player_mined_entity] = on_player_mined_entity,
-	-- [defines.events.on_player_changed_force] = on_player_changed_force,
 	[defines.events.on_player_changed_surface] = on_player_changed_surface,
 	[defines.events.on_player_removed] = remove_character_data_on_event,
 	[defines.events.on_player_respawned] = check_player_on_event,
@@ -278,7 +273,7 @@ module.events = {
 module.on_nth_tick = {
 	[settings.startup["SmeB_update_UIs_on_nth_tick"].value] = update_UIs,
 	[CONFIG.CHECK_VEHICLES_ON_Nth_TICK] = module.check_vehicles,
-	[CONFIG.TICKS_FOR_CHEKING_OF_CHARACTERS] = module.check_players
+	-- [CONFIG.TICKS_FOR_CHEKING_OF_CHARACTERS] = module.check_players
 }
 
 return module
