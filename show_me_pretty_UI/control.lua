@@ -21,6 +21,7 @@ local player_shield_mode = settings.global["SmeB_UI_player_shield_mode"].value
 local update_shield_UI = variants[player_shield_mode].update_shield_UI
 local vehicle_shield_mode = settings.global["SmeB_UI_vehicle_shield_mode"].value
 local update_vehicle_shield_UI = variants[vehicle_shield_mode].update_vehicle_shield_UI
+show_SmeB_UIs_only_in_alt_mode = settings.global["show_SmeB_UIs_only_in_alt_mode"].value or false
 
 local function remove_character_data(player_index)
 	SmeB_UI.target_characters[player_index] = nil
@@ -232,6 +233,9 @@ local function on_runtime_mod_setting_changed(event)
 		player_shield_mode = value
 		update_shield_UI = variants[value].update_shield_UI
 		check_players()
+	elseif event.setting == "show_SmeB_UIs_only_in_alt_mode" then
+		show_SmeB_UIs_only_in_alt_mode = settings.global[event.setting].value
+		--TODO: changes UIs
 	end
 end
 

@@ -31,6 +31,12 @@ data:extend({
   },
   {
     type = "bool-setting",
+    name = "show_SmeB_UIs_only_in_alt_mode",
+    setting_type = "runtime-global",
+    default_value = false
+  },
+  {
+    type = "bool-setting",
     name = "SmeB_UI_spell_pack_switcher",
     setting_type = "runtime-global",
     default_value = true

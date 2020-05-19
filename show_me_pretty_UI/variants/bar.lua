@@ -11,7 +11,8 @@ local function create_hp_UI(player, text, color)
 		players = {player},
 		color = color,
 		text = text,
-		alignment = "center"
+		alignment = "center",
+		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	}
 end
 
@@ -42,7 +43,8 @@ local function create_shield_UI(player, text, color)
 		target = character,
 		color = color,
 		players = {player},
-		alignment = "center"
+		alignment = "center",
+		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	}
 end
 
