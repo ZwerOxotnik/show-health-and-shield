@@ -13,16 +13,17 @@ Homepage: https://forums.factorio.com/viewtopic.php?f=190&t=64619
 local module = {}
 module.events = {}
 
-UI_util = require("show_me_pretty_UI/UI_util")
-local variants = require("show_me_pretty_UI/variants/list")
-
 local player_hp_mode = settings.global["SmeB_UI_player_hp_mode"].value
 local update_player_hp_UI = variants[player_hp_mode].update_player_hp_UI
 local player_shield_mode = settings.global["SmeB_UI_player_shield_mode"].value
 local update_player_shield_UI = variants[player_shield_mode].update_player_shield_UI
 local vehicle_shield_mode = settings.global["SmeB_UI_vehicle_shield_mode"].value
 local update_vehicle_shield_UI = variants[vehicle_shield_mode].update_vehicle_shield_UI
-show_SmeB_UIs_only_in_alt_mode = settings.global["show_SmeB_UIs_only_in_alt_mode"].value or false
+show_SmeB_UIs_only_in_alt_mode = settings.global["show_SmeB_UIs_only_in_alt_mode"].value
+is_SmeB_UI_public = settings.global["is_SmeB_UI_public"].value
+
+UI_util = require("show_me_pretty_UI/UI_util")
+local variants = require("show_me_pretty_UI/variants/list")
 
 local function remove_character_data(player_index)
 	SmeB_UI.target_characters[player_index] = nil
@@ -236,6 +237,9 @@ local function on_runtime_mod_setting_changed(event)
 		check_players()
 	elseif event.setting == "show_SmeB_UIs_only_in_alt_mode" then
 		show_SmeB_UIs_only_in_alt_mode = settings.global[event.setting].value
+		--TODO: changes UIs
+	elseif event.setting == "is_SmeB_UI_public" then
+		is_SmeB_UI_public = settings.global[event.setting].value
 		--TODO: changes UIs
 	end
 end

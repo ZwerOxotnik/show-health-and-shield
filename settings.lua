@@ -17,8 +17,6 @@ local function create_UI_settings(settings)
 end
 create_UI_settings(CONFIG.UI_SETTINGS)
 
--- Do show in alt mode?
-
 -- Settings for "Spell pack" mod
 data:extend({
   {
@@ -28,6 +26,12 @@ data:extend({
     minimum_value = 1,
     maximum_value = 600,
     default_value = 60,
+  },
+  {
+    type = "bool-setting",
+    name = "is_SmeB_UI_public",
+    setting_type = "runtime-global",
+    default_value = false
   },
   {
     type = "bool-setting",

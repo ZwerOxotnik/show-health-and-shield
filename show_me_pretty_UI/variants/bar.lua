@@ -12,6 +12,7 @@ local function create_player_hp_UI(player, text, color)
 		color = color,
 		text = text,
 		alignment = "center",
+		visible = is_SmeB_UI_public,
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	}
 end
@@ -43,6 +44,7 @@ local function create_player_shield_UI(player, text, color)
 		color = color,
 		players = {player},
 		alignment = "center",
+		visible = is_SmeB_UI_public,
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	}
 end
@@ -81,6 +83,7 @@ local function create_vehicle_shield_UI(vehicle, text, color)
 		color = color,
 		alignment = "center",
 		scale_with_zoom = true,
+		visible = is_SmeB_UI_public,
 		only_in_alt_mode = true
 	}
 

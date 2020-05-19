@@ -18,6 +18,7 @@ local function create_player_hp_UI(player, health, color)
 		players = {player},
 		target_offset = {-1.0, -1.0},
 		scale_with_zoom = true,
+		visible = is_SmeB_UI_public,
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	}
 end
@@ -49,6 +50,7 @@ local function create_player_shield_UI(player, shield_ratio)
 		players = {player},
 		target_offset = {1.0, -1.0},
 		scale_with_zoom = true,
+		visible = is_SmeB_UI_public,
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
 	}
 end
@@ -87,6 +89,7 @@ local function create_vehicle_shield_UI(vehicle, shield, color)
 		color = color,
 		target_offset = {1.0, -1.0},
 		scale_with_zoom = true,
+		visible = is_SmeB_UI_public,
 		only_in_alt_mode = true
 	}
 
