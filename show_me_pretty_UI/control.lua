@@ -27,14 +27,26 @@ is_SmeB_UI_public = settings.global["is_SmeB_UI_public"].value
 
 local function remove_character_data(player_index)
 	SmeB_UI.target_characters[player_index] = nil
-	local ID = SmeB_UI.player_HP_UIs[player_index]
-	if ID then
-		rendering.destroy(ID)
+	local IDs = SmeB_UI.player_HP_UIs[player_index]
+	if IDs then
+		if type(IDs) == "table" then
+			for _, id in pairs(IDs) do
+                rendering.destroy(id)
+            end
+		else
+			rendering.destroy(IDs)
+		end
 		SmeB_UI.player_HP_UIs[player_index] = nil
 	end
-	local ID = SmeB_UI.player_shield_UIs[player_index]
-	if ID then
-		rendering.destroy(ID)
+	local IDs = SmeB_UI.player_shield_UIs[player_index]
+	if IDs then
+		if type(IDs) == "table" then
+			for _, id in pairs(IDs) do
+                rendering.destroy(id)
+            end
+		else
+			rendering.destroy(IDs)
+		end
 		SmeB_UI.player_shield_UIs[player_index] = nil
 	end
 end
