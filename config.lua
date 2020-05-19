@@ -5,17 +5,17 @@ CONFIG.TICKS_FOR_VEHICLE = 60 * 60 * 1.5
 CONFIG.CHECK_VEHICLES_ON_Nth_TICK = CONFIG.TICKS_FOR_VEHICLE / 3
 CONFIG.UI_SETTINGS = {
 	{
-		name = "player_hp",
+		name = "symbol",
 		default_value = "bar",
 		allowed_values = {"bar", "symbol", "percentage", "amount", "help_me", "nothing", "arc", "classic_bar", "orb"}
 	},
 	{
-		name = "player_shield",
+		name = "symbol",
 		default_value = "bar",
 		allowed_values = {"bar", "symbol", "percentage", "nothing", "orb"}
 	},
 	{
-		name = "vehicle_shield",
+		name = "symbol",
 		default_value = "nothing",
 		allowed_values = {"bar", "symbol", "percentage", "nothing", "orb"}
 	},

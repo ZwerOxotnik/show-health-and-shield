@@ -257,19 +257,25 @@ local function on_runtime_mod_setting_changed(event)
 		local value = settings.global[event.setting].value
 		vehicle_shield_mode = value
 		update_vehicle_shield_UI = UI_variants[value].update_vehicle_shield_UI
-		clear_vehicles_shield(player_index)
+		for player_index, _ in pairs(SmeB_UI.vehicles_shield) do
+			clear_vehicles_shield(player_index)
+		end
 		check_players()
 	elseif event.setting == "SmeB_UI_player_hp_mode" then
 		local value = settings.global[event.setting].value
 		player_hp_mode = value
 		update_player_hp_UI = UI_variants[value].update_player_hp_UI
-		clear_player_HP_UIs(player_index)
+		for player_index, _ in pairs(SmeB_UI.player_HP_UIs) do
+			clear_player_HP_UIs(player_index)
+		end
 		check_players()
 	elseif event.setting == "SmeB_UI_player_shield_mode" then
 		local value = settings.global[event.setting].value
 		player_shield_mode = value
 		update_player_shield_UI = UI_variants[value].update_player_shield_UI
-		clear_player_shield_UIs(player_index)
+		for player_index, _ in pairs(SmeB_UI.player_shield_UIs) do
+			clear_player_shield_UIs(player_index)
+		end
 		check_players()
 	elseif event.setting == "show_SmeB_UIs_only_in_alt_mode" then
 		show_SmeB_UIs_only_in_alt_mode = settings.global[event.setting].value
