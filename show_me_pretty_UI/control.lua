@@ -25,8 +25,7 @@ local update_vehicle_shield_UI = UI_variants[vehicle_shield_mode].update_vehicle
 show_SmeB_UIs_only_in_alt_mode = settings.global["show_SmeB_UIs_only_in_alt_mode"].value
 is_SmeB_UI_public = settings.global["is_SmeB_UI_public"].value
 
-local function remove_character_data(player_index)
-	SmeB_UI.target_characters[player_index] = nil
+local function clear_player_HP_UIs(player_index)
 	local IDs = SmeB_UI.player_HP_UIs[player_index]
 	if IDs then
 		if type(IDs) == "table" then
@@ -38,6 +37,9 @@ local function remove_character_data(player_index)
 		end
 		SmeB_UI.player_HP_UIs[player_index] = nil
 	end
+end
+
+local function clear_player_shield_UIs(player_index)
 	local IDs = SmeB_UI.player_shield_UIs[player_index]
 	if IDs then
 		if type(IDs) == "table" then
@@ -51,6 +53,25 @@ local function remove_character_data(player_index)
 	end
 end
 
+local function clear_vehicles_shield(player_index)
+	local IDs = SmeB_UI.vehicles_shield[player_index]
+	if IDs then
+		if type(IDs) == "table" then
+			for _, id in pairs(IDs) do
+                rendering.destroy(id)
+            end
+		else
+			rendering.destroy(IDs)
+		end
+		SmeB_UI.vehicles_shield[player_index] = nil
+	end
+end
+
+local function remove_character_data(player_index)
+	SmeB_UI.target_characters[player_index] = nil
+	clear_player_HP_UIs(player_index)
+	clear_player_shield_UIs(player_index)
+end
 
 local function update_UIs()
 	for player_index, _ in pairs(SmeB_UI.target_characters) do
@@ -236,16 +257,19 @@ local function on_runtime_mod_setting_changed(event)
 		local value = settings.global[event.setting].value
 		vehicle_shield_mode = value
 		update_vehicle_shield_UI = UI_variants[value].update_vehicle_shield_UI
+		clear_vehicles_shield(player_index)
 		check_players()
 	elseif event.setting == "SmeB_UI_player_hp_mode" then
 		local value = settings.global[event.setting].value
 		player_hp_mode = value
 		update_player_hp_UI = UI_variants[value].update_player_hp_UI
+		clear_player_HP_UIs(player_index)
 		check_players()
 	elseif event.setting == "SmeB_UI_player_shield_mode" then
 		local value = settings.global[event.setting].value
 		player_shield_mode = value
 		update_player_shield_UI = UI_variants[value].update_player_shield_UI
+		clear_player_shield_UIs(player_index)
 		check_players()
 	elseif event.setting == "show_SmeB_UIs_only_in_alt_mode" then
 		show_SmeB_UIs_only_in_alt_mode = settings.global[event.setting].value
