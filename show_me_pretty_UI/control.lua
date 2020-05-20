@@ -22,10 +22,39 @@ local player_shield_mode = settings.global["SmeB_UI_player_shield_mode"].value
 local update_player_shield_UI = UI_variants[player_shield_mode].update_player_shield_UI
 local vehicle_shield_mode = settings.global["SmeB_UI_vehicle_shield_mode"].value
 local update_vehicle_shield_UI = UI_variants[vehicle_shield_mode].update_vehicle_shield_UI
+local player_mana_mode = (settings.global["SmeB_UI_player_mana_mode"] and settings.global["SmeB_UI_player_mana_mode"].value) or "nothing"
+local update_player_mana_UI = UI_variants[vehicle_shield_mode].update_vehicle_shield_UI
+local player_spiri_mode = (settings.global["SmeB_UI_player_spirit_mode"] and settings.global["SmeB_UI_player_spirit_mode"].value) or "nothing"
+local update_player_spirit_UI = UI_variants[vehicle_shield_mode].update_vehicle_shield_UI
 show_SmeB_UIs_only_in_alt_mode = settings.global["show_SmeB_UIs_only_in_alt_mode"].value
 is_SmeB_UI_public = settings.global["is_SmeB_UI_public"].value
+is_SmeB_magic_UI_public = settings.global["is_SmeB_magic_UI_public"].value
 
-local function clear_player_HP_UIs(player_index)
+local function check_spell_pack_mod()
+	local interface_name = "spell-pack"
+
+	if not (remote.interfaces[interface_name] and remote.interfaces[interface_name]["getstats"]) then
+		return
+	else
+		-- WIP
+		remote.call("spell-pack", "togglebars", "show-health-and-shield", false)
+	end
+end
+
+local function update_global_data()
+	global.SmeB_UI = global.SmeB_UI or {}
+	SmeB_UI = global.SmeB_UI
+	SmeB_UI.vehicles_shield = SmeB_UI.vehicles_shield or {}
+	SmeB_UI.target_characters = SmeB_UI.target_characters or {}
+	SmeB_UI.player_HP_UIs = SmeB_UI.player_HP_UIs or {}
+	SmeB_UI.player_shield_UIs = SmeB_UI.player_shield_UIs or {}
+	SmeB_UI.vehcile_shield_UIs = SmeB_UI.vehcile_shield_UIs or {}
+	SmeB_UI.player_mana_UIs = SmeB_UI.player_mana_UIs or {}
+	SmeB_UI.player_spirit_UIs = SmeB_UI.player_spirit_UIs or {}
+	check_spell_pack_mod()
+end
+
+local function destroy_player_HP_UIs(player_index)
 	local IDs = SmeB_UI.player_HP_UIs[player_index]
 	if IDs then
 		if type(IDs) == "table" then
@@ -39,7 +68,7 @@ local function clear_player_HP_UIs(player_index)
 	end
 end
 
-local function clear_player_shield_UIs(player_index)
+local function destroy_player_shield_UIs(player_index)
 	local IDs = SmeB_UI.player_shield_UIs[player_index]
 	if IDs then
 		if type(IDs) == "table" then
@@ -53,7 +82,7 @@ local function clear_player_shield_UIs(player_index)
 	end
 end
 
-local function clear_vehicles_shield(player_index)
+local function destroy_vehicles_shield_UIs(player_index)
 	local IDs = SmeB_UI.vehicles_shield[player_index]
 	if IDs then
 		if type(IDs) == "table" then
@@ -67,10 +96,40 @@ local function clear_vehicles_shield(player_index)
 	end
 end
 
+local function destroy_player_mana_UIs(player_index)
+	local IDs = SmeB_UI.player_mana_UIs[player_index]
+	if IDs then
+		if type(IDs) == "table" then
+			for _, id in pairs(IDs) do
+                rendering.destroy(id)
+            end
+		else
+			rendering.destroy(IDs)
+		end
+		SmeB_UI.player_mana_UIs[player_index] = nil
+	end
+end
+
+local function destroy_player_spirit_UIs(player_index)
+	local IDs = SmeB_UI.player_spirit_UIs[player_index]
+	if IDs then
+		if type(IDs) == "table" then
+			for _, id in pairs(IDs) do
+                rendering.destroy(id)
+            end
+		else
+			rendering.destroy(IDs)
+		end
+		SmeB_UI.player_spirit_UIs[player_index] = nil
+	end
+end
+
 local function remove_character_data(player_index)
 	SmeB_UI.target_characters[player_index] = nil
-	clear_player_HP_UIs(player_index)
-	clear_player_shield_UIs(player_index)
+	destroy_player_HP_UIs(player_index)
+	destroy_player_shield_UIs(player_index)
+	destroy_player_mana_UIs(player_index)
+	destroy_player_spirit_UIs(player_index)
 end
 
 local function update_UIs()
@@ -79,6 +138,8 @@ local function update_UIs()
 		if player and player.valid and player.character then
 			update_player_hp_UI(player, SmeB_UI.player_HP_UIs[player_index])
 			update_player_shield_UI(player, SmeB_UI.player_shield_UIs[player_index])
+			update_player_mana_UI(player, SmeB_UI.player_HP_UIs[player_index])
+			update_player_spirit_UI(player, SmeB_UI.player_shield_UIs[player_index])
 		else
 			remove_character_data(player_index)
 		end
@@ -104,6 +165,8 @@ local function check_player(player)
 		SmeB_UI.target_characters[player.index] = true
 		update_player_hp_UI(player, SmeB_UI.player_HP_UIs[player.index])
 		update_player_shield_UI(player, SmeB_UI.player_shield_UIs[player.index])
+		update_player_mana_UI(player, SmeB_UI.player_HP_UIs[player_index])
+		update_player_spirit_UI(player, SmeB_UI.player_shield_UIs[player_index])
 	else
 		remove_character_data(player.index)
 	end
@@ -115,18 +178,9 @@ local function check_players()
 	end
 end
 
-local function update_global_data()
-	global.SmeB_UI = global.SmeB_UI or {}
-	SmeB_UI = global.SmeB_UI
-	SmeB_UI.vehicles_shield = SmeB_UI.vehicles_shield or {}
-	SmeB_UI.target_characters = SmeB_UI.target_characters or {}
-	SmeB_UI.player_HP_UIs = SmeB_UI.player_HP_UIs or {}
-	SmeB_UI.player_shield_UIs = SmeB_UI.player_shield_UIs or {}
-	SmeB_UI.vehcile_shield_UIs = SmeB_UI.vehcile_shield_UIs or {}
-end
-
 local function on_load()
 	SmeB_UI = global.SmeB_UI
+	check_spell_pack_mod()
 end
 
 local function check_player_on_event(event)
@@ -137,6 +191,8 @@ local function check_player_on_event(event)
 		SmeB_UI.target_characters[event.player_index] = true
 		update_player_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
 		update_player_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
+		update_player_mana_UI(player, SmeB_UI.player_HP_UIs[player_index])
+		update_player_spirit_UI(player, SmeB_UI.player_shield_UIs[player_index])
 	else
 		remove_character_data(event.player_index)
 	end
@@ -150,6 +206,8 @@ local function on_player_joined_game(event)
 		SmeB_UI.target_characters[event.player_index] = true
 		update_player_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
 		update_player_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
+		update_player_mana_UI(player, SmeB_UI.player_HP_UIs[player_index])
+		update_player_spirit_UI(player, SmeB_UI.player_shield_UIs[player_index])
 	else
 		remove_character_data(event.player_index)
 	end
@@ -163,6 +221,8 @@ local function on_player_driving_changed_state(event)
 		SmeB_UI.target_characters[player.index] = true
 		update_player_hp_UI(player, SmeB_UI.player_HP_UIs[player_index])
 		update_player_shield_UI(player, SmeB_UI.player_shield_UIs[player_index])
+		update_player_mana_UI(player, SmeB_UI.player_HP_UIs[player_index])
+		update_player_spirit_UI(player, SmeB_UI.player_shield_UIs[player_index])
 	else
 		remove_character_data(event.player_index)
 	end
@@ -258,7 +318,7 @@ local function on_runtime_mod_setting_changed(event)
 		vehicle_shield_mode = value
 		update_vehicle_shield_UI = UI_variants[value].update_vehicle_shield_UI
 		for player_index, _ in pairs(SmeB_UI.vehicles_shield) do
-			clear_vehicles_shield(player_index)
+			destroy_vehicles_shield_UIs(player_index)
 		end
 		check_players()
 	elseif event.setting == "SmeB_UI_player_hp_mode" then
@@ -266,7 +326,7 @@ local function on_runtime_mod_setting_changed(event)
 		player_hp_mode = value
 		update_player_hp_UI = UI_variants[value].update_player_hp_UI
 		for player_index, _ in pairs(SmeB_UI.player_HP_UIs) do
-			clear_player_HP_UIs(player_index)
+			destroy_player_HP_UIs(player_index)
 		end
 		check_players()
 	elseif event.setting == "SmeB_UI_player_shield_mode" then
@@ -274,15 +334,39 @@ local function on_runtime_mod_setting_changed(event)
 		player_shield_mode = value
 		update_player_shield_UI = UI_variants[value].update_player_shield_UI
 		for player_index, _ in pairs(SmeB_UI.player_shield_UIs) do
-			clear_player_shield_UIs(player_index)
+			destroy_player_shield_UIs(player_index)
 		end
 		check_players()
 	elseif event.setting == "show_SmeB_UIs_only_in_alt_mode" then
 		show_SmeB_UIs_only_in_alt_mode = settings.global[event.setting].value
-		--TODO: changes UIs
+		for player_index, _ in pairs(SmeB_UI.player_HP_UIs) do
+			destroy_player_HP_UIs(player_index)
+		end
+		for player_index, _ in pairs(SmeB_UI.player_shield_UIs) do
+			destroy_player_shield_UIs(player_index)
+		end
+		check_players()
 	elseif event.setting == "is_SmeB_UI_public" then
 		is_SmeB_UI_public = settings.global[event.setting].value
-		--TODO: changes UIs
+		for player_index, _ in pairs(SmeB_UI.player_HP_UIs) do
+			destroy_player_HP_UIs(player_index)
+		end
+		for player_index, _ in pairs(SmeB_UI.player_shield_UIs) do
+			destroy_player_shield_UIs(player_index)
+		end
+		check_players()
+	elseif event.setting == "SmeB_UI_player_mana_mode" then
+		player_mana_mode = settings.global[event.setting].value
+		for player_index, _ in pairs(SmeB_UI.player_mana_UIs) do
+			destroy_player_shield_UIs(player_index)
+		end
+		check_players()
+	elseif event.setting == "SmeB_UI_player_spirit_mode" then
+		player_mana_mode = settings.global[event.setting].value
+		for player_index, _ in pairs(SmeB_UI.player_spirit_UIs) do
+			destroy_player_shield_UIs(player_index)
+		end
+		check_players()
 	end
 end
 
@@ -296,6 +380,8 @@ local function on_player_changed_surface(event)
 		SmeB_UI.target_characters[event.player_index] = true
 		update_player_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
 		update_player_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
+		update_player_mana_UI(player, SmeB_UI.player_HP_UIs[player_index])
+		update_player_spirit_UI(player, SmeB_UI.player_shield_UIs[player_index])
 	end
 end
 

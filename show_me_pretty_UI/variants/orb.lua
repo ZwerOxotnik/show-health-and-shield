@@ -111,41 +111,69 @@ UI.update_vehicle_shield_UI = function(vehicle)
 	end
 end
 
-UI.show_mana = function(player, target)
-	local mana = remote.call("spell-pack", "getstats", player).pctmana
-	if mana < 0.98 then
-		local color = {r = 1 - mana, g = mana, b = 0, a = 0.8}
-		rendering.draw_circle{
-			radius = get_orb_raduis_by_ratio(mana),
-			filled = true,
-			surface = player.surface,
-			target = player.character,
-			color = color,
-			time_to_live = 2,
-			players = {target},
-			target_offset = {-1.0, 1.0},
-			scale_with_zoom = true
-		}
-	-- else show animation of sparkles
+local function create_player_mana_UI(player, radius, color)
+	global.SmeB_UI.player_mana_UIs[player.index] = rendering.draw_circle{
+		radius = radius,
+		filled = true,
+		surface = player.surface,
+		target = player.character,
+		color = color,
+		players = (is_SmeB_magic_UI_public and {player}) or nil,
+		target_offset = {-1.0, 1.0},
+		scale_with_zoom = true,
+		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
+	}
+end
+
+UI.update_player_mana_UI = function(player, UI_id)
+	local mana_ratio = remote.call("spell-pack", "getstats", player).pctmana
+	if mana_ratio < 0.98 then
+		local radius = get_orb_raduis_by_ratio(mana_ratio)
+		local color = {r = 1 - mana_ratio, g = mana_ratio, b = 0, a = 0.8}
+		if UI_id then
+			rendering.set_raduis(UI_id, radius)
+			rendering.set_color(UI_id, color)
+		else
+			create_player_mana_UI(player, radius, color)
+		end
+	else
+		if UI_id then
+			rendering.destroy(UI_id)
+			SmeB_UI.player_mana_UIs[player.index] = nil
+		end
 	end
 end
 
-UI.show_spirit = function(player, target)
-	local spirit = remote.call("spell-pack", "getstats", player).pctspirit
-	if spirit > 0 and spirit < 0.98 then
-		local color = {r = 1 - spirit, g = spirit, b = 0, a = 0.8}
-		rendering.draw_circle{
-			radius = get_orb_raduis_by_ratio(spirit),
-			filled = true,
-			surface = player.surface,
-			target = player.character,
-			color = color,
-			time_to_live = 2,
-			players = {target},
-			target_offset = {1.0, -1.0},
-			scale_with_zoom = true
-		}
-	-- else show animation of sparkles
+local function create_player_spirit_UI(player, radius, color)
+	global.SmeB_UI.player_spirit_UIs[player.index] = rendering.draw_circle{
+		radius = radius,
+		filled = true,
+		surface = player.surface,
+		target = player.character,
+		color = color,
+		players = (is_SmeB_magic_UI_public and {player}) or nil,
+		target_offset = {1.0, -1.0},
+		scale_with_zoom = true,
+		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
+	}
+end
+
+UI.update_player_spirit_UI = function(player, UI_id)
+	local spirit_ratio = remote.call("spell-pack", "getstats", player).pctspirit
+	if spirit_ratio < 0.98 then
+		local radius = get_orb_raduis_by_ratio(spirit)
+		local color = {r = 1 - spirit_ratio, g = spirit_ratio, b = 0, a = 0.8}
+		if UI_id then
+			rendering.set_raduis(UI_id, radius)
+			rendering.set_color(UI_id, color)
+		else
+			create_player_spirit_UI(player, radius, color)
+		end
+	else
+		if UI_id then
+			rendering.destroy(UI_id)
+			SmeB_UI.player_spirit_UIs[player.index] = nil
+		end
 	end
 end
 
