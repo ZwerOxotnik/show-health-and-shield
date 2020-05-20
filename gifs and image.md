@@ -1,4 +1,4 @@
-# Gifs (old)
+# Gifs (very old ones)
 
 ## After leaving a transport shows temporary the shield
 

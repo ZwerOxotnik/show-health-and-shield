@@ -1,4 +1,4 @@
-# Show health and shield
+# Show me pretty UI
 
 Read this in another language | [English](/README.md) | [Русский](/docs/ru/README.md)
 |---|---|---|
@@ -37,7 +37,7 @@ Several types of individual display.
 
 | Desription | Parameters | (Default) |
 | ---------- | ---------- |  -------- |
-| Display mode of player health | ["health bar", "heart symbol", "percentage", "amount", "help me", "nothing", "arc", "test_bar", "orb"] | health bar |
+| Display mode of player health | ["health bar", "heart symbol", "percentage", "amount", "help me", "nothing", "arc", "classic_bar", "orb"] | health bar |
 | Display mode of shield player | ["shield bar", "diamond symbol", "percentage", "nothing", "orb"] | shield bar |
 | Display mode of shield vehicle    | ["shield bar", "diamond symbol", "percentage", "nothing", "orb"] | percentage |
 
@@ -76,7 +76,7 @@ If you have downloaded the source archive (GitLab):
 
 ## License
 
-This project is copyright © 2018-2019 ZwerOxotnik \<zweroxotnik@gmail.com\>.
+This project is copyright © 2018-2020 ZwerOxotnik \<zweroxotnik@gmail.com\>.
 
 Use of the source code included here is governed by the European Union Public License v. 1.2 only. See the [LICENCE](/LICENCE) file for details.
 
