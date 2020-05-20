@@ -23,9 +23,9 @@ local update_player_shield_UI = UI_variants[player_shield_mode].update_player_sh
 local vehicle_shield_mode = settings.global["SmeB_UI_vehicle_shield_mode"].value
 local update_vehicle_shield_UI = UI_variants[vehicle_shield_mode].update_vehicle_shield_UI
 local player_mana_mode = (settings.global["SmeB_UI_player_mana_mode"] and settings.global["SmeB_UI_player_mana_mode"].value) or "nothing"
-local update_player_mana_UI = UI_variants[vehicle_shield_mode].update_vehicle_shield_UI
-local player_spiri_mode = (settings.global["SmeB_UI_player_spirit_mode"] and settings.global["SmeB_UI_player_spirit_mode"].value) or "nothing"
-local update_player_spirit_UI = UI_variants[vehicle_shield_mode].update_vehicle_shield_UI
+local update_player_mana_UI = UI_variants[player_mana_mode].update_player_mana_UI
+local player_spirit_mode = (settings.global["SmeB_UI_player_spirit_mode"] and settings.global["SmeB_UI_player_spirit_mode"].value) or "nothing"
+local update_player_spirit_UI = UI_variants[player_spirit_mode].update_player_spirit_UI
 show_SmeB_UIs_only_in_alt_mode = settings.global["show_SmeB_UIs_only_in_alt_mode"].value
 is_SmeB_UI_public = settings.global["is_SmeB_UI_public"].value
 is_SmeB_magic_UI_public = settings.global["is_SmeB_magic_UI_public"].value
@@ -198,6 +198,18 @@ local function check_player_on_event(event)
 	end
 end
 
+local function on_player_created(event)
+	local player = game.players[event.player_index]
+	if not (player and player.valid) then return end
+
+	if player.character then
+		SmeB_UI.target_characters[event.player_index] = true
+		update_player_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
+		update_player_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
+	else
+		remove_character_data(event.player_index)
+	end
+end
 local function on_player_joined_game(event)
 	local player = game.players[event.player_index]
 	if not (player and player.valid) then return end
@@ -360,13 +372,23 @@ local function on_runtime_mod_setting_changed(event)
 		for player_index, _ in pairs(SmeB_UI.player_mana_UIs) do
 			destroy_player_shield_UIs(player_index)
 		end
-		check_players()
+		if player_mana_mode ~= "nothing" and player_spirit_mode ~= "nothing" then
+			check_players()
+			remote.call("spell-pack", "togglebars", "show-health-and-shield", true)
+		else
+			remote.call("spell-pack", "togglebars", "show-health-and-shield", false)
+		end
 	elseif event.setting == "SmeB_UI_player_spirit_mode" then
-		player_mana_mode = settings.global[event.setting].value
+		player_spirit_mode = settings.global[event.setting].value
 		for player_index, _ in pairs(SmeB_UI.player_spirit_UIs) do
 			destroy_player_shield_UIs(player_index)
 		end
-		check_players()
+		if player_mana_mode ~= "nothing" and player_spirit_mode ~= "nothing" then
+			check_players()
+			remote.call("spell-pack", "togglebars", "show-health-and-shield", true)
+		else
+			remote.call("spell-pack", "togglebars", "show-health-and-shield", false)
+		end
 	end
 end
 
@@ -402,7 +424,7 @@ module.events = {
 	[defines.events.on_player_died] = remove_character_data_on_event,
 	[defines.events.on_pre_player_left_game] = remove_character_data_on_event,
 	[defines.events.on_player_joined_game] = on_player_joined_game,
-	[defines.events.on_player_created] = check_player_on_event,
+	[defines.events.on_player_created] = on_player_created,
 	[defines.events.on_player_toggled_map_editor] = check_player_on_event,
 	-- [defines.events.on_player_toggled_alt_mode] = on_player_toggled_alt_mode,
 	[defines.events.on_runtime_mod_setting_changed] = on_runtime_mod_setting_changed,

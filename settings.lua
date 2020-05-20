@@ -24,7 +24,7 @@ data:extend({
 		name = "SmeB_update_UIs_on_nth_tick",
 		minimum_value = 1,
 		maximum_value = 600,
-		default_value = 60,
+		default_value = 20,
 	},
 	{
 		type = "bool-setting",
@@ -58,14 +58,14 @@ if data.raw["double-setting"]["osp-spirit-alpha"] then
 		{
 			type = "string-setting",
 			name = "SmeB_UI_player_mana_mode",
-			setting_type = "runtime-per-user",
+			setting_type = "runtime-global",
 			default_value = "orb",
 			allowed_values = {"bar", "symbol", "percentage", "amount", "nothing", "arc", "classic_bar", "orb"}
 		},
 		{
 			type = "string-setting",
 			name = "SmeB_UI_player_spirit_mode",
-			setting_type = "runtime-per-user",
+			setting_type = "runtime-global",
 			default_value = "orb",
 			allowed_values = {"bar", "symbol", "percentage", "amount", "nothing", "arc", "classic_bar", "orb"}
 		}
