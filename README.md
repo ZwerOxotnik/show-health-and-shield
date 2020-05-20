@@ -5,7 +5,7 @@ Read this in another language | [English](/README.md) | [Русский](/docs/r
 
 ## Quick Links
 
-[Changelog](CHANGELOG.md) | [Contributing](CONTRIBUTING.md) | [Gifs and image](gifs-and-image.md)
+[Changelog](CHANGELOG.md) | [Gifs and image](gifs-and-image.md)
 |---|---|---|
 
 ## Contents
@@ -19,6 +19,7 @@ Read this in another language | [English](/README.md) | [Русский](/docs/r
 * [Special thanks](#special-thanks)
 * [Dependencies](#dependencies)
     * [Required](#required)
+* [Credits](#credits)
 * [License](#license)
 
 ## Overview
@@ -73,6 +74,10 @@ If you have downloaded the source archive (GitLab):
 ### Required
 
 * [Event listener](https://mods.factorio.com/mod/event-listener)
+
+## Credits
+
+[/graphics/white_orb.png](/graphics/white_orb) is licensed under [CC-BY 3.0](https://creativecommons.org/licenses/by/3.0/). It is attributed to [sholev](https://opengameart.org/users/sholev), and the original version can be found on [opengameart.org](https://opengameart.org/content/shield-aura-effect)
 
 ## License
 

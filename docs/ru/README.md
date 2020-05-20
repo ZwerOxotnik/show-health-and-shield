@@ -5,7 +5,7 @@
 
 ## Быстрые ссылки
 
-[Список изменений](CHANGELOG.md) | [Руководство контрибьютора](CONTRIBUTING.md) | [Gif'ки](/gifs-and-image.md)
+[Список изменений](CHANGELOG.md)| [Gif'ки](/gifs-and-image.md)
 |---|---|---|
 
 ## Содержание
@@ -72,6 +72,10 @@
 ### <a name="required"></a> Необходимые
 
 * [Event listener](https://mods.factorio.com/mod/event-listener)
+
+## Credits
+
+[/graphics/white_orb.png](/graphics/white_orb) распространяется на условиях лицензии  [CC-BY 3.0](https://creativecommons.org/licenses/by/3.0/). Аворство приписывается [sholev](https://opengameart.org/users/sholev), и оригинальную версию вы можете найти на [opengameart.org](https://opengameart.org/content/shield-aura-effect)
 
 ## <a name="license"></a> Лицензия
 
