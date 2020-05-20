@@ -161,7 +161,7 @@ end
 UI.update_player_spirit_UI = function(player, UI_id)
 	local spirit_ratio = remote.call("spell-pack", "getstats", player).pctspirit
 	if spirit_ratio < 0.98 then
-		local radius = get_orb_raduis_by_ratio(spirit)
+		local radius = get_orb_raduis_by_ratio(spirit_ratio)
 		local color = {r = 1 - spirit_ratio, g = spirit_ratio, b = 0, a = 0.8}
 		if UI_id then
 			rendering.set_raduis(UI_id, radius)
