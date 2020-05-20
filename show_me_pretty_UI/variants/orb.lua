@@ -111,13 +111,14 @@ UI.update_vehicle_shield_UI = function(vehicle)
 	end
 end
 
-local function create_player_mana_UI(player, radius, color)
-	global.SmeB_UI.player_mana_UIs[player.index] = rendering.draw_circle{
-		radius = radius,
-		filled = true,
+local function create_player_mana_UI(player, ratio, color)
+	global.SmeB_UI.player_mana_UIs[player.index] = rendering.draw_sprite{
+		sprite = "SmeB_white_orb",
+		x_scale = ratio,
+		y_scale = ratio,
 		surface = player.surface,
 		target = player.character,
-		color = color,
+		tint = color,
 		players = (is_SmeB_magic_UI_public and {player}) or nil,
 		target_offset = {-1.0, 1.0},
 		scale_with_zoom = true,
@@ -131,7 +132,8 @@ UI.update_player_mana_UI = function(player, UI_id)
 		local radius = get_orb_raduis_by_ratio(mana_ratio)
 		local color = {r = 1 - mana_ratio, g = mana_ratio, b = 0, a = 0.8}
 		if UI_id then
-			rendering.set_raduis(UI_id, radius)
+			rendering.set_x_scale(UI_id, radius)
+			rendering.set_y_scale(UI_id, radius)
 			rendering.set_color(UI_id, color)
 		else
 			create_player_mana_UI(player, radius, color)
@@ -144,13 +146,13 @@ UI.update_player_mana_UI = function(player, UI_id)
 	end
 end
 
-local function create_player_spirit_UI(player, radius, color)
-	global.SmeB_UI.player_spirit_UIs[player.index] = rendering.draw_circle{
-		radius = radius,
-		filled = true,
+local function create_player_spirit_UI(player, ratio)
+	global.SmeB_UI.player_spirit_UIs[player.index] = rendering.draw_sprite{
+		sprite = "SmeB_white_orb",
+		x_scale = ratio,
+		y_scale = ratio,
 		surface = player.surface,
 		target = player.character,
-		color = color,
 		players = (is_SmeB_magic_UI_public and {player}) or nil,
 		target_offset = {1.0, -1.0},
 		scale_with_zoom = true,
@@ -162,12 +164,11 @@ UI.update_player_spirit_UI = function(player, UI_id)
 	local spirit_ratio = remote.call("spell-pack", "getstats", player).pctspirit
 	if spirit_ratio < 0.98 then
 		local radius = get_orb_raduis_by_ratio(spirit_ratio)
-		local color = {r = 1 - spirit_ratio, g = spirit_ratio, b = 0, a = 0.8}
 		if UI_id then
-			rendering.set_raduis(UI_id, radius)
-			rendering.set_color(UI_id, color)
+			rendering.set_x_scale(UI_id, radius)
+			rendering.set_y_scale(UI_id, radius)
 		else
-			create_player_spirit_UI(player, radius, color)
+			create_player_spirit_UI(player, radius)
 		end
 	else
 		if UI_id then
