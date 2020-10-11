@@ -24,13 +24,15 @@ Read this in another language | [English](/README.md) | [Русский](/docs/r
 
 ## Overview
 
-Shows a health/shield player and a shield vehicle in the game.
+Custom your UI. For example: new UI, displaying parameters of players and vehicles, adding many custom settings.
 
-Shows after leaving a vehicle temporarily its shield.
+(Btw, temporarily shows vehicles parameters when a player get out his vehicle and when player's cursor hover over the vehicle)
 
-When you cursor hover over a transport will show its shield.
+I'll add integrations with magic mods later + new nice looking icons to UI in the next updates.
 
-Several types of individual display.
+Almost 0 impact on UPS!
+
+You can find more stuff and chat on my Discord server in any case ( https://discordapp.com/invite/YyJVUCa ) ;)
 
 ## Mod settings
 
@@ -40,7 +42,7 @@ Several types of individual display.
 | ---------- | ---------- |  -------- |
 | Display mode of player health | ["health bar", "heart symbol", "percentage", "amount", "help me", "nothing", "arc", "classic_bar", "orb"] | health bar |
 | Display mode of shield player | ["shield bar", "diamond symbol", "percentage", "nothing", "orb"] | shield bar |
-| Display mode of shield vehicle    | ["shield bar", "diamond symbol", "percentage", "nothing", "orb"] | percentage |
+| Display mode of shield vehicle | ["shield bar", "diamond symbol", "percentage", "nothing", "orb"] | percentage |
 
 ## <a name="issue"></a> Found an Issue?
 

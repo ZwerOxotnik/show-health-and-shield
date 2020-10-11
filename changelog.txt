@@ -1,11 +1,25 @@
 ---------------------------------------------------------------------------------------------------
+Version: 3.0.6
+Date: 2020-10-11
+  Major features:
+    - New settings and player settings was been migrated to map settings for optimization
+    - Bugfixes
+    - New description, new name and new thumbnail
+    - Huge optimization, almost 0 impact on UPS
+    - Temporarily disabled interactions with "Spell pack" (https://mods.factorio.com/mod/spell-pack) because of that UI is not fully ready yet
+  Changes:
+    - New dependencies
+  Notes:
+    - This update for Factorio 1.0
+    - Refactored 
+---------------------------------------------------------------------------------------------------
 Version: 2.7.0
 Date: 2019-07-18
   Major features:
-    - Added interactions with "Spell pack" mod (https://mods.factorio.com/mod/spell-pack)
+    - Added interactions with "Spell pack" (https://mods.factorio.com/mod/spell-pack)
   Notes:
     - This update for Factorio 0.17
-    - Refactoring
+    - Refactored
 ---------------------------------------------------------------------------------------------------
 Version: 2.6.0
 Date: 2019-07-16
