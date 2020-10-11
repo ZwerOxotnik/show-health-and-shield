@@ -54,20 +54,20 @@ if data.raw["double-setting"]["osp-spirit-alpha"] then
 			name = "SmeB_UI_spell_pack_switcher",
 			setting_type = "runtime-global",
 			default_value = true
-		},
-		{
-			type = "string-setting",
-			name = "SmeB_UI_player_mana_mode",
-			setting_type = "runtime-global",
-			default_value = "orb",
-			allowed_values = {"bar", "symbol", "percentage", "amount", "nothing", "arc", "classic_bar", "orb"}
-		},
-		{
-			type = "string-setting",
-			name = "SmeB_UI_player_spirit_mode",
-			setting_type = "runtime-global",
-			default_value = "orb",
-			allowed_values = {"bar", "symbol", "percentage", "amount", "nothing", "arc", "classic_bar", "orb"}
 		}
+		-- {
+		-- 	type = "string-setting",
+		-- 	name = "SmeB_UI_player_mana_mode",
+		-- 	setting_type = "runtime-global",
+		-- 	default_value = "orb",
+		-- 	allowed_values = {"bar", "symbol", "percentage", "amount", "nothing", "arc", "classic_bar", "orb"}
+		-- },
+		-- {
+		-- 	type = "string-setting",
+		-- 	name = "SmeB_UI_player_spirit_mode",
+		-- 	setting_type = "runtime-global",
+		-- 	default_value = "orb",
+		-- 	allowed_values = {"bar", "symbol", "percentage", "amount", "nothing", "arc", "classic_bar", "orb"}
+		-- }
 	})
 end

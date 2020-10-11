@@ -22,13 +22,13 @@ local player_shield_mode = settings.global["SmeB_UI_player_shield_mode"].value
 local update_player_shield_UI = UI_variants[player_shield_mode].update_player_shield_UI
 local vehicle_shield_mode = settings.global["SmeB_UI_vehicle_shield_mode"].value
 local update_vehicle_shield_UI = UI_variants[vehicle_shield_mode].update_vehicle_shield_UI
-local player_mana_mode = (settings.global["SmeB_UI_player_mana_mode"] and settings.global["SmeB_UI_player_mana_mode"].value) or "nothing"
-local update_player_mana_UI = UI_variants[player_mana_mode].update_player_mana_UI
-local player_spirit_mode = (settings.global["SmeB_UI_player_spirit_mode"] and settings.global["SmeB_UI_player_spirit_mode"].value) or "nothing"
-local update_player_spirit_UI = UI_variants[player_spirit_mode].update_player_spirit_UI
+-- local player_mana_mode = (settings.global["SmeB_UI_player_mana_mode"] and settings.global["SmeB_UI_player_mana_mode"].value) or "nothing"
+-- local update_player_mana_UI = UI_variants[player_mana_mode].update_player_mana_UI
+-- local player_spirit_mode = (settings.global["SmeB_UI_player_spirit_mode"] and settings.global["SmeB_UI_player_spirit_mode"].value) or "nothing"
+-- local update_player_spirit_UI = UI_variants[player_spirit_mode].update_player_spirit_UI
 show_SmeB_UIs_only_in_alt_mode = settings.global["show_SmeB_UIs_only_in_alt_mode"].value
 is_SmeB_UI_public = settings.global["is_SmeB_UI_public"].value
-is_SmeB_magic_UI_public = settings.global["is_SmeB_magic_UI_public"].value
+-- is_SmeB_magic_UI_public = settings.global["is_SmeB_magic_UI_public"].value
 
 local function check_spell_pack_mod()
 	local interface_name = "spell-pack"
@@ -49,9 +49,9 @@ local function update_global_data()
 	SmeB_UI.player_HP_UIs = SmeB_UI.player_HP_UIs or {}
 	SmeB_UI.player_shield_UIs = SmeB_UI.player_shield_UIs or {}
 	SmeB_UI.vehcile_shield_UIs = SmeB_UI.vehcile_shield_UIs or {}
-	SmeB_UI.player_mana_UIs = SmeB_UI.player_mana_UIs or {}
-	SmeB_UI.player_spirit_UIs = SmeB_UI.player_spirit_UIs or {}
-	check_spell_pack_mod()
+	-- SmeB_UI.player_mana_UIs = SmeB_UI.player_mana_UIs or {}
+	-- SmeB_UI.player_spirit_UIs = SmeB_UI.player_spirit_UIs or {}
+	-- check_spell_pack_mod()
 end
 
 local function destroy_player_HP_UIs(player_index)
@@ -128,8 +128,8 @@ local function remove_character_data(player_index)
 	SmeB_UI.target_characters[player_index] = nil
 	destroy_player_HP_UIs(player_index)
 	destroy_player_shield_UIs(player_index)
-	destroy_player_mana_UIs(player_index)
-	destroy_player_spirit_UIs(player_index)
+	-- destroy_player_mana_UIs(player_index)
+	-- destroy_player_spirit_UIs(player_index)
 end
 
 local function update_UIs()
@@ -137,9 +137,9 @@ local function update_UIs()
 		local player = game.players[player_index]
 		if player and player.valid and player.character then
 			update_player_hp_UI(player, SmeB_UI.player_HP_UIs[player_index])
-			update_player_shield_UI(player, SmeB_UI.player_mana_UIs[player_index])
-			update_player_mana_UI(player, SmeB_UI.player_mana_UIs[player_index])
-			update_player_spirit_UI(player, SmeB_UI.player_spirit_UIs[player_index])
+			update_player_shield_UI(player, SmeB_UI.player_shield_UIs[player_index])
+			-- update_player_mana_UI(player, SmeB_UI.player_mana_UIs[player_index])
+			-- update_player_spirit_UI(player, SmeB_UI.player_spirit_UIs[player_index])
 		else
 			remove_character_data(player_index)
 		end
@@ -165,8 +165,8 @@ local function check_player(player)
 		SmeB_UI.target_characters[player.index] = true
 		update_player_hp_UI(player, SmeB_UI.player_HP_UIs[player.index])
 		update_player_shield_UI(player, SmeB_UI.player_shield_UIs[player.index])
-		update_player_mana_UI(player, SmeB_UI.player_mana_UIs[player_index])
-		update_player_spirit_UI(player, SmeB_UI.player_spirit_UIs[player_index])
+		-- update_player_mana_UI(player, SmeB_UI.player_mana_UIs[player_index])
+		-- update_player_spirit_UI(player, SmeB_UI.player_spirit_UIs[player_index])
 	else
 		remove_character_data(player.index)
 	end
@@ -191,8 +191,8 @@ local function check_player_on_event(event)
 		SmeB_UI.target_characters[event.player_index] = true
 		update_player_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
 		update_player_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
-		update_player_mana_UI(player, SmeB_UI.player_mana_UIs[player_index])
-		update_player_spirit_UI(player, SmeB_UI.player_spirit_UIs[player_index])
+		-- update_player_mana_UI(player, SmeB_UI.player_mana_UIs[player_index])
+		-- update_player_spirit_UI(player, SmeB_UI.player_spirit_UIs[player_index])
 	else
 		remove_character_data(event.player_index)
 	end
@@ -218,8 +218,8 @@ local function on_player_joined_game(event)
 		SmeB_UI.target_characters[event.player_index] = true
 		update_player_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
 		update_player_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
-		update_player_mana_UI(player, SmeB_UI.player_mana_UIs[player_index])
-		update_player_spirit_UI(player, SmeB_UI.player_spirit_UIs[player_index])
+		-- update_player_mana_UI(player, SmeB_UI.player_mana_UIs[player_index])
+		-- update_player_spirit_UI(player, SmeB_UI.player_spirit_UIs[player_index])
 	else
 		remove_character_data(event.player_index)
 	end
@@ -232,9 +232,9 @@ local function on_player_driving_changed_state(event)
 	if player.character and not player.vehicle then
 		SmeB_UI.target_characters[player.index] = true
 		update_player_hp_UI(player, SmeB_UI.player_HP_UIs[player_index])
-		update_player_shield_UI(player, SmeB_UI.player_mana_UIs[player_index])
-		update_player_mana_UI(player, SmeB_UI.player_mana_UIs[player_index])
-		update_player_spirit_UI(player, SmeB_UI.player_spirit_UIs[player_index])
+		update_player_shield_UI(player, SmeB_UI.player_shield_UIs[player_index])
+		-- update_player_mana_UI(player, SmeB_UI.player_mana_UIs[player_index])
+		-- update_player_spirit_UI(player, SmeB_UI.player_spirit_UIs[player_index])
 	else
 		remove_character_data(event.player_index)
 	end
@@ -402,8 +402,8 @@ local function on_player_changed_surface(event)
 		SmeB_UI.target_characters[event.player_index] = true
 		update_player_hp_UI(player, SmeB_UI.player_HP_UIs[event.player_index])
 		update_player_shield_UI(player, SmeB_UI.player_shield_UIs[event.player_index])
-		update_player_mana_UI(player, SmeB_UI.player_mana_UIs[player_index])
-		update_player_spirit_UI(player, SmeB_UI.player_spirit_UIs[player_index])
+		-- update_player_mana_UI(player, SmeB_UI.player_mana_UIs[player_index])
+		-- update_player_spirit_UI(player, SmeB_UI.player_spirit_UIs[player_index])
 	end
 end
 
