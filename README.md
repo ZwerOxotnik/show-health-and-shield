@@ -5,8 +5,7 @@ Read this in another language | [English](/README.md) | [Русский](/docs/r
 
 ## Quick Links
 
-[Changelog](CHANGELOG.md) | [Gifs and image](gifs-and-image.md)
-|---|---|---|
+[Gifs and image](gifs-and-image.md)
 
 ## Contents
 

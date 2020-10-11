@@ -5,8 +5,7 @@
 
 ## Быстрые ссылки
 
-[Список изменений](CHANGELOG.md)| [Gif'ки](/gifs-and-image.md)
-|---|---|---|
+[Gif'ки](/gifs-and-image.md)
 
 ## Содержание
 
