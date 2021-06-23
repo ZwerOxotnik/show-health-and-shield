@@ -59,8 +59,8 @@ local function destroy_player_HP_UIs(player_index)
 	if IDs then
 		if type(IDs) == "table" then
 			for _, id in pairs(IDs) do
-                rendering.destroy(id)
-            end
+								rendering.destroy(id)
+						end
 		else
 			rendering.destroy(IDs)
 		end
@@ -73,8 +73,8 @@ local function destroy_player_shield_UIs(player_index)
 	if IDs then
 		if type(IDs) == "table" then
 			for _, id in pairs(IDs) do
-                rendering.destroy(id)
-            end
+								rendering.destroy(id)
+						end
 		else
 			rendering.destroy(IDs)
 		end
@@ -87,8 +87,8 @@ local function destroy_vehicles_shield_UIs(player_index)
 	if IDs then
 		if type(IDs) == "table" then
 			for _, id in pairs(IDs) do
-                rendering.destroy(id)
-            end
+								rendering.destroy(id)
+						end
 		else
 			rendering.destroy(IDs)
 		end
@@ -101,8 +101,8 @@ local function destroy_player_mana_UIs(player_index)
 	if IDs then
 		if type(IDs) == "table" then
 			for _, id in pairs(IDs) do
-                rendering.destroy(id)
-            end
+								rendering.destroy(id)
+						end
 		else
 			rendering.destroy(IDs)
 		end
@@ -115,8 +115,8 @@ local function destroy_player_spirit_UIs(player_index)
 	if IDs then
 		if type(IDs) == "table" then
 			for _, id in pairs(IDs) do
-                rendering.destroy(id)
-            end
+								rendering.destroy(id)
+						end
 		else
 			rendering.destroy(IDs)
 		end

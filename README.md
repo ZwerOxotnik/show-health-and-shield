@@ -11,13 +11,13 @@ Read this in another language | [English](/README.md) | [Русский](/docs/r
 
 * [Overview](#overview)
 * [Mod settings](#mod-settings)
-    * [For players](#player)
+	* [For players](#player)
 * [Issues](#issue)
 * [Features](#feature)
 * [Installing](#installing)
 * [Special thanks](#special-thanks)
 * [Dependencies](#dependencies)
-    * [Required](#required)
+	* [Required](#required)
 * [Credits](#credits)
 * [License](#license)
 
