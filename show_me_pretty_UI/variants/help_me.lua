@@ -1,8 +1,7 @@
--- Copyright (C) 2018-2020 ZwerOxotnik <zweroxotnik@gmail.com>
--- Licensed under the EUPL, Version 1.2 only (the "LICENCE");
-
 local UI = {}
 
+
+---@param player table
 local function create_player_hp_UI(player)
 	local character = player.character
 	SmeB_UI.player_HP_UIs[player.index] = rendering.draw_text{
@@ -18,6 +17,8 @@ local function create_player_hp_UI(player)
 	}
 end
 
+---@param player table
+---@param UI_id number
 UI.update_player_hp_UI = function(player, UI_id)
 	local health = player.character.get_health_ratio()
 	if health < 0.35 then
@@ -29,5 +30,6 @@ UI.update_player_hp_UI = function(player, UI_id)
 		SmeB_UI.player_HP_UIs[player.index] = nil
 	end
 end
+
 
 return UI

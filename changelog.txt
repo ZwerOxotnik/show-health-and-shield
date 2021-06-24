@@ -1,4 +1,14 @@
 ---------------------------------------------------------------------------------------------------
+Version: 3.1.0
+Date: 2021-06-24
+  Bugfixes:
+    - Many-many fixes
+  Changes:
+    - Optimized images
+  Notes:
+    - Refactored
+    - There are some bugs still (for example: it doesn't check first player in freeplay for some time)
+---------------------------------------------------------------------------------------------------
 Version: 3.0.6
 Date: 2020-10-11
   Major features:

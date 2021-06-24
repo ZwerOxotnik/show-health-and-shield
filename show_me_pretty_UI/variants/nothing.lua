@@ -1,6 +1,3 @@
--- Copyright (C) 2018-2020 ZwerOxotnik <zweroxotnik@gmail.com>
--- Licensed under the EUPL, Version 1.2 only (the "LICENCE");
-
 local nothing = {}
 
 nothing.update_player_hp_UI = function() end

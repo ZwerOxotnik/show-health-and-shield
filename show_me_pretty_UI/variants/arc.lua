@@ -1,11 +1,14 @@
--- Copyright (C) 2018-2020 ZwerOxotnik <zweroxotnik@gmail.com>
--- Licensed under the EUPL, Version 1.2 only (the "LICENCE");
 local UI = {}
 
+
+---@param health number
 local function get_new_angle(health)
 	return health * 3.4
 end
 
+---@param player table
+---@param health number
+---@param color table
 local function create_player_hp_UI(player, health, color)
 	local character = player.character
 	SmeB_UI.player_HP_UIs[player.index] = rendering.draw_arc{
@@ -23,6 +26,9 @@ local function create_player_hp_UI(player, health, color)
 	}
 end
 
+
+---@param player table
+---@param UI_id number
 UI.update_player_hp_UI = function(player, UI_id)
 	local health = player.character.get_health_ratio()
 	if health < 0.98 then
@@ -38,5 +44,6 @@ UI.update_player_hp_UI = function(player, UI_id)
 		SmeB_UI.player_HP_UIs[player.index] = nil
 	end
 end
+
 
 return UI

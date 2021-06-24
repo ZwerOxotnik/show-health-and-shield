@@ -1,9 +1,11 @@
--- Copyright (C) 2018-2020 ZwerOxotnik <zweroxotnik@gmail.com>
--- Licensed under the EUPL, Version 1.2 only (the "LICENCE");
-
 local UI = {}
-local abs = math.abs
+local check_character_shield_ratio = require("show_me_pretty_UI/UI_util").check_character_shield_ratio
+local check_vehicle_shield_ratio = require("show_me_pretty_UI/UI_util").check_vehicle_shield_ratio
 
+
+---@param player table
+---@param text string
+---@param color table
 local function create_player_hp_UI(player, text, color)
 	local character = player.character
 	SmeB_UI.player_HP_UIs[player.index] = rendering.draw_text{
@@ -19,6 +21,8 @@ local function create_player_hp_UI(player, text, color)
 	}
 end
 
+---@param player table
+---@param UI_id number
 UI.update_player_hp_UI = function(player, UI_id)
 	local health = player.character.get_health_ratio()
 	if health < 0.98 then
@@ -36,6 +40,9 @@ UI.update_player_hp_UI = function(player, UI_id)
 	end
 end
 
+---@param player table
+---@param text string
+---@param color table
 local function create_player_shield_UI(player, text, color)
 	local character = player.character
 	SmeB_UI.player_shield_UIs[player.index] = rendering.draw_text{
@@ -52,8 +59,10 @@ local function create_player_shield_UI(player, text, color)
 	}
 end
 
+---@param player table
+---@param UI_id number
 UI.update_player_shield_UI = function(player, UI_id)
-	local shield_ratio = UI_util.check_character_shield_ratio(player)
+	local shield_ratio = check_character_shield_ratio(player)
 	if shield_ratio == nil then return end
 
 	if shield_ratio < 0.95 and shield_ratio > 0.02 then
@@ -71,6 +80,9 @@ UI.update_player_shield_UI = function(player, UI_id)
 	end
 end
 
+---@param vehicle table
+---@param text string
+---@param color table
 local function create_vehicle_shield_UI(vehicle, text, color)
 	local UI_id = rendering.draw_text{
 		text = text,
@@ -87,6 +99,7 @@ local function create_vehicle_shield_UI(vehicle, text, color)
 	end
 end
 
+---@param vehicle table
 UI.update_vehicle_shield_UI = function(vehicle)
 	local shield_ratio = check_vehicle_shield_ratio(vehicle)
 	if shield_ratio == nil then return end
@@ -98,14 +111,15 @@ UI.update_vehicle_shield_UI = function(vehicle)
 			rendering.set_text(vehicle.UI_id, text)
 			rendering.set_color(vehicle.UI_id, color)
 		else
-			create_vehicle_shield_UI(entity, text, color)
+			create_vehicle_shield_UI(vehicle.entity, text, color)
 		end
 	else
 		if vehicle.UI_id then
 			rendering.destroy(vehicle.UI_id)
-			SmeB_UI.vehicles_shield[entity.unit_number] = nil
+			SmeB_UI.vehicles_shield[vehicle.entity.unit_number] = nil
 		end
 	end
 end
+
 
 return UI

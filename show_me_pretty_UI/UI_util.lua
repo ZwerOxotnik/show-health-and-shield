@@ -1,5 +1,7 @@
-UI_util = {}
+local UI_util = {}
 
+
+---@param player table
 UI_util.check_character_shield_ratio = function(player)
 	local character = player.character
 	if character.grid == nil then
@@ -28,15 +30,16 @@ UI_util.check_character_shield_ratio = function(player)
 	return shield / max_shield
 end
 
+---@param vehicle table
 UI_util.check_vehicle_shield_ratio = function(vehicle)
 	local entity = vehicle.entity
 	if entity.grid == nil then
-		local UI_IDs = SmeB_UI.vehicles_shield[player.index]
+		local UI_IDs = SmeB_UI.vehicles_shield[vehicle.unit_number]
 		if UI_IDs then
 			for _, id in pairs(UI_IDs) do
 				rendering.destroy(id)
 			end
-			SmeB_UI.vehicles_shield[player.index] = nil
+			SmeB_UI.vehicles_shield[vehicle.unit_number] = nil
 		end
 		return nil
 	end
@@ -55,5 +58,6 @@ UI_util.check_vehicle_shield_ratio = function(vehicle)
 
 	return shield / max_shield
 end
+
 
 return UI_util

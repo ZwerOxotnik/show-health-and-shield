@@ -1,13 +1,17 @@
--- Copyright (C) 2018-2020 ZwerOxotnik <zweroxotnik@gmail.com>
--- Licensed under the EUPL, Version 1.2 only (the "LICENCE");
-
 local UI = {}
+local check_character_shield_ratio = require("show_me_pretty_UI/UI_util").check_character_shield_ratio
+local check_vehicle_shield_ratio = require("show_me_pretty_UI/UI_util").check_vehicle_shield_ratio
 local abs = math.abs
 
+
+---@param ratio number
 local function get_orb_raduis_by_ratio(ratio)
 	return 0.23 + ratio * 0.11
 end
 
+---@param player table
+---@param health number
+---@param color table
 local function create_player_hp_UI(player, health, color)
 	local character = player.character
 	SmeB_UI.player_HP_UIs[player.index] = rendering.draw_circle{
@@ -23,6 +27,24 @@ local function create_player_hp_UI(player, health, color)
 	}
 end
 
+local function create_player_shield_UI(player, shield_ratio, color)
+	local character = player.character
+	global.SmeB_UI.player_shield_UIs[player.index] = rendering.draw_circle{
+		radius = get_orb_raduis_by_ratio(shield_ratio),
+		filled = true,
+		surface = character.surface,
+		target = character,
+		color = color,
+		players = (is_SmeB_UI_public and {player}) or nil,
+		target_offset = {1.0, -1.0},
+		scale_with_zoom = true,
+		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
+	}
+end
+
+
+---@param player table
+---@param UI_id number
 UI.update_player_hp_UI = function(player, UI_id)
 	local health = player.character.get_health_ratio()
 	if health < 0.98 then
@@ -39,23 +61,10 @@ UI.update_player_hp_UI = function(player, UI_id)
 	end
 end
 
-local function create_player_shield_UI(player, shield_ratio)
-	local character = player.character
-	global.SmeB_UI.player_shield_UIs[player.index] = rendering.draw_circle{
-		radius = get_orb_raduis_by_ratio(shield_ratio),
-		filled = true,
-		surface = character.surface,
-		target = character,
-		color = color,
-		players = (is_SmeB_UI_public and {player}) or nil,
-		target_offset = {1.0, -1.0},
-		scale_with_zoom = true,
-		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
-	}
-end
-
+---@param player table
+---@param UI_id number
 UI.update_player_shield_UI = function(player, UI_id)
-	local shield_ratio = UI_util.check_character_shield_ratio(player)
+	local shield_ratio = check_character_shield_ratio(player)
 	if shield_ratio == nil then return end
 
 	if shield_ratio < 0.95 and shield_ratio > 0.02 then
@@ -73,6 +82,10 @@ UI.update_player_shield_UI = function(player, UI_id)
 	end
 end
 
+
+---@param vehicle table
+---@param shield number
+---@param color table
 local function create_vehicle_shield_UI(vehicle, shield, color)
 	local UI_id = rendering.draw_circle{
 		radius = get_orb_raduis_by_ratio(shield),
@@ -90,6 +103,7 @@ local function create_vehicle_shield_UI(vehicle, shield, color)
 	end
 end
 
+---@param vehicle table
 UI.update_vehicle_shield_UI = function(vehicle)
 	local shield_ratio = check_vehicle_shield_ratio(vehicle)
 	if shield_ratio == nil then return end
@@ -101,16 +115,19 @@ UI.update_vehicle_shield_UI = function(vehicle)
 			rendering.set_raduis(vehicle.UI_id, get_orb_raduis_by_ratio(shield_ratio))
 			rendering.set_color(vehicle.UI_id, color)
 		else
-			create_vehicle_shield_UI(entity, shield_ratio, color)
+			create_vehicle_shield_UI(vehicle.entity, shield_ratio, color)
 		end
 	else
 		if vehicle.UI_id then
 			rendering.destroy(vehicle.UI_id)
-			SmeB_UI.vehicles_shield[entity.unit_number] = nil
+			SmeB_UI.vehicles_shield[vehicle.entity.unit_number] = nil
 		end
 	end
 end
 
+---@param player table
+---@param ratio number
+---@param color table
 local function create_player_mana_UI(player, ratio, color)
 	global.SmeB_UI.player_mana_UIs[player.index] = rendering.draw_sprite{
 		sprite = "SmeB_white_orb",
@@ -126,6 +143,8 @@ local function create_player_mana_UI(player, ratio, color)
 	}
 end
 
+---@param player table
+---@param UI_id number
 UI.update_player_mana_UI = function(player, UI_id)
 	local mana_ratio = remote.call("spell-pack", "getstats", player).pctmana
 	if mana_ratio < 0.98 then
@@ -160,6 +179,8 @@ local function create_player_spirit_UI(player, ratio)
 	}
 end
 
+---@param player table
+---@param UI_id number
 UI.update_player_spirit_UI = function(player, UI_id)
 	local spirit_ratio = remote.call("spell-pack", "getstats", player).pctspirit
 	if spirit_ratio < 0.98 then
@@ -177,5 +198,6 @@ UI.update_player_spirit_UI = function(player, UI_id)
 		end
 	end
 end
+
 
 return UI
