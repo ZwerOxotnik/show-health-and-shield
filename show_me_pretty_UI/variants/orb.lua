@@ -112,7 +112,7 @@ UI.update_vehicle_shield_UI = function(vehicle)
 		shield_ratio = abs(shield_ratio - 1) -- for purple color
 		local color = {r = abs(shield_ratio - 1), g = 0, b = 1 - shield_ratio, a = 0.7}
 		if vehicle.UI_id then
-			rendering.set_raduis(vehicle.UI_id, get_orb_raduis_by_ratio(shield_ratio))
+			rendering.set_radius(vehicle.UI_id, get_orb_raduis_by_ratio(shield_ratio))
 			rendering.set_color(vehicle.UI_id, color)
 		else
 			create_vehicle_shield_UI(vehicle.entity, shield_ratio, color)
