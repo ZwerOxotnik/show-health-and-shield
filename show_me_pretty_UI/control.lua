@@ -56,15 +56,9 @@ end
 
 ---@param player_index number
 local function destroy_player_shield_UIs(player_index)
-	local IDs = player_shield_UIs[player_index]
-	if IDs then
-		if type(IDs) == "table" then
-			for _, id in pairs(IDs) do
-				rendering.destroy(id)
-			end
-		else
-			rendering.destroy(IDs)
-		end
+	local id = player_shield_UIs[player_index]
+	if id then
+		rendering.destroy(id)
 		player_shield_UIs[player_index] = nil
 	end
 end

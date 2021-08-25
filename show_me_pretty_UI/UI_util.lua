@@ -5,13 +5,10 @@ local UI_util = {}
 UI_util.check_character_shield_ratio = function(player)
 	local character = player.character
 	if character.grid == nil then
-		local UI_IDs = SmeB_UI.player_shield_UIs[player.index]
-		if UI_IDs then
-			for _, id in pairs(UI_IDs) do
-				rendering.destroy(id)
-			end
-			SmeB_UI.player_shield_UIs[player.index] = nil
-		end
+		local player_shield_UIs = SmeB_UI.player_shield_UIs
+		local id = player_shield_UIs[player.index]
+		rendering.destroy(id)
+		player_shield_UIs[player.index] = nil
 		return nil
 	end
 
