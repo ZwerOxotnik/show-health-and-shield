@@ -1,7 +1,18 @@
 local UI = {}
 local check_vehicle_shield_ratio = require("show_me_pretty_UI/UI_util").check_vehicle_shield_ratio
 local check_character_shield_ratio = require("show_me_pretty_UI/UI_util").check_character_shield_ratio
+
+
+--#region Constants
 local abs = math.abs
+local rep = string.rep
+local ceil = math.ceil
+local draw_text = rendering.draw_text
+local set_color = rendering.set_color
+local set_text = rendering.set_text
+local destroy_render = rendering.destroy
+local PLAYER_SHIELD_OFFSET = {0, 0.3}
+--#endregion
 
 
 ---@param player table
@@ -9,7 +20,7 @@ local abs = math.abs
 ---@param color table
 local function create_player_hp_UI(player, text, color)
 	local character = player.character
-	SmeB_UI.player_HP_UIs[player.index] = rendering.draw_text{
+	SmeB_UI.player_HP_UIs[player.index] = draw_text{
 		surface = character.surface,
 		target = character,
 		players = (is_SmeB_UI_public and {player}) or nil,
@@ -26,16 +37,16 @@ end
 UI.update_player_hp_UI = function(player, UI_id)
 	local health = player.character.get_health_ratio()
 	if health < 0.98 then
-		local text = string.rep("●", math.ceil(health * 10 + 0.1))
-		local color = {r = 1 - health, g = health, b = 0, a = 0.7}
+		local text = rep("●", ceil(health * 10 + 0.1))
+		local color = {1 - health, health, 0, 0.7}
 		if UI_id then
-			rendering.set_text(UI_id, text)
-			rendering.set_color(UI_id, color)
+			set_text(UI_id, text)
+			set_color(UI_id, color)
 		else
 			create_player_hp_UI(player, text, color)
 		end
 	elseif UI_id then
-		rendering.destroy(UI_id)
+		destroy_render(UI_id)
 		SmeB_UI.player_HP_UIs[player.index] = nil
 	end
 end
@@ -45,10 +56,10 @@ end
 ---@param color table
 local function create_player_shield_UI(player, text, color)
 	local character = player.character
-	SmeB_UI.player_shield_UIs[player.index] = rendering.draw_text{
+	SmeB_UI.player_shield_UIs[player.index] = draw_text{
 		text = text,
 		surface = character.surface,
-		target_offset = {0, 0.3},
+		target_offset = PLAYER_SHIELD_OFFSET,
 		target = character,
 		color = color,
 		players = (is_SmeB_UI_public and {player}) or nil,
@@ -64,17 +75,17 @@ UI.update_player_shield_UI = function(player, UI_id)
 	if shield_ratio == nil then return end
 
 	if shield_ratio < 0.95 and shield_ratio > 0.02 then
-		local text = string.rep("●", math.ceil(shield_ratio * 10 + 0.1))
+		local text = rep("●", ceil(shield_ratio * 10 + 0.1))
 		shield_ratio = abs(shield_ratio - 1) -- for purple color
-		local color = {r = abs(shield_ratio - 1), g = 0, b = 1 - shield_ratio, a = 0.7}
+		local color = {abs(shield_ratio - 1), 0, 1 - shield_ratio, 0.7}
 		if UI_id then
-			rendering.set_text(UI_id, text)
-			rendering.set_color(UI_id, color)
+			set_text(UI_id, text)
+			set_color(UI_id, color)
 		else
 			create_player_shield_UI(player, text, color)
 		end
 	elseif UI_id then
-		rendering.destroy(UI_id)
+		destroy_render(UI_id)
 		SmeB_UI.player_shield_UIs[player.index] = nil
 	end
 end
@@ -104,18 +115,18 @@ UI.update_vehicle_shield_UI = function(vehicle)
 	if shield_ratio == nil then return end
 
 	if shield_ratio < 0.95 and shield_ratio > 0.02 then
-		local text = string.rep("●", math.ceil(shield_ratio * 10 + 0.1))
+		local text = rep("●", ceil(shield_ratio * 10 + 0.1))
 		shield_ratio = abs(shield_ratio - 1) -- for purple color
-		local color = {r = abs(shield_ratio - 1), g = 0, b = 1 - shield_ratio, a = 0.7}
+		local color = {abs(shield_ratio - 1), 0, 1 - shield_ratio, 0.7}
 		if vehicle.UI_id then
-			rendering.set_text(vehicle.UI_id, text)
-			rendering.set_color(vehicle.UI_id, color)
+			set_text(vehicle.UI_id, text)
+			set_color(vehicle.UI_id, color)
 		else
 			create_vehicle_shield_UI(vehicle.entity, text, color)
 		end
 	else
 		if vehicle.UI_id then
-			rendering.destroy(vehicle.UI_id)
+			destroy_render(vehicle.UI_id)
 			SmeB_UI.vehicles_shield[vehicle.entity.unit_number] = nil
 		end
 	end

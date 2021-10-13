@@ -1,16 +1,26 @@
 local UI = {}
 
 
+--#region Constants
+local ceil = math.ceil
+local draw_text = rendering.draw_text
+local set_color = rendering.set_color
+local set_text = rendering.set_text
+local destroy_render = rendering.destroy
+local PLAYER_HP_OFFSET = {0, 0.2}
+--#endregion
+
+
 ---@param player table
 ---@param text string
 ---@param color table
 local function create_player_hp_UI(player, text, color)
 	local character = player.character
-	SmeB_UI.player_HP_UIs[player.index] = rendering.draw_text{
+	SmeB_UI.player_HP_UIs[player.index] = draw_text{
 		text = text,
 		surface = player.surface,
 		target = character,
-		target_offset = {0, 0.2},
+		target_offset = PLAYER_HP_OFFSET,
 		color = color,
 		players = (is_SmeB_UI_public and {player}) or nil,
 		alignment = "center",
@@ -26,16 +36,16 @@ UI.update_player_hp_UI = function(player, UI_id)
 	local character = player.character
 	local health = character.get_health_ratio()
 	if health < 0.98 then
-		local text = math.ceil(character.health)
-		local color = {r = 1 - health, g = health, b = 0, a = 1}
+		local text = ceil(character.health)
+		local color = {1 - health, health, 0, 1}
 		if UI_id then
-			rendering.set_color(UI_id, color)
-			rendering.set_text(UI_id, text)
+			set_color(UI_id, color)
+			set_text(UI_id, text)
 		else
 			create_player_hp_UI(player, text, color)
 		end
 	elseif UI_id then
-		rendering.destroy(UI_id)
+		destroy_render(UI_id)
 		SmeB_UI.player_HP_UIs[player.index] = nil
 	end
 end

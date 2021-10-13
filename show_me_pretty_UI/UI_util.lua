@@ -1,7 +1,12 @@
 local UI_util = {}
 
 
----@param player table
+--#region Constants
+local destroy_render = rendering.destroy
+--#endregion
+
+
+---@param player LuaPlayer
 UI_util.check_character_shield_ratio = function(player)
 	local character = player.character
 	if character.grid == nil then
@@ -9,7 +14,7 @@ UI_util.check_character_shield_ratio = function(player)
 		local player_index = player.index
 		local id = player_shield_UIs[player_index]
 		if id then
-			rendering.destroy(id)
+			destroy_render(id)
 		end
 		player_shield_UIs[player_index] = nil
 		return nil
@@ -30,7 +35,7 @@ UI_util.check_character_shield_ratio = function(player)
 	return shield / max_shield
 end
 
----@param vehicle table
+---@param vehicle LuaEntity
 UI_util.check_vehicle_shield_ratio = function(vehicle)
 	local entity = vehicle.entity
 	if entity.grid == nil then
@@ -38,8 +43,8 @@ UI_util.check_vehicle_shield_ratio = function(vehicle)
 		local unit_inumber = vehicle.unit_inumber
 		local UI_IDs = vehicles_shield[unit_inumber]
 		if UI_IDs then
-			for _, id in pairs(UI_IDs) do
-				rendering.destroy(id)
+			for i=1, #UI_IDs do
+				destroy_render(UI_IDs[i])
 			end
 		end
 		vehicles_shield[unit_inumber] = nil

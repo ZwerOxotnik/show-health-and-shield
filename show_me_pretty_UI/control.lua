@@ -15,6 +15,14 @@ local module = {}
 module.events = {}
 
 
+--#region Constants
+local destroy_render = rendering.destroy
+local is_render_valid = rendering.is_valid
+local draw_text = rendering.draw_text
+local WHITE_COLOR = {1, 1, 1, 1}
+--#endregion
+
+
 local UI_variants = require("show_me_pretty_UI/variants/list")
 local player_hp_mode = settings.global["SmeB_UI_player_hp_mode"].value
 local update_player_hp_UI = UI_variants[player_hp_mode].update_player_hp_UI
@@ -44,11 +52,16 @@ local function destroy_player_HP_UIs(player_index)
 	local IDs = player_HP_UIs[player_index]
 	if IDs then
 		if type(IDs) == "table" then
-			for _, id in pairs(IDs) do
-				rendering.destroy(id)
+			for i=1, #IDs do
+				local id = IDs[i]
+				if is_render_valid(id) then -- maybe, it's not efficient
+					destroy_render(id)
+				end
 			end
 		else
-			rendering.destroy(IDs)
+			if is_render_valid(IDs) then -- maybe, it's not efficient
+				destroy_render(IDs)
+			end
 		end
 		player_HP_UIs[player_index] = nil
 	end
@@ -58,7 +71,9 @@ end
 local function destroy_player_shield_UIs(player_index)
 	local id = player_shield_UIs[player_index]
 	if id then
-		rendering.destroy(id)
+		if is_render_valid(id) then -- maybe, it's not efficient
+			destroy_render(id)
+		end
 		player_shield_UIs[player_index] = nil
 	end
 end
@@ -67,11 +82,16 @@ local function destroy_vehicles_shield_UIs(player_index)
 	local IDs = vehicles_shield[player_index]
 	if IDs then
 		if type(IDs) == "table" then
-			for _, id in pairs(IDs) do
-				rendering.destroy(id)
+			for i=1, #IDs do
+				local id = IDs[i]
+				if is_render_valid(id) then -- maybe, it's not efficient
+					destroy_render(id)
+				end
 			end
 		else
-			rendering.destroy(IDs)
+			if is_render_valid(IDs) then -- maybe, it's not efficient
+				destroy_render(IDs)
+			end
 		end
 		vehicles_shield[player_index] = nil
 	end
@@ -81,11 +101,16 @@ local function destroy_player_mana_UIs(player_index)
 	local IDs = SmeB_UI.player_mana_UIs[player_index]
 	if IDs then
 		if type(IDs) == "table" then
-			for _, id in pairs(IDs) do
-				rendering.destroy(id)
+			for i=1, #IDs do
+				local id = IDs[i]
+				if is_render_valid(id) then -- maybe, it's not efficient
+					destroy_render(id)
+				end
 			end
 		else
-			rendering.destroy(IDs)
+			if is_render_valid(IDs) then -- maybe, it's not efficient
+				destroy_render(IDs)
+			end
 		end
 		SmeB_UI.player_mana_UIs[player_index] = nil
 	end
@@ -95,11 +120,16 @@ local function destroy_player_spirit_UIs(player_index)
 	local IDs = SmeB_UI.player_spirit_UIs[player_index]
 	if IDs then
 		if type(IDs) == "table" then
-			for _, id in pairs(IDs) do
-				rendering.destroy(id)
+			for i=1, #IDs do
+				local id = IDs[i]
+				if is_render_valid(id) then -- maybe, it's not efficient
+					destroy_render(id)
+				end
 			end
 		else
-			rendering.destroy(IDs)
+			if is_render_valid(IDs) then -- maybe, it's not efficient
+				destroy_render(IDs)
+			end
 		end
 		SmeB_UI.player_spirit_UIs[player_index] = nil
 	end
@@ -115,7 +145,7 @@ end
 
 local function update_UIs()
 	for player_index, _ in pairs(target_characters) do
-		local player = game.players[player_index]
+		local player = game.get_player(player_index)
 		if player and player.valid and player.character then
 			update_player_hp_UI(player, player_HP_UIs[player_index])
 			update_player_shield_UI(player, player_shield_UIs[player_index])
@@ -154,13 +184,14 @@ local function check_player_UI(player)
 end
 
 local function check_players_UI()
-	for _, player in pairs(game.connected_players) do
-		check_player_UI(player)
+	local connected_players = game.connected_players
+	for i=1, #connected_players do
+		check_player_UI(connected_players[i])
 	end
 end
 
 local function check_player_on_event(event)
-	local player = game.players[event.player_index]
+	local player = game.get_player(event.player_index)
 	if not (player and player.valid) then return end
 
 	if player.character then
@@ -175,7 +206,7 @@ local function check_player_on_event(event)
 end
 
 local function on_player_joined_game(event)
-	local player = game.players[event.player_index]
+	local player = game.get_player(event.player_index)
 	if not (player and player.valid) then return end
 
 	if player.character and not player.vehicle then
@@ -191,7 +222,7 @@ end
 
 local function on_player_driving_changed_state(event)
 	local player_index = event.player_index
-	local player = game.players[player_index]
+	local player = game.get_player(player_index)
 	if not (player and player.valid) then return end
 
 	if player.character and not player.vehicle then
@@ -226,11 +257,11 @@ local function check_vehicles()
 					if passenger or driver then
 						vehicle.tick = game.tick
 					else
-						rendering.draw_text{
+						draw_text{
 							text = ".",
 							surface = entity.surface,
 							target = entity,
-							color = {r = 1, g = 1, b = 1, a = 1},
+							color = WHITE_COLOR,
 							time_to_live = 20,
 							forces = {entity.force},
 							visible = true,
@@ -244,11 +275,11 @@ local function check_vehicles()
 					if driver then
 						vehicle.tick = game.tick
 					else
-						rendering.draw_text{
+						draw_text{
 							text = ".",
 							surface = entity.surface,
 							target = entity,
-							color = {r = 1, g = 1, b = 1, a = 1},
+							color = WHITE_COLOR,
 							time_to_live = 20,
 							forces = {entity.force},
 							alignment = "center",
@@ -273,9 +304,9 @@ end
 
 local function on_selected_entity_changed(event)
 	-- Validation of data
-	local player = game.players[event.player_index]
+	local player = game.get_player(event.player_index)
 	local entity = player.selected
-	if not (entity and entity.grid) then return end
+	if not (entity and entity.valid and entity.grid) then return end
 	if player.force ~= entity.force then return end
 	if entity.type == "character" then return end
 
@@ -286,6 +317,7 @@ local function on_selected_entity_changed(event)
 	end
 end
 
+-- TODO: refactor
 local function on_runtime_mod_setting_changed(event)
 	if event.setting_type ~= "runtime-global" then return end
 
@@ -358,7 +390,7 @@ end
 
 local function on_player_changed_surface(event)
 	remove_character_data(event.player_index)
-	local player = game.players[event.player_index]
+	local player = game.get_player(event.player_index)
 	if not (player and player.valid) then return end
 
 	-- TODO: check vehicle
