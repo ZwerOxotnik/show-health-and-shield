@@ -4,6 +4,7 @@ local UI = {}
 --#region Constants
 local draw_text = rendering.draw_text
 local destroy_render = rendering.destroy
+local is_render_valid = rendering.is_valid
 local PLAYER_HP_COLOR = {0, 1, 0}
 local PLAYER_HP_OFFSET = {0, -2.1}
 local PLAYER_HP_TEXT = {"help_me"}
@@ -30,7 +31,12 @@ end
 UI.update_player_hp_UI = function(player, UI_id)
 	local health = player.character.get_health_ratio()
 	if health < 0.35 then
-		if not UI_id then
+		if UI_id then
+			if is_render_valid(UI_id) == false then
+				SmeB_UI.player_HP_UIs[player.index] = nil
+				create_player_hp_UI(player)
+			end
+		else
 			create_player_hp_UI(player)
 		end
 	elseif UI_id then

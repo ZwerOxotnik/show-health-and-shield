@@ -7,6 +7,7 @@ local draw_text = rendering.draw_text
 local set_color = rendering.set_color
 local set_text = rendering.set_text
 local destroy_render = rendering.destroy
+local is_render_valid = rendering.is_valid
 local PLAYER_HP_OFFSET = {0, 0.2}
 --#endregion
 
@@ -39,8 +40,13 @@ UI.update_player_hp_UI = function(player, UI_id)
 		local text = ceil(character.health)
 		local color = {1 - health, health, 0, 1}
 		if UI_id then
-			set_color(UI_id, color)
-			set_text(UI_id, text)
+			if is_render_valid(UI_id) then
+				set_color(UI_id, color)
+				set_text(UI_id, text)
+			else
+				SmeB_UI.player_HP_UIs[player.index] = nil
+				create_player_hp_UI(player, text, color)
+			end
 		else
 			create_player_hp_UI(player, text, color)
 		end

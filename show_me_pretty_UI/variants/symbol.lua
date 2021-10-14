@@ -8,6 +8,7 @@ local abs = math.abs
 local draw_text = rendering.draw_text
 local set_color = rendering.set_color
 local destroy_render = rendering.destroy
+local is_render_valid = rendering.is_valid
 local PLAYER_HP_OFFSET = {0.1, -1}
 --#endregion
 
@@ -36,7 +37,12 @@ UI.update_player_hp_UI = function(player, UI_id)
 	if health < 0.98 then
 		local color = {1 - health, health, 0, 0.7}
 		if UI_id then
-			set_color(UI_id, color)
+			if is_render_valid(UI_id) then
+				set_color(UI_id, color)
+			else
+				SmeB_UI.player_HP_UIs[player.index] = nil
+				create_player_hp_UI(player, color)
+			end
 		else
 			create_player_hp_UI(player, color)
 		end
@@ -72,7 +78,12 @@ UI.update_player_shield_UI = function(player, UI_id)
 		shield_ratio = abs(shield_ratio - 1) -- for purple color
 		local color = {abs(shield_ratio - 1), 0, 1 - shield_ratio, 0.7}
 		if UI_id then
-			set_color(UI_id, color)
+			if is_render_valid(UI_id) then
+				set_color(UI_id, color)
+			else
+				SmeB_UI.player_shield_UIs[player.index] = nil
+				create_player_shield_UI(player, color)
+			end
 		else
 			create_player_shield_UI(player, color)
 		end
@@ -108,8 +119,15 @@ UI.update_vehicle_shield_UI = function(vehicle)
 	if shield_ratio < 0.95 and shield_ratio > 0.02 then
 		shield_ratio = abs(shield_ratio - 1) -- for purple color
 		local color = {abs(shield_ratio - 1), 0, 1 - shield_ratio, 0.7}
-		if vehicle.UI_id then
-			set_color(vehicle.UI_id, color)
+		local UI_id = vehicle.UI_id
+		if UI_id then
+			if is_render_valid(UI_id) then
+				set_color(UI_id, color)
+			else
+				SmeB_UI.vehicles_shield[vehicle.entity.unit_number] = nil
+				return
+			end
+			set_color(UI_id, color)
 		else
 			create_vehicle_shield_UI(vehicle.entity, color)
 		end

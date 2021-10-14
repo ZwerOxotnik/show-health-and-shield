@@ -6,11 +6,13 @@ local set_color = rendering.set_color
 local set_angle = rendering.set_angle
 local draw_arc = rendering.draw_arc
 local destroy_render = rendering.destroy
+local is_render_valid = rendering.is_valid
 local PLAYER_HP_OFFSET = {0, -1}
 --#endregion
 
 
 ---@param health number
+---@return number #health * 3.4
 local function get_new_angle(health)
 	return health * 3.4
 end
@@ -43,8 +45,13 @@ UI.update_player_hp_UI = function(player, UI_id)
 	if health < 0.98 then
 		local color = {1 - health, health, 0, 0.5}
 		if UI_id then
-			set_color(UI_id, color)
-			set_angle(UI_id, get_new_angle(health))
+			if is_render_valid(UI_id) then
+				set_color(UI_id, color)
+				set_angle(UI_id, get_new_angle(health))
+			else
+				SmeB_UI.player_HP_UIs[player.index] = nil
+				create_player_hp_UI(player, health, color)
+			end
 		else
 			create_player_hp_UI(player, health, color)
 		end

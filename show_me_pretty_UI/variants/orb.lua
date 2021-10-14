@@ -11,6 +11,7 @@ local set_radius = rendering.set_radius
 local set_x_scale = rendering.set_x_scale
 local set_y_scale = rendering.set_y_scale
 local draw_sprite = rendering.draw_sprite
+local is_render_valid = rendering.is_valid
 local destroy_render = rendering.destroy
 local PLAYER_HP_OFFSET = {-1.0, -1.0}
 local PLAYER_SHIELD_OFFSET = {1.0, -1.0}
@@ -63,8 +64,13 @@ UI.update_player_hp_UI = function(player, UI_id)
 	if health < 0.98 then
 		local color = {1 - health, health, 0, 0.8}
 		if UI_id then
-			set_radius(UI_id, get_orb_raduis_by_ratio(health))
-			set_color(UI_id, color)
+			if is_render_valid(UI_id) then
+				set_radius(UI_id, get_orb_raduis_by_ratio(health))
+				set_color(UI_id, color)
+			else
+				SmeB_UI.player_HP_UIs[player.index] = nil
+				create_player_hp_UI(player, health, color)
+			end
 		else
 			create_player_hp_UI(player, health, color)
 		end
@@ -84,8 +90,13 @@ UI.update_player_shield_UI = function(player, UI_id)
 		shield_ratio = abs(shield_ratio - 1) -- for purple color
 		local color = {abs(shield_ratio - 1), 0, 1 - shield_ratio, 0.7}
 		if UI_id then
-			set_radius(UI_id, get_orb_raduis_by_ratio(shield_ratio))
-			set_color(UI_id, color)
+			if is_render_valid(UI_id) then
+				set_radius(UI_id, get_orb_raduis_by_ratio(shield_ratio))
+				set_color(UI_id, color)
+			else
+				SmeB_UI.player_shield_UIs[player.index] = nil
+				create_player_shield_UI(player, shield_ratio, color)
+			end
 		else
 			create_player_shield_UI(player, shield_ratio, color)
 		end
@@ -124,9 +135,15 @@ UI.update_vehicle_shield_UI = function(vehicle)
 	if shield_ratio < 0.95 and shield_ratio > 0.02 then
 		shield_ratio = abs(shield_ratio - 1) -- for purple color
 		local color = {abs(shield_ratio - 1), 0, 1 - shield_ratio, 0.7}
-		if vehicle.UI_id then
-			set_radius(vehicle.UI_id, get_orb_raduis_by_ratio(shield_ratio))
-			set_color(vehicle.UI_id, color)
+		local UI_id = vehicle.UI_id
+		if UI_id then
+			if is_render_valid(UI_id) then
+				set_radius(UI_id, get_orb_raduis_by_ratio(shield_ratio))
+				set_color(UI_id, color)
+			else
+				SmeB_UI.vehicles_shield[vehicle.entity.unit_number] = nil
+				create_vehicle_shield_UI(vehicle.entity, shield_ratio, color)
+			end
 		else
 			create_vehicle_shield_UI(vehicle.entity, shield_ratio, color)
 		end
@@ -164,9 +181,14 @@ UI.update_player_mana_UI = function(player, UI_id)
 		local radius = get_orb_raduis_by_ratio(mana_ratio)
 		local color = {1 - mana_ratio, mana_ratio, 0, 0.8}
 		if UI_id then
-			set_x_scale(UI_id, radius)
-			set_y_scale(UI_id, radius)
-			set_color(UI_id, color)
+			if is_render_valid(UI_id) then
+				set_x_scale(UI_id, radius)
+				set_y_scale(UI_id, radius)
+				set_color(UI_id, color)
+			else
+				SmeB_UI.player_mana_UIs[player.index] = nil
+				create_player_mana_UI(player, radius, color)
+			end
 		else
 			create_player_mana_UI(player, radius, color)
 		end
@@ -199,8 +221,13 @@ UI.update_player_spirit_UI = function(player, UI_id)
 	if spirit_ratio < 0.98 then
 		local radius = get_orb_raduis_by_ratio(spirit_ratio)
 		if UI_id then
-			set_x_scale(UI_id, radius)
-			set_y_scale(UI_id, radius)
+			if is_render_valid(UI_id) then
+				set_x_scale(UI_id, radius)
+				set_y_scale(UI_id, radius)
+			else
+				SmeB_UI.player_spirit_UIs[player.index] = nil
+				create_player_spirit_UI(player, radius)
+			end
 		else
 			create_player_spirit_UI(player, radius)
 		end

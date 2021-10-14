@@ -17,7 +17,6 @@ module.events = {}
 
 --#region Constants
 local destroy_render = rendering.destroy
-local is_render_valid = rendering.is_valid
 local draw_text = rendering.draw_text
 local WHITE_COLOR = {1, 1, 1, 1}
 --#endregion
@@ -54,14 +53,10 @@ local function destroy_player_HP_UIs(player_index)
 		if type(IDs) == "table" then
 			for i=1, #IDs do
 				local id = IDs[i]
-				if is_render_valid(id) then -- maybe, it's not efficient
-					destroy_render(id)
-				end
+				destroy_render(id)
 			end
 		else
-			if is_render_valid(IDs) then -- maybe, it's not efficient
-				destroy_render(IDs)
-			end
+			destroy_render(IDs)
 		end
 		player_HP_UIs[player_index] = nil
 	end
@@ -71,9 +66,7 @@ end
 local function destroy_player_shield_UIs(player_index)
 	local id = player_shield_UIs[player_index]
 	if id then
-		if is_render_valid(id) then -- maybe, it's not efficient
-			destroy_render(id)
-		end
+		destroy_render(id)
 		player_shield_UIs[player_index] = nil
 	end
 end
@@ -83,15 +76,10 @@ local function destroy_vehicles_shield_UIs(player_index)
 	if IDs then
 		if type(IDs) == "table" then
 			for i=1, #IDs do
-				local id = IDs[i]
-				if is_render_valid(id) then -- maybe, it's not efficient
-					destroy_render(id)
-				end
+				destroy_render(IDs[i])
 			end
 		else
-			if is_render_valid(IDs) then -- maybe, it's not efficient
-				destroy_render(IDs)
-			end
+			destroy_render(IDs)
 		end
 		vehicles_shield[player_index] = nil
 	end
@@ -103,14 +91,10 @@ local function destroy_player_mana_UIs(player_index)
 		if type(IDs) == "table" then
 			for i=1, #IDs do
 				local id = IDs[i]
-				if is_render_valid(id) then -- maybe, it's not efficient
-					destroy_render(id)
-				end
+				destroy_render(id)
 			end
 		else
-			if is_render_valid(IDs) then -- maybe, it's not efficient
-				destroy_render(IDs)
-			end
+			destroy_render(IDs)
 		end
 		SmeB_UI.player_mana_UIs[player_index] = nil
 	end
@@ -122,14 +106,10 @@ local function destroy_player_spirit_UIs(player_index)
 		if type(IDs) == "table" then
 			for i=1, #IDs do
 				local id = IDs[i]
-				if is_render_valid(id) then -- maybe, it's not efficient
-					destroy_render(id)
-				end
+				destroy_render(id)
 			end
 		else
-			if is_render_valid(IDs) then -- maybe, it's not efficient
-				destroy_render(IDs)
-			end
+			destroy_render(IDs)
 		end
 		SmeB_UI.player_spirit_UIs[player_index] = nil
 	end

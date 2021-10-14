@@ -11,6 +11,7 @@ local draw_text = rendering.draw_text
 local set_color = rendering.set_color
 local set_text = rendering.set_text
 local destroy_render = rendering.destroy
+local is_render_valid = rendering.is_valid
 local PLAYER_SHIELD_OFFSET = {0, 0.3}
 --#endregion
 
@@ -40,8 +41,13 @@ UI.update_player_hp_UI = function(player, UI_id)
 		local text = rep("●", ceil(health * 10 + 0.1))
 		local color = {1 - health, health, 0, 0.7}
 		if UI_id then
-			set_text(UI_id, text)
-			set_color(UI_id, color)
+			if is_render_valid(UI_id) then
+				set_text(UI_id, text)
+				set_color(UI_id, color)
+			else
+				SmeB_UI.player_HP_UIs[player.index] = nil
+				create_player_hp_UI(player, text, color)
+			end
 		else
 			create_player_hp_UI(player, text, color)
 		end
@@ -79,8 +85,13 @@ UI.update_player_shield_UI = function(player, UI_id)
 		shield_ratio = abs(shield_ratio - 1) -- for purple color
 		local color = {abs(shield_ratio - 1), 0, 1 - shield_ratio, 0.7}
 		if UI_id then
-			set_text(UI_id, text)
-			set_color(UI_id, color)
+			if is_render_valid(UI_id) then
+				set_text(UI_id, text)
+				set_color(UI_id, color)
+			else
+				SmeB_UI.player_shield_UIs[player.index] = nil
+				create_player_shield_UI(player, text, color)
+			end
 		else
 			create_player_shield_UI(player, text, color)
 		end
@@ -94,7 +105,7 @@ end
 ---@param text string
 ---@param color table
 local function create_vehicle_shield_UI(vehicle, text, color)
-	local UI_id = rendering.draw_text{
+	local UI_id = draw_text{
 		text = text,
 		surface = vehicle.surface,
 		target = vehicle,
@@ -118,9 +129,15 @@ UI.update_vehicle_shield_UI = function(vehicle)
 		local text = rep("●", ceil(shield_ratio * 10 + 0.1))
 		shield_ratio = abs(shield_ratio - 1) -- for purple color
 		local color = {abs(shield_ratio - 1), 0, 1 - shield_ratio, 0.7}
-		if vehicle.UI_id then
-			set_text(vehicle.UI_id, text)
-			set_color(vehicle.UI_id, color)
+		local UI_id = vehicle.UI_id
+		if UI_id then
+			if is_render_valid(UI_id) then
+				set_text(UI_id, text)
+				set_color(UI_id, color)
+			else
+				SmeB_UI.vehicles_shield[vehicle.entity.unit_number] = nil
+				create_vehicle_shield_UI(vehicle.entity, text, color)
+			end
 		else
 			create_vehicle_shield_UI(vehicle.entity, text, color)
 		end

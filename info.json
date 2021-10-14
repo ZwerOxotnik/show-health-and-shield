@@ -1,6 +1,6 @@
 {
 	"name": "show-health-and-shield",
-	"version": "3.2.0",
+	"version": "3.2.1",
 	"factorio_version": "1.1",
 	"title": "Show me pretty UI",
 	"author": "ZwerOxotnik",
@@ -11,6 +11,6 @@
 	"dependencies": [
 		"zk-lib",
 		"base >= 0.17.35",
-		"? spell-pack >= 0.17.17"
+		"? m-spell-pack >= 0.17.17"
 	]
 }

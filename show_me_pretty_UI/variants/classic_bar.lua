@@ -8,6 +8,7 @@ local draw_text = rendering.draw_text
 local set_color = rendering.set_color
 local set_text = rendering.set_text
 local destroy_render = rendering.destroy
+local is_render_valid = rendering.is_valid
 local PLAYER_HP_COLOR = {0, 0, 0, 0.7}
 local PLAYER_HP_LEFT_OFFSET = {-2.085, -2}
 local PLAYER_HP_RIGHT_OFFSET = {2.085, -2}
@@ -19,8 +20,10 @@ local PLAYER_HP_RIGHT_OFFSET = {2.085, -2}
 ---@param color table
 local function create_player_hp_UI(player, number, color)
 	local character = player.character
-	SmeB_UI.player_HP_UIs[player.index] = {}
-	table.insert(SmeB_UI.player_HP_UIs[player.index], draw_text{
+	local player_HP_UIs = SmeB_UI.player_HP_UIs
+	player_HP_UIs[player.index] = {true, true}
+	local player_UIs = player_HP_UIs[player.index]
+	player_UIs[1] = draw_text{
 		text = rep("■", number),
 		scale = 0.9,
 		surface = character.surface,
@@ -30,9 +33,9 @@ local function create_player_hp_UI(player, number, color)
 		players = (is_SmeB_UI_public and {player}) or nil,
 		alignment = "left",
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
-	})
-	table.insert(SmeB_UI.player_HP_UIs[player.index], draw_text{
-		text = rep("■", ceil(11 - number)),
+	}
+	player_UIs[2] = draw_text{
+		text = rep("■", ceil(12 - number)),
 		scale = 0.9,
 		surface = character.surface,
 		target = character,
@@ -41,7 +44,7 @@ local function create_player_hp_UI(player, number, color)
 		players = (is_SmeB_UI_public and {player}) or nil,
 		alignment = "right",
 		only_in_alt_mode = show_SmeB_UIs_only_in_alt_mode
-	})
+	}
 end
 
 ---@param player table
@@ -52,9 +55,15 @@ UI.update_player_hp_UI = function(player)
 		local color = {1 - health, health, 0, 0.5}
 		local UI_IDs = SmeB_UI.player_HP_UIs[player.index]
 		if UI_IDs then
-			set_color(UI_IDs[1], color)
-			set_text(UI_IDs[1], rep("■", number))
-			set_text(UI_IDs[2], rep("■", math.ceil(11 - number)))
+			local id1 = UI_IDs[1]
+			if is_render_valid(id1) then
+				set_color(id1, color)
+				set_text(id1, rep("■", number))
+				set_text(UI_IDs[2], rep("■", math.ceil(12 - number)))
+			else
+				SmeB_UI.player_HP_UIs[player.index] = nil
+				create_player_hp_UI(player, number, color)
+			end
 		else
 			create_player_hp_UI(player, number, color)
 		end
