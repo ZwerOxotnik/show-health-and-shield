@@ -1,6 +1,6 @@
 {
 	"name": "show-health-and-shield",
-	"version": "3.2.1",
+	"version": "3.3.0",
 	"factorio_version": "1.1",
 	"title": "Show me pretty UI",
 	"author": "ZwerOxotnik",
@@ -9,8 +9,8 @@
 	"homepage": "https://www.reddit.com/r/ZwerOxotnik/",
 	"description": "Custom your UI. For example: new UI, displaying parameters of players and vehicles, adding many custom settings.\n\n(Btw, temporarily shows vehicles parameters when a player get out his vehicle and when player's cursor hover over the vehicle)\n\nI'll add integrations with magic mods later + new nice looking icons to UI in the next updates.\n\nAlmost 0 impact on UPS!\n\nYou can find more stuff and chat on my Discord server in any case ( https://discordapp.com/invite/YyJVUCa )",
 	"dependencies": [
-		"zk-lib",
 		"base >= 0.17.35",
+		"? zk-lib >= 0.10.0",
 		"? m-spell-pack >= 0.17.17"
 	]
 }

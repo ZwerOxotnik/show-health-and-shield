@@ -1,6 +1,13 @@
 CONFIG = require("config")
-event_listener = require("__zk-lib__/event-listener/branch-1/stable-version")
 local modules = {}
 modules.show_me_pretty_UI = require("show_me_pretty_UI/control")
 
-event_listener.add_libraries(modules)
+local event_handler
+if script.active_mods["zk-lib"] then
+	-- Same as Factorio "event_handler", but slightly better performance
+	event_handler = require("__zk-lib__/static-libs/lualibs/event_handler_vZO.lua")
+else
+	event_handler = require("event_handler")
+end
+
+event_handler.add_libraries(modules)

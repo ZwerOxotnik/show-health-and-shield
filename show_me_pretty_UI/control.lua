@@ -1,5 +1,5 @@
 --[[
-Copyright (C) 2018-2021 ZwerOxotnik <zweroxotnik@gmail.com>
+Copyright (C) 2018-2022 ZwerOxotnik <zweroxotnik@gmail.com>
 Licensed under the EUPL, Version 1.2 only (the "LICENCE");
 Author: ZwerOxotnik
 
@@ -285,6 +285,7 @@ end
 local function on_selected_entity_changed(event)
 	-- Validation of data
 	local player = game.get_player(event.player_index)
+	if not (player and player.valid) then return end
 	local entity = player.selected
 	if not (entity and entity.valid and entity.grid) then return end
 	if player.force ~= entity.force then return end

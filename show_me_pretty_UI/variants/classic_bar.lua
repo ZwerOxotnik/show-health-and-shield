@@ -59,7 +59,7 @@ UI.update_player_hp_UI = function(player)
 			if is_render_valid(id1) then
 				set_color(id1, color)
 				set_text(id1, rep("■", number))
-				set_text(UI_IDs[2], rep("■", math.ceil(12 - number)))
+				set_text(UI_IDs[2], rep("■", ceil(12 - number)))
 			else
 				SmeB_UI.player_HP_UIs[player.index] = nil
 				create_player_hp_UI(player, number, color)
