@@ -1,3 +1,5 @@
+![Repo on GitHub](https://img.shields.io/badge/repo-GitHub-3D76C2.svg)](https://github.com/ZwerOxotnik/show-health-and-shield)
+[![Repo on GitLab](https://img.shields.io/badge/repo-GitLab-6C488A.svg)](https://gitlab.com/ZwerOxotnik/show-health-and-shield)
 # Show me pretty UI
 
 Read this in another language | [English](/README.md) | [Русский](/docs/ru/README.md)
