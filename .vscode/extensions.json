@@ -8,6 +8,7 @@
     "lextudio.restructuredtext",
     "koihik.vscode-lua-format",
     "mads-hartmann.bash-ide-vscode",
+    "ms-vscode-remote.remote-wsl",
     "formulahendry.code-runner",
     "gruntfuggly.triggertaskonsave"
   ]
